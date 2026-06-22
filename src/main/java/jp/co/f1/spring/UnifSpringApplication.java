@@ -1,4 +1,4 @@
-package jp.cp.f1.spring;
+package jp.co.f1.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

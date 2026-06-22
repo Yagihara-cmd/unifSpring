@@ -1,4 +1,4 @@
-package jp.cp.f1.spring.UniController;
+package jp.co.f1.spring.UniController;
 
 public class OrderUpdate {
 

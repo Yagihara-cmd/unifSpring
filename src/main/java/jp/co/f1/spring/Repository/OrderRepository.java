@@ -1,4 +1,4 @@
-package jp.cp.f1.spring.Repository;
+package jp.co.f1.spring.Repository;
 
 public class OrderRepository {
 
