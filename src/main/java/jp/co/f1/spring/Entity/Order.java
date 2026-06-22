@@ -1,5 +1,5 @@
 package jp.cp.f1.spring.Entity;
 
-public class User {
+public class Order {
 
 }
