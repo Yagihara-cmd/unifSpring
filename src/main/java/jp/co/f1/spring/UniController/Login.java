@@ -21,15 +21,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Dao.UserDao;
+import jp.co.f1.spring.Repository.UniRepository;
 import jp.co.f1.spring.Repository.UserRepository;
+import jp.co.f1.spring.Entity.Uniform;
 
 @Controller
 public class Login {
 
+	
 	@Autowired
 	private UserRepository userinfo;
+	
+	@Autowired
+	private UniRepository uniforminfo;
 
 	//EntityManager自動インスタンス化
 	@PersistenceContext
@@ -85,6 +92,7 @@ public class Login {
 	public ModelAndView loginPost(@ModelAttribute @Validated User user, BindingResult result,
 			ModelAndView mav, HttpServletRequest request, HttpServletResponse response, Model model) {
 
+		
 		//ユーザー検索
 		Optional<User> optional_user = userinfo.findByUseridAndPassword(user.getUserid(), user.getPassword());
 
@@ -93,16 +101,27 @@ public class Login {
 		// Optionalが値を持っていれば、リストに追加
 		optional_user.ifPresent(user_list::add);
 
+		
+		
+		
 		//該当USER無しの場合
 		if (user_list.size() == 0) {
 			//エラーメッセージ
 			mav.addObject("message", "入力内容に誤りがあります。");
+			
+			//bookinfoテーブルから全件取得
+			Iterable<Uniform> uniform_list = uniforminfo.findAll();
+
+			//Viewに渡す変数をModelに格納
+			mav.addObject("uniform_list", uniform_list);
 			//リダイレクト先を指定
-			mav.setViewName("view/login");
-			//ModelとView情報を返す
+			mav.setViewName("view/users/userUniformList");
 			return mav;
 		}
 
+		
+		
+		
 		//クッキーの登録
 		Cookie userCookie = new Cookie("user", user.getUserid());
 		userCookie.setMaxAge(60 * 60 * 24 * 5); // 5日（秒）に設定
@@ -118,6 +137,12 @@ public class Login {
 
 		if ("0".equals(user.getAuthority())) {
 
+			//bookinfoテーブルから全件取得
+			Iterable<Uniform> uniform_list = uniforminfo.findAll();
+
+			//Viewに渡す変数をModelに格納
+			mav.addObject("uniform_list", uniform_list);
+
 			//リダイレクト先を指定
 			mav.setViewName("view/users/userUniformList");
 			return mav;
@@ -125,7 +150,7 @@ public class Login {
 		}
 
 		//リダイレクト先を指定
-		mav = new ModelAndView("view/users/adminUniformList");
+		mav.setViewName("users/adminUniformList");
 		//ModelとView情報を返す
 		return mav;
 
