@@ -31,6 +31,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+@Controller
 public class UserOrderCreate {
 
 	//Repository
@@ -126,7 +127,7 @@ public class UserOrderCreate {
 		 * 
 		 * 画面のリダイレクト先の設定をする
 		 */
-		mav.setViewName("view/userOrderCreate");
+		mav.setViewName("view/users/userOrderCreate");
 		return mav;
 	}
 }
