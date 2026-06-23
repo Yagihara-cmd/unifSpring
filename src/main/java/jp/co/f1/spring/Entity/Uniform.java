@@ -18,7 +18,7 @@ public class Uniform {
 	
 	private Integer price;
 	
-	private Integer stook;
+	private Integer stock;
 
 	public String getUniid() {
 		return uniid;
@@ -45,11 +45,11 @@ public class Uniform {
 	}
 
 	public Integer getStook() {
-		return stook;
+		return stock;
 	}
 
 	public void setStook(Integer stook) {
-		this.stook = stook;
+		this.stock = stook;
 	}
 	
 	

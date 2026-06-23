@@ -10,5 +10,5 @@ import jp.co.f1.spring.Entity.Uniform;
 @Repository
 public interface UniRepository extends JpaRepository<Uniform, String> {
 	
-	public Optional<Uniform> findByUniNo(String uniNo);
+	public Optional<Uniform> findByUniid(String uniid);
 }
