@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>変更ページ</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="adminWrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="adminMenu">
+			<div class="container">
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h1>商品情報変更</h1>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 書籍コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+				
+				<div class="adminTable">
+				<table class="detail-table" align="center">
+					<tr>
+						<a th:href="/adminUniformList">[戻る]</a>
+					</tr>
+					<tr >
+						<th>No.</th>
+						<td><input type="text" name="uniNo" th:value="uniNo"></td>
+					</tr>
+					<tr>
+						<th>種類</th>
+						<td><input type="text" name="uniName" th:value="uniName"></td>
+					</tr>
+					<tr>
+						<th>金額</th>
+						<td><input type="text" name="uniPrice" th:value="uniPrice"></td>
+					</tr>
+					<tr>
+						<th>在庫数</th>
+						<td><input type="text" name="uniStock" th:value="uniStock"></td>
+					</tr>
+				</table>
+				
+				<table align="center">
+			<tr>
+				<td><form action="/adminUniformList" method="GET" th:object="${book}">
+						<input type="hidden" name="isbn" th:value="${book.isbn}">
+						<input type="submit" value="変更">
+					</form>
+				</td>
+			</tr>
+		</table>
+		</div>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>
