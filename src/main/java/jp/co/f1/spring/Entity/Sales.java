@@ -109,14 +109,14 @@ public class Sales {
     //Uniformオブジェクト
     @ManyToOne(optional = false)
     @JoinColumn(name = "uniid", referencedColumnName = "uniid", insertable = false, updatable = false)
-    private Uniform uniid;
+    private Uniform uniform;
 
     public Uniform getUniform() {
-        return uniid;
+        return uniform;
     }
 
-    public void setUniform(Uniform uniid) {
-        this.uniid = uniid;
+    public void setUniform(Uniform uniform) {
+        this.uniform = uniform;
     }
 
 }
