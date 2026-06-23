@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ゲスト情報入力画面</title>
+	<link rel="stylesheet" th:href="@{/css/userStyle.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="guestUniformList.html">[一覧]</a></li>
+						<li><a href="guestOrderCreate.html">[カート]</a></li>
+					</ul>
+				</div>
+				
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>ゲスト情報</h2>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 書籍コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+				
+				<table class="detail-table" align="center">
+					<tr >
+						<th>氏名</th>
+						<td><input type="text" name="name" th:value="${name}"></td>
+					</tr>
+					<tr>
+						<th>住所</th>
+						<td><input type="text" name="address" th:value="${address}"></td>
+					</tr>
+					<tr>
+						<th>メールアドレス</th>
+						<td><input type="text" name="email" th:value="${email}"></td>
+					</tr>
+				</table>
+				
+				<table align="center">
+			<tr>
+				<td><form action="guestPurchaseConfirm.html" method="GET" th:object="${book}">
+						<input type="hidden" name="isbn" th:value="${book.isbn}">
+						<input type="submit" value="購入">
+					</form>
+				</td>
+			</tr>
+		</table>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>
