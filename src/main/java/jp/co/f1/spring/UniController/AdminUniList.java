@@ -64,7 +64,7 @@ public class AdminUniList {
 		mav.addObject("uniform_list", uniform_list);
 
 		//画面出力するviewを指定
-		mav.setViewName("view/adminUniformList");
+		mav.setViewName("view/admin/adminUniformList");
 
 		//ModelとVIewを返す
 		return mav;
