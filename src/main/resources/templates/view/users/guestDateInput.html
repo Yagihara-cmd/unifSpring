@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ゲスト情報入力画面</title>
-	<link rel="stylesheet" th:href="@{/css/userStyle.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 	<!-- ブラウザ全体 -->
@@ -18,8 +18,8 @@
 				<!-- ナビゲーション -->
 				<div id="nav">
 					<ul>
-						<li><a href="guestUniformList.html">[一覧]</a></li>
-						<li><a href="guestOrderCreate.html">[カート]</a></li>
+						<li><a th:href="/guestUniformList">[一覧]</a></li>
+						<li><a th:href="/guestOrderCreate">[カート]</a></li>
 					</ul>
 				</div>
 				
@@ -52,7 +52,7 @@
 				
 				<table align="center">
 			<tr>
-				<td><form action="guestPurchaseConfirm.html" method="GET" th:object="${book}">
+				<td><form action="/guestPurchaseConfirm" method="GET" th:object="${book}">
 						<input type="hidden" name="isbn" th:value="${book.isbn}">
 						<input type="submit" value="購入">
 					</form>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ユニフォーム受注管理システム</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+	<!--ヘッダーの挿入-->
+	<div th:insert="~{/common/header :: frag}"></div>
+
+	<div id="menu">
+		<div class="container">
+			<div id="nav">
+				<ul>
+					<li><a th:href="/myPage">[マイページ]</a></li>
+					<li><a th:href="/userUniformList">[一覧]</a></li>
+				</ul>
+			</div>
+			
+			<div id="page_title">
+				<h2>購入品確認</h2>
+			</div>
+		</div>
+	</div>
+
+	
+	<div id="main" class="container">
+
+		<p style="text-align: left;">
+			<h3>下記商品を購入しました。</h3>
+		</p>
+		<p style="text-align: left;"></p>
+			<h3>ご利用ありがとうございました。</h3>
+		</p>
+
+		<table class="list-table">
+			<thread>
+				<tr>
+					<th>種類</th>
+					<th>個数</th>
+					<th>金額</th>
+				</tr>
+			</thread>
+
+			<!--以下リストでデータを取得し、繰り返して表示する-->
+			<tr>
+				<td>xxx</td>
+				<td>xxx</td>
+				<td>xxx</td>
+			</tr>
+
+
+		</table>
+		合計金額 ----円
+	</div>
+
+	<!--ここにフッターを挿入-->
+	<div th:insert="~{/common/footer :: frag}"></div>
+
+</body>
+
+</html>

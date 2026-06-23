@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ユニフォーム一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="adminWrap">
+
+		<!--ヘッダー部分  -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="adminMenu">
+			<div class="container">
+				<!-- ナビゲーション  -->
+				<div id="nav">
+					<ul>
+						<li><a th:href="/orderManagementList">[受注管理一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>一覧</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- コンテンツ部分 -->
+		<div id="main" class="container">
+		
+			<!-- リスト -->
+			<div class="adminTable">
+				<table class="list-table">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>種類</th>
+							<th>金額</th>
+							<th>在庫数</th>
+							<th>変更/削除</th>
+						</tr>
+					</thead>
+					<tbody th:if="${uniList.size() >= 1}">
+						<tr th:each="uni : ${uniList}">
+							<td th:text="${uni.uniNo}"></td>
+							<td th:text="${uni.uniName}"></td>
+							<td th:text="'&yen; ' +${#numbers.formatInteger(uni.uniPrice, 3, 'COMMA')}"></td>
+							<td th:text="${uni.uniName}"></td>
+							<td>
+								<a th:href="/uniformUpdate">変更</a>
+								<a th:href="/adminUniformList">削除</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<a th:href="/uniformCreate">+新規登録</a>
+			
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+</html>
