@@ -36,5 +36,4 @@ public class UserDao {
 			// 検索されるエンティティのルート
 			root = query.from(User.class);
 		}
-
 }
