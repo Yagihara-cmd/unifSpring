@@ -1,3 +1,13 @@
+/**
+ * ログイン画面
+ * 
+ * 担当:　友久
+ * 
+ * 最終編集：八木原　20260624-AM10
+ * 
+ * 
+ */
+
 package jp.co.f1.spring.UniController;
 
 import java.util.ArrayList;
@@ -31,10 +41,9 @@ import jp.co.f1.spring.Entity.Uniform;
 @Controller
 public class Login {
 
-	
 	@Autowired
 	private UserRepository userinfo;
-	
+
 	@Autowired
 	private UniRepository uniforminfo;
 
@@ -92,66 +101,41 @@ public class Login {
 	public ModelAndView loginPost(@ModelAttribute @Validated User user, BindingResult result,
 			ModelAndView mav, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		
 		//ユーザー検索
 		Optional<User> optional_user = userinfo.findByUseridAndPassword(user.getUserid(), user.getPassword());
 
-		//OptionalからArrayListに変換
-		ArrayList<User> user_list = new ArrayList<>();
-		// Optionalが値を持っていれば、リストに追加
-		optional_user.ifPresent(user_list::add);
-
-		
-		
-		
-		//該当USER無しの場合
-		if (user_list.size() == 0) {
-			//エラーメッセージ
-			mav.addObject("message", "入力内容に誤りがあります。");
-			
-			//bookinfoテーブルから全件取得
-			Iterable<Uniform> uniform_list = uniforminfo.findAll();
-
-			//Viewに渡す変数をModelに格納
-			mav.addObject("uniform_list", uniform_list);
-			//リダイレクト先を指定
-			mav.setViewName("view/users/userUniformList");
-			return mav;
-		}
-
-		
-		
-		
-		//クッキーの登録
-		Cookie userCookie = new Cookie("user", user.getUserid());
-		userCookie.setMaxAge(60 * 60 * 24 * 5); // 5日（秒）に設定
-		response.addCookie(userCookie);
-
-		Cookie passCookie = new Cookie("password", user.getPassword());
-		passCookie.setMaxAge(60 * 60 * 24 * 5);
-		response.addCookie(passCookie);
-
-		//セッションに登録
-		User User = user_list.get(0);
-		session.setAttribute("user", User);
-
-		if ("0".equals(user.getAuthority())) {
-
-			//bookinfoテーブルから全件取得
-			Iterable<Uniform> uniform_list = uniforminfo.findAll();
-
-			//Viewに渡す変数をModelに格納
-			mav.addObject("uniform_list", uniform_list);
-
-			//リダイレクト先を指定
-			mav.setViewName("view/users/userUniformList");
+		//Useridまたはpassが無効であった場合
+		if (!(optional_user.isPresent())) {
+			mav.addObject("errorMessage", "入力されたUSERIDは存在しませんでした。");
+			mav.setViewName("view/login");
 			return mav;
 
 		}
 
-		//リダイレクト先を指定
-		mav.setViewName("users/adminUniformList");
-		//ModelとView情報を返す
+		if (optional_user.isPresent()) {
+			//クッキーの登録
+			Cookie userCookie = new Cookie("user", user.getUserid());
+			userCookie.setMaxAge(60 * 60 * 24 * 5); // 5日（秒）に設定
+			response.addCookie(userCookie);
+
+			Cookie passCookie = new Cookie("password", user.getPassword());
+			passCookie.setMaxAge(60 * 60 * 24 * 5);
+			response.addCookie(passCookie);
+
+			//セッションに登録
+			user = optional_user.get();
+			session.setAttribute("user", user);
+
+			if (user.getAuthority().equals("0")) {
+				//mav.setViewName("view/users/userUniformList");
+				mav = new ModelAndView("redirect:/userUnformiList");
+
+			}
+			if (user.getAuthority().equals("1")) {
+				mav = new ModelAndView("redirect:/adminUniformList");
+			}
+
+		}
 		return mav;
 
 	}
