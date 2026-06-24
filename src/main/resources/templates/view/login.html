@@ -50,7 +50,7 @@
 				</table>
 				<input type="submit" value="ログイン"><br>
 			</form>
-			<form th:action="@{users/guestUniformList}" method="POST" th:object="${user}">
+			<form action="/guestUniformList" method="GET" th:object="${user}">
 				<input type="submit" value="ゲストとして続行">
 			</form>
 		</div>
