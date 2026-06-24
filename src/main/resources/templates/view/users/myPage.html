@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>マイページ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- ブラウザ全体 -->
+    <div id="wrap">
+
+		<div th:insert="~{/common/header :: frag}"></div>
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+        <!-- メニュー部分 -->
+        <div id="menu">
+            <div class="container">
+                <!-- ナビゲーション  -->
+                <div id="nav">
+                    <ul>
+                        <li><a th:href="/userUniformList">[一覧]</a></li>
+                        <li><a th:href="/userOrderHistory">[注文履歴]</a></li>
+                    </ul>
+                </div>
+
+                <!-- ページタイトル -->
+                <div id="page_title">
+                    <h2>マイページ</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- 書籍登録コンテンツ部分 -->
+        <div id="main" class="container">
+        	
+            <!--  入力フォーム -->
+            <form action="/myPage" method="POST" th:object="${book}">
+                <table class="input-table" align="center">
+                    <tr>
+                        <th>氏名</th>
+                        <td>
+							<input type="text" name="name" th:value="*{name}" th:errorclass="error-msg">
+							<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="error-msg"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>住所</th>
+                        <td>
+							<input type="text" name="address" th:value="*{address}" th:errorclass="error-msg">
+							<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="error-msg"></p>
+						</td>
+                    </tr>
+                    <tr>
+                        <th>メールアドレス</th>
+                        <td>
+							<input type="text" name="email" th:value="*{email}" th:errorclass="error-msg">
+							<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error-msg"></p>
+						</td>
+                    </tr>
+                </table>
+                
+                <input type="submit" value="変更">
+                
+            </form>
+            
+            <form action="/login" method="POST">
+            	<input type="submit" value="ログアウト">
+			</form>
+			
+        </div>
+
+    </div>
+</body>
+</html>

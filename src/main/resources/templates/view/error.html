@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ユニフォーム受注管理システム</title>
-	<link rel="stylesheet" th:href="@{/css/userStyle.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
@@ -20,7 +20,6 @@
 			</td>
 		</tr>
 
-
 		<div class="error-msg" align="center">
 			<tr>
 				<h3>
@@ -31,18 +30,10 @@
 
 		<div class="back-link">
 			<tr>
-				<a td th:href="${cmd}" th:text="${next}"></a>
-				</atd>
-
-
+				<td><a th:href="${cmd}" th:text="${next}"></a></td>
 			</tr>
 		</div>
 	</div>
-
-
-
-
-
 
 	<!--フッターの挿入-->
 	<div th:insert="~{/common/footer :: frag}"></div>

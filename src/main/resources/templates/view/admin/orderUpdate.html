@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>更新ページ</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="adminWrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="adminMenu">
+			<div class="container">
+				<div id="page_title">
+					<h2>更新ページ</h2>
+				</div>
+			</div>
+		</div>
+		
+		<!-- コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+				
+				<div class="adminTable">
+				<table class="main" align="center">
+					<tr>
+					<a th:href="/orderManagementList">[戻る]</a>
+					</tr>
+					<tr >
+						<th></th>
+						<th>現在の状況</th>
+						<th>変更</th>
+					</tr>
+					
+					<tr>
+						<td>入金状況：</td>
+						<td>入金待ち※例</td>
+						<td><select name="pay"><option value=入金確認済></option></select></td>
+					</tr>
+					<tr>
+						<td>発送状況：</td>
+						<td>未※例</td>
+						<td><select name="ship"><option value=発送済></option></select></td>
+					</tr>
+				</table>
+				
+				
+				<table align="center">
+			<tr>
+				<td><form action="/orderManagementList" method="GET" th:object="${book}">
+						<input type="hidden" name="isbn" th:value="${book.isbn}">
+						<input type="submit" value="更新">
+					</form>
+				</td>
+			</tr>
+		</table>
+		</div>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>

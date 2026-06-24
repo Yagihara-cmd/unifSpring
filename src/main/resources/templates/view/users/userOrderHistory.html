@@ -2,8 +2,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>ゲスト注文画面</title>
-	<<link rel="stylesheet" th:href="@{/css/userStyle.css}">
+	<title>注文履歴</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 	<!-- ブラウザ全体 -->
@@ -18,14 +18,15 @@
 				<!-- ナビゲーション  -->
 				<div id="nav">
 					<ul>
-						<li><a href="userCreate.html">[会員登録]</a></li>
-						<li><a href="guestUniformList.html">[一覧]</a></li>
+						<li><a th:href="/myPage">[マイページ]</a></li>
+						<li><a th:href="/userOrderCreate">[カート]</a></li>
+						<li><a th:href="/userUniformList">[一覧]</a></li>
 					</ul>
 				</div>
 
 				<!-- ページタイトル -->
 				<div id="page_title">
-					<h2>カート一覧</h2>
+					<h2>購入状況</h2>
 				</div>
 			</div>
 		</div>
@@ -37,31 +38,18 @@
 			<table class="list-table">
 				<thead>
 					<tr>
+						<th>No.</th>
 						<th>種類</th>
-						<th>個数</th>
-						<th>金額</th>
-						<th>削除</th>
+						<th>注文日</th>
 					</tr>
 				</thead><!-- 未変更  -->
 				<tbody th:if="${book_list.size() >= 1}">
 					<tr th:each="book : ${book_list}">
 						<td><a th:href="@{/detail(isbn=${book.isbn})}" th:text="${book.isbn}"></a></td>
 						<td th:text="${book.title}"></td>
-						<td th:text="'&yen; ' +${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
 					</tr>
 				</tbody>
 			</table>
-			
-			<h3>合計金額        -- 円</h3>
-			
-			<div style="text-align: right;">
-		
-				<form action="guestPurchaseConfirm.html" method="POST">
-					<input type="submit" value="購入">
-				</form>
-			
-			</div>
-		
 		</div>
 
 		<!-- フッター部分 -->

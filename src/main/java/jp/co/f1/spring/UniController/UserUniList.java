@@ -43,19 +43,19 @@ public class UserUniList {
 	@Autowired
 	private UniRepository uniforminfo;
 
-	//「/userUniList」へアクセスがあった場合
-	@GetMapping("/userUniList")
+	//「/userUniformList」へアクセスがあった場合
+	@GetMapping("/userUniformList")
 	
 	public ModelAndView userUniList(ModelAndView mav) {
 		
 		// 書籍情報を全件取得する
-		Iterable<Uniform> uni_list = uniforminfo.findAll();
+		Iterable<Uniform> uniform_list = uniforminfo.findAll();
 
 		// Viewに渡す変数をModelに格納
-		mav.addObject("uni_list", uni_list);
+		mav.addObject("uniform_list", uniform_list);
 
 		// 画面に出力するViewを指定
-		mav.setViewName("view/users/userUniList");
+		mav.setViewName("view/users/userUniformList");
 
 		return mav;
 	}
