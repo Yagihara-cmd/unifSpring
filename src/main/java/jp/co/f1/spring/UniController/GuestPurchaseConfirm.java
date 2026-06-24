@@ -80,8 +80,9 @@ public class GuestPurchaseConfirm {
 			orderinfo.saveAndFlush(order);
 		
 			//ユニフォーム情報を取得
-			Optional<Uniform> uniList = uniforminfo.findByUniNo(order.getUniid());
-		
+			Optional<Uniform> uniList = uniforminfo.findByUniid(order.getUniid());
+			Uniform Uniform = uniList.get();
+			
 			//合計を計算する
 			total += Uniform.getPrice();
 		
