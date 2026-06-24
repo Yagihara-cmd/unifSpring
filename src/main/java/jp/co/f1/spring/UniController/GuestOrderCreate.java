@@ -1,3 +1,12 @@
+/*
+ * 
+ * 管理者ユニフォーム管理画面
+ * 
+ *  担当:田岡
+ *  最終更新:2026/06/24-AM10
+ * 
+ * 
+ */
 package jp.co.f1.spring.UniController;
 
 import java.util.ArrayList;
