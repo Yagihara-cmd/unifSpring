@@ -17,6 +17,7 @@ import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
+import jp.co.f1.spring.bms.entity.Book;
 import jp.co.f1.spring.Dao.UniDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 import jakarta.annotation.PostConstruct;
@@ -53,6 +55,11 @@ public class UserOrderCreate {
 	@GetMapping(value = "/UserOrderCreate")
 	public ModelAndView UserOrderCreate(HttpServletRequest request, ModelAndView mav) {
 
+		/**
+		 * 押下された商品を「orderlist」に格納して
+		 * リスト表示に続くための記述
+		 * 
+		 */
 		//セッションオブジェクトの生成
 		HttpSession session = request.getSession();
 
@@ -67,6 +74,32 @@ public class UserOrderCreate {
 			mav.setViewName("view/error");
 			return mav;
 		}
+
+
+		//Isbnのパラメータを取得し詳細を取得
+		Optional<Uniform> optionalBook = uniforminfo.findByUniid(request.getParameter("uniid"));
+
+		//order情報をOrderに格納
+		Order order = new Order();
+		//Isbn
+		order.setUniid(request.getParameter("uniid"));
+		//userid	
+		order.setUserid(request.getParameter("userid"));
+
+		//数量を格納
+		order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+
+		//時刻を取得
+		Date date = new Date();
+		order.setDate(date);
+
+		//OrderオブジェクトをList配列に追加し、セッションスコープに"order_list"という名前で登録する。
+		//OrderList配列の宣言
+		ArrayList<Order> order_list = new ArrayList<Order>();
+
+		/**
+		 * 以下カートを表示する記述
+		 */
 		//カウント変数の宣言
 		int i = 0;
 

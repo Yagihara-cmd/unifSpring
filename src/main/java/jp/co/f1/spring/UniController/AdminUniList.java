@@ -47,7 +47,7 @@ public class AdminUniList {
 		UniDao = new UniDao(entityManager);
 	}
 
-	@GetMapping("adminUniformList")
+	@GetMapping("/adminUniformList")
 	public ModelAndView adminUniList(HttpServletRequest request, ModelAndView mav) {
 		//セッションオブジェクトの生成
 		HttpSession session = request.getSession();
@@ -67,7 +67,7 @@ public class AdminUniList {
 		//画面出力するviewを指定
 		mav.setViewName("view/admin/adminUniformList");
 
-		//ModelとVIewを返す
+		//ModelとViewを返す
 		return mav;
 
 	}
