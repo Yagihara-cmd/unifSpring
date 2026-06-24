@@ -61,7 +61,7 @@ public class GuestUniList {
 		mav.addObject("uni_list", uni_list);
 		
 		// 画面に出力するViewを指定
-		mav.setViewName("/guestUniformList");
+		mav.setViewName("view/users/guestUniformList");
 		
 		// ModelとView情報を返す
 		return mav;
