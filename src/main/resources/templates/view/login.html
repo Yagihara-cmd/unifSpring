@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>ログイン</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="wrap">
-	
+
 		<!-- ヘッダー部分 -->
 		<div th:insert="~{/common/header :: frag}"></div>
-		
+
 		<!-- メニュー部分 -->
 		<div id="menu">
 			<div class="container">
-				
+
 				<!-- ページタイトル -->
 				<div id="page_title">
 					<h1>神田ユニフォーム</h1>
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- コンテンツ部分 -->
 		<div id="main" class="container">
-		<img th:src="@{photo/logo.png}" width="500px">
-		
-		<!-- エラーメッセージ -->
+			<img th:src="@{photo/logo.png}" width="500px">
+
+			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
 
 			<!-- 入力フォーム -->
@@ -36,26 +38,27 @@
 					<tr>
 						<th>ID</th>
 						<td>
-							<input type="text" name="userid" th:value="${strUserid}">
+							<input type="text" name="userid" th:value="${userid}">
 						</td>
 					</tr>
 					<tr>
 						<th>PASSWORD</th>
 						<td>
-							<input type="text" name="password" th:value="${strPassword}">
+							<input type="text" name="password" th:value="${password}">
 						</td>
 					</tr>
 				</table>
 				<input type="submit" value="ログイン"><br>
-			</form>	
-				<form action="/login" method="POST" th:object="${user}">
+			</form>
+			<form th:action="@{users/guestUniformList}" method="POST" th:object="${user}">
 				<input type="submit" value="ゲストとして続行">
 			</form>
 		</div>
-		
+
 		<!-- フッター部分 -->
 		<div th:insert="~{/common/footer :: frag}"></div>
-		
+
 	</div>
 </body>
+
 </html>

@@ -44,11 +44,11 @@
 						<th>削除</th>
 					</tr>
 				</thead><!-- 未変更  -->
-				<tbody th:if="${book_list.size() >= 1}">
-					<tr th:each="book : ${book_list}">
-						<td><a th:href="@{/detail(isbn=${book.isbn})}" th:text="${book.isbn}"></a></td>
-						<td th:text="${book.title}"></td>
-						<td th:text="'&yen; ' +${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+				<tbody th:if="${uniform_list.size() >= 1}">
+					<tr th:each="uniform : ${uniform_list}">
+						<td><a th:href="@{/#(uniid=${uniform.uniid})}" th:text="${uniform.uniid}"></a></td>
+						<td th:text="${uniform.uniname}"></td>
+						<td th:text="'&yen; ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
 					</tr>
 				</tbody>
 			</table>
