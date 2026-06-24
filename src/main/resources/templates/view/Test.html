@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>メニュー</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<div id="wrap">
+
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<div id="menu">
+			<div class="container">
+
+				<div id="page_title">
+					<h1>メニュー</h1>
+				</div>
+			</div>
+		</div>
+
+		
+		<div class="link-section">
+		        <ul>
+		            <li><a href="/login">/login</a><span class="desc">ログイン</span></li>
+		            <li><a href="/userCreate">/userCreate</a><span class="desc">一般ユーザー登録</span></li>
+		            <li><a href="/adminCreate">/adminCreate</a><span class="desc">管理者登録</span></li>
+		        </ul>
+		    </div>
+
+		    <h2>一般ユーザー機能 (User)</h2>
+		    <div class="link-section">
+		        <ul>
+		            <li><a href="/userMyPage">/userMyPage</a><span class="desc">マイページ</span></li>
+		            <li><a href="/userUniformList">/userUniformList</a><span class="desc">制服一覧</span></li>
+		            <li><a href="/userOrderCreate">/userOrderCreate</a><span class="desc">注文作成</span></li>
+		            <li><a href="/userPurchaseConfirm">/userPurchaseConfirm</a><span class="desc">購入確認</span></li>
+		            <li><a href="/userOrderHistory">/userOrderHistory</a><span class="desc">注文履歴</span></li>
+		        </ul>
+		    </div>
+
+		    <h2>ゲスト機能 (Guest)</h2>
+		    <div class="link-section">
+		        <ul>
+		            <li><a href="/guestUniformList">/guestUniformList</a><span class="desc">ゲスト用制服一覧</span></li>
+		            <li><a href="/guestOrderCreate">/guestOrderCreate</a><span class="desc">ゲスト用注文作成</span></li>
+		            <li><a href="/guestPurchaseConfirm">/guestPurchaseConfirm</a><span class="desc">ゲスト用購入確認</span></li>
+		            <li><a href="/guestDateInput">/guestDateInput</a><span class="desc">ゲスト用日付入力</span></li>
+		        </ul>
+		    </div>
+
+		    <h2>管理者機能 (Admin)</h2>
+		    <div class="link-section">
+		        <ul>
+		            <li><a href="/adminUniformList">/adminUniformList</a><span class="desc">管理者用制服一覧</span></li>
+		            <li><a href="/uniformCreate">/uniformCreate</a><span class="desc">制服新規登録</span></li>
+		            <li><a href="/uniformUpdate">/uniformUpdate</a><span class="desc">制服情報更新</span></li>
+		            <li><a href="/orderManagementList">/orderManagementList</a><span class="desc">注文管理一覧</span></li>
+		            <li><a href="/orderDetail">/orderDetail</a><span class="desc">注文詳細</span></li>
+		            <li><a href="/orderUpdate">/orderUpdate</a><span class="desc">注文状態更新</span></li>
+		        </ul>
+		    </div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>
