@@ -1,3 +1,13 @@
+/*
+ * 
+ *  管理者登録機能
+ * 
+ *  担当:芦澤
+ *  最終更新:2026/06/24-PM14:50
+ * 
+ * 
+ */
+
 package jp.co.f1.spring.UniController;
 
 import java.util.Optional;
@@ -10,7 +20,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,18 +55,18 @@ public class AdminCreate {
 	/*
 	 *  /adminCreate  GET
 	 */
-	/*@GetMapping("/adminCreate")
+	@GetMapping("/adminCreate")
 	public ModelAndView adminCreate(@ModelAttribute User user, ModelAndView mav) {
 	
 		// Viewに渡す変数をModelに格納
 		mav.addObject("user", user);
 	
 		// 画面に出力するViewを指定
-		mav.setViewName("view/login");
+		mav.setViewName("view/admin/adminCreate");
 	
 		// ModelとView情報を返す
 		return mav;
-	}*/
+	}
 
 	/*
 	 *  /adminCreate  POST
@@ -75,7 +85,7 @@ public class AdminCreate {
 			mav.addObject("message", "入力内容に誤りがあります");
 
 			// 画面に出力するViewを指定
-			mav.setViewName("view/adminCreate");
+			mav.setViewName("view/admin/adminCreate");
 			// ModelとView情報を返す
 			return mav;
 		}
@@ -85,7 +95,7 @@ public class AdminCreate {
 			mav.addObject("message", "入力IDは既に登録済みの為、管理者登録は行えませんでした。");
 
 			// 画面に出力するViewを指定
-			mav.setViewName("view/adminCreate");
+			mav.setViewName("view/admin/adminCreate");
 			// ModelとView情報を返す
 			return mav;
 		}

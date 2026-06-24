@@ -11,8 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import jp.co.f1.spring.Entity.Uniform;
-
 @Entity
 @Table(name = "orderinfo")
 public class Order {
@@ -78,6 +76,22 @@ public class Order {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public String getPaymentstatus() {
+		return paymentstatus;
+	}
+
+	public void setPaymentstatus(String paymentstatus) {
+		this.paymentstatus = paymentstatus;
+	}
+	
+	public String getShippingstatus() {
+		return shippingstatus;
+	}
+
+	public void setShippingstatus(String shippingstatus) {
+		this.shippingstatus = shippingstatus;
 	}
 
 	@ManyToOne
