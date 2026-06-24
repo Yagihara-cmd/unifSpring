@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>受注管理一覧システム</title>
@@ -18,7 +18,7 @@
 				<!-- ナビゲーション  -->
 				<div id="nav">
 					<ul>
-						<li><a th:href="/adminUniformList">[一覧]</a></li>
+						<li><a th:href="@{/adminUniformList}">[一覧]</a></li>
 					</ul>
 				</div>
 
@@ -30,9 +30,11 @@
 						<tr>
 							<td>先月の売り上げ</td>
 							<td>円</td>
+						</tr> <!-- 【修正】閉じタグが <tr> になっていたのを </tr> に修正 -->
 						<tr>
 							<td>今月の売り上げ</td>
-							<td th:text="*{monthTotal}">円</td>
+							<!-- 【修正】オブジェクト選択（*{...}）から通常の変数式（${...}）に修正、金額のフォーマットも追加 -->
+							<td th:text="${monthTotal != null} ? '&yen; ' + ${#numbers.formatInteger(monthTotal, 3, 'COMMA')} + ' 円' : '0 円'">円</td>
 						</tr>
 					</table>
 					</div>
@@ -58,18 +60,20 @@
 						<th>詳細/更新</th>
 					</tr>
 				</thead>
-				<tbody th:if="${orderList.size() >= 1}">
+				<!-- 【修正】orderListが空、またはnullの場合のエラーを防ぐため、安全な判定に修正 -->
+				<tbody th:if="${orderList != null && !orderList.isEmpty()}">
 					<tr th:each="order : ${orderList}">
 						<td th:text="${order.orderNo}"></td>
 						<td th:text="${order.uniNo}"></td>
 						<td th:text="${order.quantity}"></td>
-						<td th:text="'&yen; ' +${#numbers.formatInteger(order.sum, 3, 'COMMA')}"></td>
+						<td th:text="'&yen; ' + ${#numbers.formatInteger(order.sum, 3, 'COMMA')}"></td>
 						<td th:text="${order.date}"></td>
 						<td th:text="${order.pay}"></td>
 						<td th:text="${order.ship}"></td>
 						<td>
-							<a th:href="/orderDetail">詳細</a>
-							<a th:href="/orderUpdate">更新</a>
+							<!-- 【修正】リンクの書き方をThymeleafの推奨形式（@{...}）に修正 -->
+							<a th:href="@{/orderDetail(id=${order.orderNo})}">詳細</a>
+							<a th:href="@{/orderUpdate(id=${order.orderNo})}">更新</a>
 						</td>
 					</tr>
 				</tbody>

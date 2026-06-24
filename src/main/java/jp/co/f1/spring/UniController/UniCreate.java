@@ -80,7 +80,7 @@ public class UniCreate {
 		uniforminfo.saveAndFlush(uniform);
 
 		// リダイレクト先を指定
-		mav.setViewName("redirect:/list");
+		mav.setViewName("redirect:/adminUniList");
 		return mav;
 	}
 }

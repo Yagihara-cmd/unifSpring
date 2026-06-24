@@ -25,7 +25,6 @@
 		
 		<div class="adminTable">
 		   
-		    <!-- ① 送信先を /uniformCreate に、メソッドを POST に指定 -->
 		    <form th:action="@{/uniformCreate}" method="POST" th:object="${uniform}">
 		        
 		        <table class="detail-table" align="center">
@@ -34,23 +33,19 @@
 		            </tr>
 		            <tr>
 		                <th>No.</th>
-		                <!-- ② getUniid() に対応するようすべて小文字の uniid -->
 		                <td><input type="text" th:field="*{uniid}"></td>
 		            </tr>
 		            <tr>
 		                <th>種類</th>
-		                <!-- ③ おそらくすべて小文字の uniname -->
 		                <td><input type="text" th:field="*{uniname}"></td>
 		            </tr>
 		            <tr>
 		                <th>金額</th>
-		                <!-- ④ エラーの原因：Pを大文字にした uniPrice に修正 -->
-		                <td><input type="text" th:field="*{uniPrice}"></td>
+		                <td><input type="text" th:field="*{price}"></td>
 		            </tr>
 		            <tr>
 		                <th>在庫数</th>
-		                <!-- ⑤ 金額に合わせて Sを大文字にした uniStock に修正 -->
-		                <td><input type="text" th:field="*{uniStock}"></td>
+		                <td><input type="text" th:field="*{stock}"></td>
 		            </tr>
 		        </table>
 		        
