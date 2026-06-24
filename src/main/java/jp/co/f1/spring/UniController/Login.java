@@ -128,7 +128,7 @@ public class Login {
 
 			if (user.getAuthority().equals("0")) {
 				//mav.setViewName("view/users/userUniformList");
-				mav = new ModelAndView("redirect:/userUnformiList");
+				mav = new ModelAndView("redirect:/userUniformList");
 
 			}
 			if (user.getAuthority().equals("1")) {
