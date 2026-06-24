@@ -51,7 +51,7 @@ public class UniCreate {
 		mav.addObject("uniform", uniform);
 
 		// 画面に出力するViewを指定
-		mav.setViewName("view/uniformCreate");
+		mav.setViewName("view/admin/uniformCreate");
 		// ModelとView情報を返す
 		return mav;
 	}
@@ -63,7 +63,7 @@ public class UniCreate {
 	
 		if (result.hasErrors()) {
 			mav.addObject("message", "入力内容に誤りがあります");
-			mav.setViewName("view/uniformCreate");
+			mav.setViewName("view/admin/uniformCreate");
 			return mav;
 		}
 
@@ -72,7 +72,7 @@ public class UniCreate {
 		// 重複チェック
 		if (optionalUniform.isPresent()) {
 			mav.addObject("message", "入力されたユニフォームIDは既に登録済みの為、登録処理は行えませんでした。");
-			mav.setViewName("view/uniformCreate");
+			mav.setViewName("view/admin/uniformCreate");
 			return mav;
 		}
 

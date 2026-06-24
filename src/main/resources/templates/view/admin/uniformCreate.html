@@ -22,45 +22,47 @@
 			</div>
 		</div>
 		
-		<!-- 書籍コンテンツ部分 -->
-		<div id="main" class="container">
-			<!-- エラーメッセージ -->
-			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
-				
-				<div class="adminTable">
-				<table class="detail-table" align="center">
-					<tr>
-					<a th:href="/adminUniformList">[戻る]</a>
-					</tr>
-					<tr >
-						<th>No.</th>
-						<td><input type="text" name="uniNo" th:value="uniNo"></td>
-					</tr>
-					<tr>
-						<th>種類</th>
-						<td><input type="text" name="uniName" th:value="uniName"></td>
-					</tr>
-					<tr>
-						<th>金額</th>
-						<td><input type="text" name="uniPrice" th:value="uniPrice"></td>
-					</tr>
-					<tr>
-						<th>在庫数</th>
-						<td><input type="text" name="uniStock" th:value="uniStock"></td>
-					</tr>
-				</table>
-				
-				
-				<table align="center">
-			<tr>
-				<td><form action="/adminUniformList" method="GET" th:object="${book}">
-						<input type="hidden" name="isbn" th:value="${book.isbn}">
-						<input type="submit" value="登録">
-					</form>
-				</td>
-			</tr>
-		</table>
-		</div>
+		
+		<div class="adminTable">
+		   
+		    <!-- ① 送信先を /uniformCreate に、メソッドを POST に指定 -->
+		    <form th:action="@{/uniformCreate}" method="POST" th:object="${uniform}">
+		        
+		        <table class="detail-table" align="center">
+		            <tr>
+		                <td colspan="2"><a th:href="@{/adminUniformList}">戻る</a></td>
+		            </tr>
+		            <tr>
+		                <th>No.</th>
+		                <!-- ② getUniid() に対応するようすべて小文字の uniid -->
+		                <td><input type="text" th:field="*{uniid}"></td>
+		            </tr>
+		            <tr>
+		                <th>種類</th>
+		                <!-- ③ おそらくすべて小文字の uniname -->
+		                <td><input type="text" th:field="*{uniname}"></td>
+		            </tr>
+		            <tr>
+		                <th>金額</th>
+		                <!-- ④ エラーの原因：Pを大文字にした uniPrice に修正 -->
+		                <td><input type="text" th:field="*{uniPrice}"></td>
+		            </tr>
+		            <tr>
+		                <th>在庫数</th>
+		                <!-- ⑤ 金額に合わせて Sを大文字にした uniStock に修正 -->
+		                <td><input type="text" th:field="*{uniStock}"></td>
+		            </tr>
+		        </table>
+		        
+		        <table align="center">
+		            <tr>
+		                <td>
+		                    <input type="submit" value="登録">
+		                </td>
+		            </tr>
+		        </table>
+		        
+		    </form>
 		</div>
 		
 		<!-- フッター部分 -->
