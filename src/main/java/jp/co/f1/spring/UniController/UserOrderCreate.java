@@ -2,6 +2,9 @@
  *  会員が注文をするときの
  *  注文内容表示機能
  *  
+ *  担当:八木原
+ *  
+ *  最終編集: 20260624
  *  
  *  
  */
@@ -17,8 +20,9 @@ import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
-import jp.co.f1.spring.bms.entity.Book;
+import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Dao.UniDao;
+import jp.co.f1.spring.Dao.OrderDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,6 +70,7 @@ public class UserOrderCreate {
 		//セッションからUserの値を取得・セッション切れならばエラーに遷移
 		User user = (User) session.getAttribute("user");
 
+		//userのせっしょんがある場合
 		if (user == null) {
 			//セッション切れ
 			mav.addObject("errorMessage", "セッション切れの為、カート状況は確認できません。");
@@ -75,13 +80,13 @@ public class UserOrderCreate {
 			return mav;
 		}
 
+		//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
+		Optional<Uniform> optionalUniform = uniforminfo.findByUniid(request.getParameter("uniid"));
+		
 
-		//Isbnのパラメータを取得し詳細を取得
-		Optional<Uniform> optionalBook = uniforminfo.findByUniid(request.getParameter("uniid"));
-
-		//order情報をOrderに格納
+		//order情報をOrderに格納するためのオブジェクト宣言
 		Order order = new Order();
-		//Isbn
+		//uniid
 		order.setUniid(request.getParameter("uniid"));
 		//userid	
 		order.setUserid(request.getParameter("userid"));
@@ -93,41 +98,27 @@ public class UserOrderCreate {
 		Date date = new Date();
 		order.setDate(date);
 
-		//OrderオブジェクトをList配列に追加し、セッションスコープに"order_list"という名前で登録する。
 		//OrderList配列の宣言
 		ArrayList<Order> order_list = new ArrayList<Order>();
 
 		/**
+		 * セッションから取得したorderlistが空であれば1件目として保存する
+		 * 空でなければorderListに追加する。
+		 * 後のセッション削除の際に変数内にデータが残ってしまうのを防ぐために、
+		 * メソッド内でorderlistを定義する
+		 * 
+		 */
+		if ((ArrayList<Order>) order_list != null) {
+			order_list = (ArrayList<Order>) (order_list);
+		}
+		order_list.add(order);
+
+		/**
 		 * 以下カートを表示する記述
 		 */
-		//カウント変数の宣言
-		int i = 0;
-
-		Order order1 = new Order();
 
 		//セッションからOrderListを取得する
-		ArrayList<Order> orderList = (ArrayList<Order>) session.getAttribute("order_list");
-
-		if (request.getParameter("delno") != null) { //delnoの値がある場合
-			// orderList全件から"delno"と同じISBNの値が見つかるまで繰り返す
-
-			Loop: while (i < orderList.size()) {
-				order1 = orderList.get(i);
-
-				if (order1.getUniid().equals(request.getParameter("delno"))) { //isbnとdelnoが一致したとき
-
-					break Loop;
-
-				}
-				i++;
-			}
-			orderList.remove(orderList.indexOf(order1));
-			/**
-			 * リダイレクト先の指定をする
-			 * 
-			 */
-			mav = new ModelAndView("redirect:/userOrderCreate");
-		}
+		ArrayList<Order> orderList = (ArrayList<Order>) (order_list);
 
 		/**
 		 * 
@@ -142,9 +133,10 @@ public class UserOrderCreate {
 
 		//カウント変数の宣言
 		int j = 0;
-		for (Order order : orderList) {
-			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order.getUniid());
-			Uniform uniform = optionalUniform.get(); //Bookオブジェクトで受け取っておくと金額計算の際に可読性が上がる
+
+		for (Order order1 : orderList) {
+			Optional<Uniform> optionalUniform1 = uniforminfo.findByUniid(order.getUniid());
+			Uniform uniform = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
 			uniform_list.add(uniform);
 
 			//total += Integer.parseInt(uniform_list.get(j).getPrice()) * order.getQuantity();
@@ -159,6 +151,8 @@ public class UserOrderCreate {
 		/**
 		 * 
 		 * 画面のリダイレクト先の設定をする
+		 * 
+		 * 
 		 */
 		mav.setViewName("view/users/userOrderCreate");
 		return mav;
