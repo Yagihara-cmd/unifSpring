@@ -1,8 +1,20 @@
+/*
+ * 
+ * エラー管理画面
+ * 
+ *  担当:友久
+ *  最終更新:2026/06/24-16:58
+ * 
+ * 
+ */
+
 package jp.co.f1.spring.UniController;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+@Controller
 public class Error {
 	
 	/**
