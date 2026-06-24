@@ -2,7 +2,8 @@
  * 
  * 管理者ユニフォーム管理画面
  * 
- *  /adminUniList
+ *  担当:八木原
+ *  最終更新:2026/06/24-AM10
  * 
  * 
  */
@@ -46,7 +47,7 @@ public class AdminUniList {
 		UniDao = new UniDao(entityManager);
 	}
 
-	@GetMapping("/adminUniList")
+	@GetMapping("adminUniformList")
 	public ModelAndView adminUniList(HttpServletRequest request, ModelAndView mav) {
 		//セッションオブジェクトの生成
 		HttpSession session = request.getSession();

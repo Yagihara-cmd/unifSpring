@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>ユニフォーム一覧</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="wrap">
@@ -17,7 +19,7 @@
 			<div class="container">
 				<!-- ナビゲーション  -->
 				<div id="nav">
-					
+
 				</div>
 
 				<!-- ページタイトル -->
@@ -41,10 +43,11 @@
 					</tr>
 				</thead>
 				<tbody th:if="${uniform_list.size()>= 1}">
-						<tr th:each="uniform : ${uniform_list}" th:object="${uniform}">
+					<tr th:each="uniform : ${uniform_list}" th:object="${uniform}">
 						<td th:text="${uniform.uniid}"></td>
 						<td th:text="${uniform.uniname}"></td>
-						
+						<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
+						<td><a th:href="@{/UserOrderCreate(uniid=${uniform.uniid})}" th:text="カートに入れる"></a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -55,4 +58,5 @@
 
 	</div>
 </body>
+
 </html>
