@@ -44,12 +44,12 @@ public class Uniform {
 		this.price = price;
 	}
 
-	public Integer getStook() {
+	public Integer getStock() {
 		return stock;
 	}
 
-	public void setStook(Integer stook) {
-		this.stock = stook;
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 	
 	

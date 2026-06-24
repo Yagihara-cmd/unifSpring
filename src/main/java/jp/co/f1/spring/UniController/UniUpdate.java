@@ -3,7 +3,7 @@
  * 管理者ユニフォーム変更画面
  * 
  *  担当:友久
- *  最終更新:2026/06/24-AM11
+ *  最終更新:2026/06/24-16:58
  * 
  * 
  */
@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,9 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.User;
-import jp.co.f1.spring.Dao.UniDao;
 import jp.co.f1.spring.Repository.UniRepository;
 
+@Controller
 public class UniUpdate {
 	
 	// Repositoryインターフェースを自動インスタンス化
@@ -39,22 +40,14 @@ public class UniUpdate {
 		private EntityManager entityManager;
 
 		@Autowired
-		private UniDao UniDao;
-
-//		@PostConstruct
-//		public void init() {
-//			bookDao = new BookDao(entityManager);
-//		}
-
-		@Autowired
 		private HttpSession session;		
 	/*
-	 * 「/update」へアクセスがあった場合
+	 * 「/uniformUpdate」へアクセスがあった場合
 	 */
 	@GetMapping("/uniformUpdate")
 	public ModelAndView updateForm(@ModelAttribute Uniform uni, HttpServletRequest request, ModelAndView mav) {
 
-		//書籍検索
+		//ユニフォーム検索
 		Optional<Uniform> optionalUni = uniforminfo.findByUniid(request.getParameter("uniid"));
 
 		//---エラー処理 ---//
