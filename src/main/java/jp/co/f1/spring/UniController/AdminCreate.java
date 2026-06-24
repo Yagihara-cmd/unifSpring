@@ -1,3 +1,13 @@
+/*
+ * 
+ *  管理者登録機能
+ * 
+ *  担当:芦澤
+ *  最終更新:2026/06/24-AM9:40
+ * 
+ * 
+ */
+
 package jp.co.f1.spring.UniController;
 
 import java.util.Optional;

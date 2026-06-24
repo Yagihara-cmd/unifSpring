@@ -30,7 +30,7 @@
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
 
 			<!-- 入力フォーム -->
-			<form action="/adminUniformList" method="POST" th:object="${user}">
+			<form action="/adminCreate" method="POST" th:object="${user}">
 				<div class="adminTable">
 				<table class="input-table" align="center">
 					<tr>
