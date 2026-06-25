@@ -44,14 +44,14 @@
 					</tr>
 				</thead>
 				<!-- リストが空でない場合のみ表示 -->
-				<tbody th:if="${book_list != null and book_list.size() >= 1}">
-					<tr th:each="book : ${book_list}">
-						<td><a th:href="@{/detail(isbn=${book.uniid})}" th:text="${book.uniid}"></a></td>
-						<td th:text="${book.uniname}"></td>
-						<td th:text="'&yen; ' + ${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+				<tbody th:if="${uni_list != null and uni_list.size() >= 1}">
+					<tr th:each="uniform : ${uni_list}">
+						<td><a th:href="@{/detail(isbn=${uniform.uniid})}" th:text="${uniform.uniid}"></a></td>
+						<td th:text="${uniform.uniname}"></td>
+						<td th:text="'&yen; ' + ${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
 						<!-- 削除ボタン用のリンク-->
 						<td>
-							<a th:href="@{/guestOrderCreate(delno=${book.uniid}, uniIds=${currentUniIds})}">[削除]</a>
+							<a th:href="@{/guestOrderCreate(delno=${uniform.uniid}, uniIds=${currentUniIds})}">[削除]</a>
 						</td>
 					</tr>
 				</tbody>

@@ -71,7 +71,7 @@ public class UserMyPage {
 	    mav.addObject("user", user);
 
 	    // 画面に出力するViewを指定
-	    mav.setViewName("view/userMyPage");
+	    mav.setViewName("view/users/userMyPage");
 	    // ModelとView情報を返す
 	    return mav;
 	}
@@ -120,12 +120,13 @@ public class UserMyPage {
 	        mav.addObject("message", "入力内容に誤りがあります");
 	        // バリデーションエラー後は、入力内容を再表示する
 	        mav.addObject("old_user", old_user);
-	        mav.setViewName("view/userMyPage");
+	        mav.setViewName("view/users/userMyPage");
 	        return mav;
 	    }
 
 	    // 入力されたデータをDBに保存
 	    userinfo.saveAndFlush(user);
+	    
 
 	    // リダイレクト先を指定
 	    mav.setViewName("redirect:/list");

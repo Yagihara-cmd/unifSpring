@@ -85,7 +85,6 @@ public class OrderManagementList {
         LocalDateTime startOfLastMonth = lastMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfLastMonth = lastMonth.atEndOfMonth().atTime(LocalTime.MAX);
 
-        // 全件の注文データから期間を判定して金額を合算
         for (Order order : order_list) {
             Date orderDate = order.getDate(); 
             
@@ -98,12 +97,17 @@ public class OrderManagementList {
                 Optional<Uniform> optionalUniform = uniforminfo.findById(order.getUniid());
                 if (optionalUniform.isPresent()) {
                     int price = optionalUniform.get().getPrice();
+                    
+                    // 注文データから数量を取得し、単価と掛け合わせて小計を出す
+                    int quantity = order.getQuantity(); 
+                    int subtotal = price * quantity;
 
+                    // 各合計に「price」ではなく「subtotal」を加算する
                     if (!localOrderDate.isBefore(startOfThisMonth) && !localOrderDate.isAfter(endOfThisMonth)) {
-                        thisMonthTotal += price;
+                        thisMonthTotal += subtotal;
                     }
                     else if (!localOrderDate.isBefore(startOfLastMonth) && !localOrderDate.isAfter(endOfLastMonth)) {
-                        lastMonthTotal += price;
+                        lastMonthTotal += subtotal;
                     }
                 }
             }

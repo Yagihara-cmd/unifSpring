@@ -38,7 +38,7 @@ public class GuestOrderCreate {
 	@Autowired
 	private UniDao uniDao;
 
-	// 【復活】セッションを導入して、画面をまたいでもデータを記憶できるようにします
+	// セッションを導入して、画面をまたいでもデータを記憶できるようにします
 	@Autowired
 	private HttpSession session;
 
@@ -72,8 +72,8 @@ public class GuestOrderCreate {
 			return mav;
 		}
 
-		//HTML側の th:each="book : ${book_list}" に名前を合わせてリストを準備
-		ArrayList<Uniform> book_list = new ArrayList<Uniform>();
+		//HTML側の th:each="book : ${uni_list}" に名前を合わせてリストを準備
+		ArrayList<Uniform> uni_list = new ArrayList<Uniform>();
 		int total = 0;
 
 		//セッションに保存されているID群をループさせ、DBから最新情報を取得して合計金額を計算
@@ -82,14 +82,14 @@ public class GuestOrderCreate {
 
 			if (optionalUniform.isPresent()) {
 				Uniform uniform = optionalUniform.get();
-				book_list.add(uniform);
+				uni_list.add(uniform);
 				total += uniform.getPrice();
 			}
 		}
 
 		// HTMLに表示用データを渡す
 		mav.addObject("total", total);
-		mav.addObject("book_list", book_list);
+		mav.addObject("uni_list", uni_list);
 
 		//表示するHTMLを指定
 		mav.setViewName("view/users/guestOrderCreate");

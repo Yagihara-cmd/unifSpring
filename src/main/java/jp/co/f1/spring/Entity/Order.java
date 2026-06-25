@@ -106,5 +106,18 @@ public class Order {
 	public void setUniform(Uniform Uniform) {
 		this.uniform = Uniform;
 	}
+	
+	@ManyToOne
+	@JoinColumn(name = "userid", insertable = false, updatable = false)
+	// 自身のカラム、相手のカラム（デフォルト：参照されるテーブルの主キー列と同じ名前。なので今回は省略可）
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User User) {
+		this.user = User;
+	}
 
 }
