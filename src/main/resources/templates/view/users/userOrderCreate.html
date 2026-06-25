@@ -52,16 +52,17 @@
 						<td th:text="${order.quantity}"></td>
 						<td></td>
 						<!--<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>-->
-						<td><a th:href="@{/userOrderDelete(uniid=${order.uniid})}" th:text="削除"></a></td>
+						<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
+						
 					</tr>
 				</tbody>
 			</table>
 
-			<h3>合計金額 -- 円</h3>
-
+			<h3>合計金額 
+			<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円</h3>
 			<div style="text-align: right;">
 
-				<form action="/userPurchaseConfirm" method="POST">
+				<form action="/userPurchaseConfirm">
 					<input type="submit" value="購入">
 				</form>
 
