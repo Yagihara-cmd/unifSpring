@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class GuestDataInput {
 
 	@GetMapping("/guestDateInput")
@@ -27,7 +30,9 @@ public class GuestDataInput {
 		String guestAddress="";
 		String guestEmail="";
 		
+		mav.setViewName("view/users/guestDateInput");
 		
+		return mav; 
 		
 	}
 }

@@ -21,7 +21,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Entity.Order;
@@ -48,7 +48,7 @@ public class GuestPurchaseConfirm {
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 	//「/guestPurchaseConfirm」へGET送信された場合
-	@GetMapping("/guestPurchaseConfirm")
+	@PostMapping("/guestPurchaseConfirm")
 	public ModelAndView guestPurchaseConfirm(HttpServletRequest request, ModelAndView mav) {
 
 		//ゲストのメールアドレスを画面から取得
@@ -76,9 +76,6 @@ public class GuestPurchaseConfirm {
 		//オーダーリストから1件ずつ取り出す
 		for (Order order : order_list) {
 
-			//注文情報をDBに保存
-			orderinfo.saveAndFlush(order);
-
 			//ユニフォーム情報を取得
 			Optional<Uniform> uniList = uniforminfo.findByUniid(order.getUniid());
 			Uniform Uniform = uniList.get();
@@ -98,7 +95,7 @@ public class GuestPurchaseConfirm {
 		try {
 			SimpleMailMessage msg = new SimpleMailMessage();
 
-			msg.setFrom(guestEmail);
+			msg.setTo(guestEmail);
 
 			String insertMessage = guestName + "様" + LINE_SEPARATOR + LINE_SEPARATOR;
 			insertMessage += "ユニフォームのご購入ありがとうございます。" + LINE_SEPARATOR;
@@ -116,7 +113,6 @@ public class GuestPurchaseConfirm {
 
 			msg.setSubject("ユニフォーム購入情報");
 			msg.setText(insertMessage);
-			mailSender.send(msg);
 
 		} catch (MailSendException e) {
 			mav.addObject("errorMessage", "メールの送信ができませんでした。");
