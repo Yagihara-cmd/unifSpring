@@ -58,7 +58,7 @@ public class UserCreate {
 		mav.addObject("user", user);
 
 		// 画面に出力するViewを指定
-		mav.setViewName("view/userCreate");
+		mav.setViewName("view/users/userCreate");
 
 		return mav;
 	}
@@ -79,7 +79,7 @@ public class UserCreate {
 			mav.addObject("message", "入力内容に誤りがあります");
 
 			// 画面に出力するViewを指定
-			mav.setViewName("view/userCreate");
+			mav.setViewName("view/users/error");
 
 			// ModelとView情報を渡す
 			return mav;
@@ -91,7 +91,7 @@ public class UserCreate {
 			mav.addObject("message", "入力IDまたはパスワードは既に登録済みの為、会員登録処理は行えませんでした。");
 			
 			// 画面に出力するViewを指定
-			mav.setViewName("view/userCreate");
+			mav.setViewName("view/users/error");
 			
 			return mav;			 
 		}
