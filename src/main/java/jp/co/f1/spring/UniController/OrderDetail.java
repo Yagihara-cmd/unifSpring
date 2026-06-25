@@ -35,9 +35,10 @@ public class OrderDetail {
 
        //HTML側からもらった注文Noを取得
        String orderNo = request.getParameter("orderNo");
+       int orderstr = Integer.parseInt(orderNo);
 
        //注文Noをもとに注文情報を検索
-       Optional<Order> optionalOrder = orderRepository.findByOrderNo(orderNo);
+       Optional<Order> optionalOrder = orderRepository.findByOrderno(orderstr);
 
        //注文情報が存在しない場合
        if (!(optionalOrder.isPresent())) {
