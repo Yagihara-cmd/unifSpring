@@ -15,14 +15,14 @@
 		<!-- メニュー部分 -->
 		<div id="menu">
 			<div class="container">
-				<!-- ナビゲーション  -->
+				<!-- ナビゲーション 
 				<div id="nav">
 					<ul>
 						<li><a th:href="/myPage">[マイページ]</a></li>
 						<li><a th:href="/userOrderCreate">[カート]</a></li>
 						<li><a th:href="/userUniformList">[一覧]</a></li>
 					</ul>
-				</div>
+				</div> -->
 
 				<!-- ページタイトル -->
 				<div id="page_title">
@@ -42,11 +42,12 @@
 						<th>種類</th>
 						<th>注文日</th>
 					</tr>
-				</thead><!-- 未変更  -->
-				<tbody th:if="${book_list.size() >= 1}">
-					<tr th:each="book : ${book_list}">
-						<td><a th:href="@{/detail(isbn=${book.isbn})}" th:text="${book.isbn}"></a></td>
-						<td th:text="${book.title}"></td>
+				</thead>
+				<tbody th:if="${ordered_list.size() >= 1}">
+					<tr th:each="order : ${ordered_list}" th:object="${order}">
+						<td th:text="*{orderno}"></td>
+						<td th:text="*{uni.uniname}"></td>
+						<td th:text="*{#dates.format(date, 'yyyy/MM/dd HH:mm:ss')}"></td>
 					</tr>
 				</tbody>
 			</table>
