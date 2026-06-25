@@ -3,7 +3,7 @@
  *  管理者用入金・発送変更機能
  * 
  *  担当:芦澤
- *  最終更新:2026/06/25-AM11:40
+ *  最終更新:2026/06/25-17:34
  * 
  * 
  */
@@ -60,11 +60,11 @@ public class OrderUpdate {
 	@GetMapping("/orderUpdate")
 	public ModelAndView orderUpdate(@ModelAttribute Order order, HttpServletRequest request, ModelAndView mav) {
 
-		String orderNo = request.getParameter("orderno");
-	    int orderstr = Integer.parseInt(orderNo);
+		String strOrderNo = request.getParameter("orderno");
+	    int orderno = Integer.parseInt(strOrderNo);
 		
 		// 現在の状況を取得
-		Optional<Order> optional_order = orderinfo.findByOrderno(orderstr);
+		Optional<Order> optional_order = orderinfo.findByOrderno(orderno);
 
 		// データが存在しない場合
 		if (!optional_order.isPresent()) {
