@@ -95,16 +95,16 @@ public class Order {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "uniid", insertable = false, updatable = false)
+	@JoinColumn(name = "uniid",referencedColumnName = "uniid",insertable = false, updatable = false)
 	// 自身のカラム、相手のカラム（デフォルト：参照されるテーブルの主キー列と同じ名前。なので今回は省略可）
-	private Uniform uni;
+	private Uniform uniform;
 
-	public Uniform getUni() {
-		return uni;
+	public Uniform getUnifrom() {
+		return uniform;
 	}
 
-	public void setUni(Uniform uni) {
-		this.uni = uni;
+	public void setUniform(Uniform uniform) {
+		this.uniform = uniform;
 	}
 
 }

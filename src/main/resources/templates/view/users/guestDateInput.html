@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>ゲスト情報入力画面</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="wrap">
-	
+
 		<!-- ヘッダー部分 -->
 		<div th:insert="~{/common/header :: frag}"></div>
-		
+
 		<!-- メニュー部分 -->
 		<div id="menu">
 			<div class="container">
@@ -22,21 +24,21 @@
 						<li><a th:href="/guestOrderCreate">[カート]</a></li>
 					</ul>
 				</div>
-				
+
 				<!-- ページタイトル -->
 				<div id="page_title">
 					<h2>ゲスト情報</h2>
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- 書籍コンテンツ部分 -->
 		<div id="main" class="container">
 			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
-				
+			<form class="inline-block" action="/guestPurchaseConfirm" method="Post">
 				<table class="detail-table" align="center">
-					<tr >
+					<tr>
 						<th>氏名</th>
 						<td><input type="text" name="name" th:value="${name}"></td>
 					</tr>
@@ -48,22 +50,27 @@
 						<th>メールアドレス</th>
 						<td><input type="text" name="email" th:value="${email}"></td>
 					</tr>
+					<tr>
+						<th>備考欄</th>
+						<td><input type="text" name="email" th:value="${email}"></td>
+					</tr>
 				</table>
-				
+
 				<table align="center">
-			<tr>
-				<td><form action="/guestPurchaseConfirm" method="GET" th:object="${book}">
-						<input type="hidden" name="isbn" th:value="${book.isbn}">
-						<input type="submit" value="購入">
-					</form>
-				</td>
-			</tr>
-		</table>
+					<tr>
+						<td>
+							<input type="submit" value="購入">
+
+						</td>
+					</tr>
+				</table>
+			</form>
 		</div>
-		
+
 		<!-- フッター部分 -->
 		<div th:insert="~{/common/footer :: frag}"></div>
-		
+
 	</div>
 </body>
+
 </html>

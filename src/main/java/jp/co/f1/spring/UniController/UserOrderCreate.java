@@ -4,7 +4,9 @@
  *  
  *  担当:八木原
  *  
- *  最終編集: 20260624
+ *  最終編集: 20260625
+ *  
+ *  セッションを使用して複数カートに入れられない。
  *  
  *  
  */
@@ -51,6 +53,10 @@ public class UserOrderCreate {
 	@Autowired
 	private UniDao UniDao;
 
+	// Repositoryインターフェースを自動インスタンス化
+	@Autowired
+	private UniRepository Orderforminfo;
+
 	@PostConstruct
 	public void init() {
 		UniDao = new UniDao(entityManager);
@@ -60,6 +66,7 @@ public class UserOrderCreate {
 	public ModelAndView UserOrderCreate(HttpServletRequest request, ModelAndView mav) {
 
 		/**
+		 * 
 		 * 押下された商品を「orderlist」に格納して
 		 * リスト表示に続くための記述
 		 * 
@@ -69,8 +76,22 @@ public class UserOrderCreate {
 
 		//セッションからUserの値を取得・セッション切れならばエラーに遷移
 		User user = (User) session.getAttribute("user");
+		
+		
+		
+		
 
-		//userのせっしょんがある場合
+		
+
+		//セッションからOrderListを取得する
+		ArrayList<Order> order_list = new ArrayList<Order>();
+        if (session.getAttribute("order_list") != null) {
+            order_list = (ArrayList<Order>) session.getAttribute("order_list");
+        }
+		
+		
+		
+		//userのセッションがある場合
 		if (user == null) {
 			//セッション切れ
 			mav.addObject("errorMessage", "セッション切れの為、カート状況は確認できません。");
@@ -81,72 +102,61 @@ public class UserOrderCreate {
 		}
 
 		//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
-		Optional<Uniform> optionalUniform = uniforminfo.findByUniid(request.getParameter("uniid"));
-		
+		Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
 
 		//order情報をOrderに格納するためのオブジェクト宣言
 		Order order = new Order();
+
 		//uniid
 		order.setUniid(request.getParameter("uniid"));
+
 		//userid	
-		order.setUserid(request.getParameter("userid"));
+		order.setUserid("user.userid");
 
 		//数量を格納
-		order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+		//order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+
+		//数量を1に固定
+		order.setQuantity(1);
 
 		//時刻を取得
 		Date date = new Date();
 		order.setDate(date);
 
-		//OrderList配列の宣言
-		ArrayList<Order> order_list = new ArrayList<Order>();
+		//発送状況、入金状況の設定
+		order.setShippingstatus("0");
 
-		/**
-		 * セッションから取得したorderlistが空であれば1件目として保存する
-		 * 空でなければorderListに追加する。
-		 * 後のセッション削除の際に変数内にデータが残ってしまうのを防ぐために、
-		 * メソッド内でorderlistを定義する
-		 * 
-		 */
-		if ((ArrayList<Order>) order_list != null) {
-			order_list = (ArrayList<Order>) (order_list);
-		}
+		order.setPaymentstatus("0");
+
+		//OrderListにorderのオブジェクトを追加する
 		order_list.add(order);
 
-		/**
-		 * 以下カートを表示する記述
-		 */
+		
 
-		//セッションからOrderListを取得する
-		ArrayList<Order> orderList = (ArrayList<Order>) (order_list);
-
-		/**
-		 * 
-		 * 
-		 * Orderについてdelnoがなかった時
-		 * 
-		 * 
-		 */
+		
 		int total = 0;
 
-		ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+		//ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
 
+		//合計金額の算出
 		//カウント変数の宣言
-		int j = 0;
+		//int j = 0;
+		//
+		//		for (Order order : order_list) {
+		//			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order.getUniid());
+		//			Uniform uniform = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
+		//			uniform_list.add(uniform);
+		//
+		//			//total += Integer.parseInt(uniform_list.get(j).getPrice()) * order.getQuantity();
+		//
+		//			total += uniform_list.get(j).getPrice() * order.getQuantity();
+		//			j++;
+		//		}
 
-		for (Order order1 : orderList) {
-			Optional<Uniform> optionalUniform1 = uniforminfo.findByUniid(order.getUniid());
-			Uniform uniform = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
-			uniform_list.add(uniform);
+		session.setAttribute("order_list", order_list);
 
-			//total += Integer.parseInt(uniform_list.get(j).getPrice()) * order.getQuantity();
-
-			total += uniform_list.get(j).getPrice() * order.getQuantity();
-			j++;
-		}
-		mav.addObject("total", total);
-		mav.addObject("uniform_list", uniform_list);
-		mav.addObject("orderList", orderList);
+		//mav.addObject("uniform_list", uniform_list);
+		mav.addObject("order_list", order_list);
 
 		/**
 		 * 
