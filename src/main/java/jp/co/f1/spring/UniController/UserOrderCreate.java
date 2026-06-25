@@ -95,7 +95,7 @@ public class UserOrderCreate {
 		if (user == null) {
 			//セッション切れ
 			mav.addObject("errorMessage", "セッション切れの為、カート状況は確認できません。");
-			mav.addObject("cmd", "logout");
+			mav.addObject("cmd", "login");
 			mav.addObject("next", "[ログイン画面へ]");
 			mav.setViewName("view/error");
 			return mav;
@@ -111,7 +111,7 @@ public class UserOrderCreate {
 		order.setUniid(request.getParameter("uniid"));
 
 		//userid	
-		order.setUserid("user.userid");
+		order.setUserid(user.getUserid());
 
 		//数量を格納
 		//order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
