@@ -48,7 +48,7 @@
 						<td th:text="${uni.uniid}"></td>
 						<td th:text="${uni.uniname}"></td>
 						<td th:text="'&yen; ' +${#numbers.formatInteger(uni.price, 3, 'COMMA')}"></td>
-						<td><a th:href="@{/guestDateInput(uniid=${uni.uniid})}">カートに入れる</a></td>
+						<td><a th:href="@{/guestOrderCreate(uniid=${uni.uniid})}">カートに入れる</a></td>
 					</tr>
 				</tbody>
 			</table>

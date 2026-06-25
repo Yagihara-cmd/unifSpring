@@ -31,7 +31,8 @@ import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.OrderRepository;
-import jp.co.f1.spring.Repository.UniRepository; 
+import jp.co.f1.spring.Repository.UniRepository;
+import jp.co.f1.spring.Repository.UserRepository; 
 
 @Controller
 public class OrderManagementList {
@@ -43,6 +44,9 @@ public class OrderManagementList {
     
     @Autowired
     private UniRepository uniforminfo;
+    
+    @Autowired
+    private UserRepository userinfo;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -56,7 +60,7 @@ public class OrderManagementList {
         OrderDao = new OrderDao(entityManager);
     }
 
-    @GetMapping("/adminUniList")
+    @GetMapping("/orderManagementList")
     public ModelAndView adminUniList(HttpServletRequest request, ModelAndView mav) {
         // セッションオブジェクトの生成
         HttpSession session = request.getSession();
@@ -105,12 +109,23 @@ public class OrderManagementList {
             }
         }
 
-        mav.addObject("uniform_list", order_list); 
-        mav.addObject("thisMonthTotal", thisMonthTotal); 
+     // 1. 注文一覧、今月・先月の売上合計を渡す
+        mav.addObject("order_list", order_list); 
+        mav.addObject("monthTotal", thisMonthTotal); 
         mav.addObject("lastMonthTotal", lastMonthTotal); 
 
+        // 2. ★ユニフォーム情報を全件取得して画面に渡す（これで HTML のリストや .size() も正常に動きます）
+        Iterable<Uniform> uniform_list = uniforminfo.findAll();
+        mav.addObject("uniform_list", uniform_list);
+
+        
+        
+        // 3. ★ユーザー情報（会員一覧）を全件取得して画面に渡す
+        Iterable<User> user_list = userinfo.findAll();
+        mav.addObject("user_list", user_list);
+
         // 画面出力するviewを指定
-        mav.setViewName("view/admin/adminUniformList");
+        mav.setViewName("view/admin/orderManagementList");
 
         // ModelとViewを返す
         return mav;

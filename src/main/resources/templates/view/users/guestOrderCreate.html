@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>ゲスト注文画面</title>
@@ -9,8 +9,8 @@
 	<!-- ブラウザ全体 -->
 	<div id="wrap">
 
-		<!--ヘッダー部分  -->
-		<div th:insert="~{/common/header :: frag}"></div>
+		<!--ヘッダー部分 -->
+		<div th:insert="~{common/header :: frag}"></div>
 
 		<!-- メニュー部分 -->
 		<div id="menu">
@@ -18,8 +18,8 @@
 				<!-- ナビゲーション  -->
 				<div id="nav">
 					<ul>
-						<li><a th:href="/userCreate">[会員登録]</a></li>
-						<li><a th:href="/guestUniformList">[一覧]</a></li>
+						<li><a th:href="@{/userCreate}">[会員登録]</a></li>
+						<li><a th:href="@{/guestUniformList}">[一覧]</a></li>
 					</ul>
 				</div>
 
@@ -42,21 +42,29 @@
 						<th>金額</th>
 						<th>削除</th>
 					</tr>
-				</thead><!-- 未変更  -->
-				<tbody th:if="${book_list.size() >= 1}">
+				</thead>
+				<!-- リストが空でない場合のみ表示 -->
+				<tbody th:if="${book_list != null and book_list.size() >= 1}">
 					<tr th:each="book : ${book_list}">
-						<td><a th:href="@{/detail(isbn=${book.isbn})}" th:text="${book.isbn}"></a></td>
-						<td th:text="${book.title}"></td>
-						<td th:text="'&yen; ' +${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+						<td><a th:href="@{/detail(isbn=${book.uniid})}" th:text="${book.uniid}"></a></td>
+						<td th:text="${book.uniname}"></td>
+						<td th:text="'&yen; ' + ${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+						<!-- 削除ボタン用のリンク-->
+						<td>
+							<a th:href="@{/guestOrderCreate(delno=${book.uniid}, uniIds=${currentUniIds})}">[削除]</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 			
-			<h3>合計金額        -- 円</h3>
+			<!--合計金額をJava側から受け取ったtotalに連動させる -->
+			<h3 th:text="'合計金額 ' + ${#numbers.formatInteger(total, 1, 'COMMA')} + ' 円'">合計金額 0 円</h3>
 			
 			<div style="text-align: right;">
 		
 				<form action="/guestPurchaseConfirm" method="POST">
+					<!-- 次の画面へ現在のカート情報を引き継ぐための隠しパラメータ -->
+					<input type="hidden" name="uniIds" th:value="${currentUniIds}">
 					<input type="submit" value="購入">
 				</form>
 			
@@ -64,8 +72,8 @@
 		
 		</div>
 
-		<!-- フッター部分 -->
-		<div th:insert="~{/common/footer :: frag}"></div>
+		<!-- フッター部分（先頭のスラッシュを削除） -->
+		<div th:insert="~{common/footer :: frag}"></div>
 
 	</div>
 </body>

@@ -1,9 +1,9 @@
 /*
  * 
- * 管理者ユニフォーム管理画面
+ * 管理者ユニフォーム管理画面（セッションデータ蓄積版）
  * 
  *  担当:田岡
- *  最終更新:2026/06/24-AM10
+ *  最終更新:2026/06/25
  * 
  * 
  */
@@ -23,11 +23,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Dao.UniDao;
-import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.Uniform;
-import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
-
 
 @Controller
 public class GuestOrderCreate {
@@ -41,96 +38,62 @@ public class GuestOrderCreate {
 	@Autowired
 	private UniDao uniDao;
 
+	// 【復活】セッションを導入して、画面をまたいでもデータを記憶できるようにします
 	@Autowired
 	private HttpSession session;
 
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/guestOrderCreate")
-	//GETデータをBookインスタンスとして受け取る
 	public ModelAndView showCartForm(HttpServletRequest request, ModelAndView mav) {
 
-		//セッションからユーザー情報取得
-		User usersession = (User) session.getAttribute("usersession");
+		// セッションから現在のカート内IDリスト（uniIdList）を取得する
+		ArrayList<String> uniIdList = (ArrayList<String>) session.getAttribute("session_uni_ids");
+		
+		// セッションにまだリストがなければ、新しく作成してセッションに登録する
+		if (uniIdList == null) {
+			uniIdList = new ArrayList<String>();
+			session.setAttribute("session_uni_ids", uniIdList);
+		}
 
-		//セッション切れの場合
-		if (usersession == null) {
-			//Viewに渡す変数をModelに格納
-			mav.addObject("cmd", "logout");
-			mav.addObject("next", "[ログイン画面へ]");
-			mav.addObject("errorMessage", "セッション切れの為、カート状況は確認出来ません");
-			// 画面に出力するViewを指定
-			mav.setViewName("view/error");
-			// ModelとView情報を返す
+		// 一覧画面から新しく「uniid」が送られてきた場合、セッションのリストに「追加」する
+		String singleUniId = request.getParameter("uniid");
+		if (singleUniId != null && !singleUniId.isEmpty()) {
+			uniIdList.add(singleUniId.trim());
+		}
+
+		//特定の「delno」が指定されていれば、セッションのリストから除外してリダイレクト
+		String delNo = request.getParameter("delno");
+		if (delNo != null) {
+			uniIdList.remove(delNo);
+			// データを削除した状態で、再度カート画面を表示
+			mav = new ModelAndView("redirect:/guestOrderCreate");
 			return mav;
 		}
 
-		//セッションからorder情報全件取得
-		@SuppressWarnings("unchecked")
-		ArrayList<Order> orderList = (ArrayList<Order>) session.getAttribute("order_list");
-
-		if (orderList == null) {
-			orderList = new ArrayList<Order>();
-		}
-
-		if (request.getParameter("delno") != null) {
-			//該当書籍検索
-			//カウント用変数
-			int i = 0;
-			//order初期化
-			Order order = new Order();
-			boolean isFound = false; 
-
-			//繰り返して取り出す
-			while (i < orderList.size()) {
-				order = orderList.get(i);
-				if (order.getUniid().equals(request.getParameter("delno"))) {
-					isFound = true; 
-					break;
-				}
-				i++;
-			}
-
-			if (isFound) {
-				orderList.remove(order); 
-			}
-
-			//リダイレクト先を指定
-			mav = new ModelAndView("redirect:/showCart");
-			return mav;
-		}
-
-		//カートの書籍リストと合計金額用変数を用意
-		ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+		//HTML側の th:each="book : ${book_list}" に名前を合わせてリストを準備
+		ArrayList<Uniform> book_list = new ArrayList<Uniform>();
 		int total = 0;
 
-		if (orderList != null) {
-			//オーダーリストから書籍情報取り出す
-			for (Order order : orderList) {
+		//セッションに保存されているID群をループさせ、DBから最新情報を取得して合計金額を計算
+		for (String uniId : uniIdList) {
+			Optional<Uniform> optionalUniform = uniforminfo.findById(uniId);
 
-				//書籍検索
-				Optional<Uniform> optionalUniform = uniforminfo.findById(order.getUniid());
-
-				if (optionalUniform.isPresent()) {
-					Uniform uniform = optionalUniform.get();
-
-					//book_list作成
-					uniform_list.add(uniform);
-
-					//合計金額を計算
-					total += uniform.getPrice();
-				}
+			if (optionalUniform.isPresent()) {
+				Uniform uniform = optionalUniform.get();
+				book_list.add(uniform);
+				total += uniform.getPrice();
 			}
-
 		}
 
-		//Viewに渡す変数をModelに格納
+		// HTMLに表示用データを渡す
 		mav.addObject("total", total);
-		mav.addObject("uniform_list", uniform_list);
+		mav.addObject("book_list", book_list);
 
-		//画面に出力するViewを指定
-		mav.setViewName("view/guestOrderCreate");
-		//ModelとView情報を返す
+		//表示するHTMLを指定
+		mav.setViewName("view/users/guestOrderCreate");
+		
 		return mav;
 	}
 }
