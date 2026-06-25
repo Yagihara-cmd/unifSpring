@@ -3,7 +3,7 @@
  *  管理者用入金・発送変更機能
  * 
  *  担当:芦澤
- *  最終更新:2026/06/24-PM
+ *  最終更新:2026/06/25-17:34
  * 
  * 
  */
@@ -60,20 +60,23 @@ public class OrderUpdate {
 	@GetMapping("/orderUpdate")
 	public ModelAndView orderUpdate(@ModelAttribute Order order, HttpServletRequest request, ModelAndView mav) {
 
+		String strOrderNo = request.getParameter("orderno");
+	    int orderno = Integer.parseInt(strOrderNo);
+		
 		// 現在の状況を取得
-		Optional<Order> optional_order = orderinfo.findByOrderno(Integer.parseInt(request.getParameter("orderno")));
+		Optional<Order> optional_order = orderinfo.findByOrderno(orderno);
 
 		// データが存在しない場合
-		/*if (!optional_order.isPresent()) {
+		if (!optional_order.isPresent()) {
 			// エラーメッセージ
 			mav.addObject("errorMessage", "更新対象が存在しない為、変更画面は表示出来ませんでした。");
-			mav.addObject("cmd", "list");
-			mav.addObject("next", "[一覧表示へ戻る]");
+			//mav.addObject("cmd", "maglist");
+			//mav.addObject("next", "[一覧表示へ戻る]");
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
 			// ModelとView情報を返す
 			return mav;
-		}*/
+		}
 		
 		// 値によって表示する文字列を変更
 		String paymentstatus = "";
@@ -84,17 +87,21 @@ public class OrderUpdate {
 		}
 		
 		String shippingstatus = "";
-		if(order.getPaymentstatus().equals("0")) {
-			shippingstatus = "入金待ち";
+		if(order.getShippingstatus().equals("0")) {
+			shippingstatus = "未";
+		}else if(order.getShippingstatus().equals("1")) {
+			shippingstatus = "発送準備中";
 		}else {
-			shippingstatus = "入金確認済";
+			shippingstatus = "発送済";
 		}
+		
+		Order old_order = optional_order.get();
 
 		// 存在する場合、Modelに格納
-		Order old_order = optional_order.get();
 		mav.addObject("old_order", old_order);
 		mav.addObject("order", order);
 		mav.addObject("pay", paymentstatus);
+		mav.addObject("ship", shippingstatus);
 
 		// 画面に出力するViewを指定
 		mav.setViewName("view/admin/orderUpdate");

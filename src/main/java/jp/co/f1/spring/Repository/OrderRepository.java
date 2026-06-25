@@ -11,4 +11,6 @@ import jp.co.f1.spring.Entity.Order;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	public Optional<Order> findByOrderno(int orderno);
+	
+	public Iterable<Order> findByUserid(String userid);
 }
