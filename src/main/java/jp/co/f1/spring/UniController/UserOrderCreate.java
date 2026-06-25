@@ -131,18 +131,10 @@ public class UserOrderCreate {
 		//OrderListにorderのオブジェクトを追加する
 		order_list.add(order);
 
-		/**
-		 * 以下カートを表示する記述
-		 */
+		
 
-		/**
-		 * 
-		 * 
-		 * Orderについてdelnoがなかった時
-		 * 
-		 * 
-		 */
-		//int total = 0;
+		
+		int total = 0;
 
 		//ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
 

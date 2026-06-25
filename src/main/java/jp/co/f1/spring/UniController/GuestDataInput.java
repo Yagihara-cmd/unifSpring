@@ -18,14 +18,13 @@ public class GuestDataInput {
 	@GetMapping("/guestDateInput")
 	public ModelAndView guestDateInput(HttpServletRequest request, ModelAndView mav) {
 
-		//セッションオブジェクトの生成
-		HttpSession session = request.getSession();
-
-		//Htmlから入力情報を受け取るための変数を宣言
 		
-		String guestName = "";
-		String guestAddress="";
-		String guestEmail="";
+		//画面出力するviewを指定
+		mav.setViewName("view/users/guestDateInput");
+
+		//ModelとViewを返す
+		return mav;
+		
 		
 		
 		
