@@ -74,7 +74,7 @@ public class UserPurchaseConfirm {
 		if (user == null) {
 			//Viewに渡す変数をModelに格納
 			mav.addObject("errorMessage", "セッション切れの為、購入は出来ません。");
-			mav.addObject("cmd", "logout");
+			mav.addObject("cmd", "/login");
 			mav.addObject("next", "[ログイン画面へ]");
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
@@ -85,8 +85,8 @@ public class UserPurchaseConfirm {
 		if (order_list == null) {
 			//エラーメッセージ
 			mav.addObject("errorMessage", "カートの中に何も無かったので購入は出来ません。");
-			mav.addObject("cmd", "menu");
-			mav.addObject("next", "[メニューへ戻る]");
+			mav.addObject("cmd", "/userUniformList");
+			mav.addObject("next", "[一覧へ戻る]");
 			//画面に出力するViewを指定
 			mav.setViewName("view/error");
 			//ModelとView情報を返す

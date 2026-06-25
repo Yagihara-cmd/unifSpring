@@ -58,8 +58,12 @@
 							<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
 							<td th:text="${uniform.uniname}"></td>
 							<td>
-								<a th:href="@{/uniformUpdate(uniid=${uniform.uniid})}">変更</a>
+
 								<!--<a th:href="/adminUniformList">削除</a>-->
+
+								<a th:href="@{/uniformUpdate(uniid=${uniform.uniid})}" th:text="変更"></a>
+								<a th:href="@{/adminUniformList(uniid=${uniform.uniid})}" th:text="削除"></a>
+
 							</td>
 						</tr>
 					</tbody>

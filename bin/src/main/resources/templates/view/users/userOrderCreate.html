@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>注文画面</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!--ヘッダー部分  -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション  -->
+				<div id="nav">
+					<ul>
+						<li><a th:href="/myPage">[マイページ]</a></li>
+						<li><a th:href="/userUniformList">[一覧]</a></li>
+						<li><a th:href="/userOrderHistory">[注文履歴]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>カート一覧</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- コンテンツ部分 -->
+		<div id="main" class="container">
+
+			<!-- リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>種類</th>
+						<th>個数</th>
+						<th>金額</th>
+						<th>削除</th>
+					</tr>
+				</thead><!-- 未変更  -->
+				<tbody th:if="${uniform_list.size() >= 1}">
+					<tr th:each="uniform : ${uniform_list}">
+						<td><a th:href="@{/detail(isbn=${uniform.uniid})}" th:text="${uniform.}"></a></td>
+						<td th:text="${uniform.uniname}"></td>
+						<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h3>合計金額 -- 円</h3>
+
+			<div style="text-align: right;">
+
+				<form action="/userPurchaseConfirm" method="POST">
+					<input type="submit" value="購入">
+				</form>
+
+			</div>
+
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

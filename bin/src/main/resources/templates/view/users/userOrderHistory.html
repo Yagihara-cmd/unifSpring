@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>注文履歴</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!--ヘッダー部分  -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション  -->
+				<div id="nav">
+					<ul>
+						<li><a th:href="/myPage">[マイページ]</a></li>
+						<li><a th:href="/userOrderCreate">[カート]</a></li>
+						<li><a th:href="/userUniformList">[一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>購入状況</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- コンテンツ部分 -->
+		<div id="main" class="container">
+
+			<!-- リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>種類</th>
+						<th>注文日</th>
+					</tr>
+				</thead><!-- 未変更  -->
+				<tbody th:if="${book_list.size() >= 1}">
+					<tr th:each="book : ${book_list}">
+						<td><a th:href="@{/detail(isbn=${book.isbn})}" th:text="${book.isbn}"></a></td>
+						<td th:text="${book.title}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+</html>

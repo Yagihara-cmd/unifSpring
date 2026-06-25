@@ -94,7 +94,7 @@ public class UniUpdate {
 		if (user == null) {
 			//エラーメッセージ
 			mav.addObject("errorMessage", "セッション切れの為、更新できませんでした。");
-			mav.addObject("cmd", "logout");
+			mav.addObject("cmd", "login");
 			mav.addObject("next", "[ログイン画面へ]");
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
