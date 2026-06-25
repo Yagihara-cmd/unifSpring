@@ -40,7 +40,7 @@
 					
 					<tr>
 						<td>入金状況：</td>
-						<td th:text="${paymentstatus}"></td>
+						<td th:text="${old_order.shippingstatus}"></td>
 						<td>
 							<select name="pay">
 								<option value=0>入金待ち</option>
@@ -50,7 +50,7 @@
 					</tr>
 					<tr>
 						<td>発送状況：</td>
-						<td th:text="${shippingstatus}"></td>
+						<td th:text="${old_order.shippingstatus}"></td>
 						<td>
 							<select name="ship">
 								<option value=0>未</option>
@@ -62,7 +62,7 @@
 				</table>
 				</div>
 				
-				<input type="hidden" name="orderno" th:value="${order.orderno}">
+				<input type="hidden" name="orderno" th:value="${old_order.orderno}">
 				<input type="submit" value="更新">
 			</form>
 		
