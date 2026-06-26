@@ -74,7 +74,9 @@ public class GuestPurchaseConfirm {
 		int total = 0;
 
 		//オーダーリストから1件ずつ取り出す
-		for (String uniId : uniIdList) {
+		for (Order uniId : uniIdList) {
+			
+			orderinfo.saveAndFlush(uniId);
 			
 			   Optional<Uniform> optionalUniform = uniforminfo.findById(uniId);
 			   if (optionalUniform.isPresent()) {
