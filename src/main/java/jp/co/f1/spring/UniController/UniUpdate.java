@@ -123,7 +123,7 @@ public class UniUpdate {
 		uniforminfo.saveAndFlush(uni);
 
 		// リダイレクト先を指定
-		mav.setViewName("view/admin/adminUniformList");
+		mav.setViewName("redirect:/adminUniformList");
 		// ModelとView情報を返す
 		return mav;
 	}

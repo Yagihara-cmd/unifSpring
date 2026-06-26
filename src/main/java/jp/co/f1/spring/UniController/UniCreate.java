@@ -67,7 +67,7 @@ public class UniCreate {
 			return mav;
 		}
 
-		Optional<Uniform> optionalUniform = uniforminfo.findById(uniform.getUniid());
+		Optional<Uniform> optionalUniform = uniforminfo.findByUniid(uniform.getUniid());
 		
 		// 重複チェック
 		if (optionalUniform.isPresent()) {
@@ -80,7 +80,7 @@ public class UniCreate {
 		uniforminfo.saveAndFlush(uniform);
 
 		// リダイレクト先を指定
-		mav.setViewName("redirect:/adminUniList");
+		mav.setViewName("redirect:/adminUniformList");
 		return mav;
 	}
 }
