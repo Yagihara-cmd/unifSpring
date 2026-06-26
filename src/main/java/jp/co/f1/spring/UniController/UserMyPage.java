@@ -46,7 +46,7 @@ public class UserMyPage {
 		// セッションが切れている、またはログインしていない場合はエラー
 		if (usersession == null) {
 			mav.addObject("errorMessage", "セッション切れの為、マイページを表示出来ませんでした。");
-			mav.addObject("cmd", "logout");
+			mav.addObject("cmd", "login");
 			mav.addObject("next", "[ログイン画面へ]");
 			mav.setViewName("view/error");
 			return mav;

@@ -16,8 +16,8 @@
 		<div class="container">
 			<div id="nav">
 				<ul>
-					<!--<li><a th:href="/myPage">[マイページ]</a></li>-->
-					<!--<li><a th:href="/userUniformList">[一覧]</a></li>-->
+					<li><a th:href="@{/userMyPage}">[マイページ]</a></li>
+					<li><a th:href="@{/userUniformList}">[一覧]</a></li>
 				</ul>
 			</div>
 
@@ -57,7 +57,9 @@
 
 
 		</table>
-		合計金額 ----円
+		合計金額
+		<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円
+
 	</div>
 
 	<!--ここにフッターを挿入-->
