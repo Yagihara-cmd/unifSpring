@@ -41,7 +41,7 @@ public class UserMyPage {
 	public ModelAndView userMyPageForm(@ModelAttribute User user, HttpServletRequest request, ModelAndView mav) {
 
 		// セッションからログインユーザーの情報を取得
-		User usersession = (User) session.getAttribute("usersession");
+		User usersession = (User) session.getAttribute("user");
 		
 		// セッションが切れている、またはログインしていない場合はエラー
 		if (usersession == null) {
@@ -68,7 +68,7 @@ public class UserMyPage {
 	    User dbUser = optionalUser.get();
 	    mav.addObject("user", dbUser);
 
-	    mav.setViewName("view/users/userMyPage");
+	    mav.setViewName("view/users/myPage");
 	    return mav;
 	}
 
@@ -77,10 +77,10 @@ public class UserMyPage {
 	        BindingResult result, HttpServletRequest request, ModelAndView mav) {
 
 	    // セッションからユーザー情報取得
-	    User usersession = (User) session.getAttribute("usersession");
+	    User usersession = (User) session.getAttribute("user");
 
 	    // ---エラー処理---
-	    // 1. セッション切れの場合
+	    // セッション切れの場合
 	    if (usersession == null) {
 	        mav.addObject("errorMessage", "セッション切れの為、更新できませんでした。");
 	        mav.addObject("cmd", "logout");
@@ -89,15 +89,15 @@ public class UserMyPage {
 	        return mav;
 	    }
 
-	    // 2. 入力内容にエラーがある場合
+	    //入力内容にエラーがある場合
 	    if (result.hasErrors()) {
 	        mav.addObject("message", "入力内容に誤りがあります");
-	        // 入力途中のデータ（user）をそのまま保持して画面再表示
-	        mav.setViewName("view/users/userMyPage");
+	        // 入力途中のデータをそのまま保持して画面再表示
+	        mav.setViewName("view/users/myPage");
 	        return mav;
 	    }
 
-	    // 3. 更新対象のユーザーがDBに存在するかチェック
+	    //更新対象のユーザーがDBに存在するかチェック
 	    Optional<User> optionalUser = userinfo.findById(user.getUserid());
 	    if (!optionalUser.isPresent()) {
 	        mav.addObject("errorMessage", "更新対象のユーザーが存在しないため、更新処理は行えませんでした。");
@@ -110,7 +110,7 @@ public class UserMyPage {
 	    // 入力されたデータをDBに保存
 	    userinfo.saveAndFlush(user);
 	    
-	    mav.setViewName("redirect:/list");
+	    mav.setViewName("redirect:/userUniformList");
 	    return mav;
 	}
 }
