@@ -97,6 +97,7 @@ public class UserCreate {
 		}
 
 		// 入力されたデータをDBに保存
+		user.setAuthority("0");
 		userinfo.saveAndFlush(user);
 
 		// リダイレクト先を指定

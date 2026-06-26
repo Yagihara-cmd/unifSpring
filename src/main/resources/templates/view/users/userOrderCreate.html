@@ -23,7 +23,7 @@
 						<li><a th:href="@{/userMyPage}">[マイページ]</a></li>
 						<li><a th:href="@{/userUniformList}">[一覧]</a></li>
 						<li><a th:href="@{/userOrderHistory}">[注文履歴]</a></li>
-					
+
 					</ul>
 				</div>
 
@@ -42,26 +42,29 @@
 				<thead>
 					<tr>
 						<th>種類</th>
-						<th>個数</th>
+						<th>商品名</th>
 						<th>金額</th>
 						<th>削除</th>
 					</tr>
-				</thead><!-- 未変更  -->
-				<tbody th:if="${order_list.size() >= 1}">
-					<tr th:each="order : ${order_list}">
-						<td><a th:href="@{/detail(uniid=${order.uniid})}" th:text="${order.uniid}"></a></td>
-						<td th:text="${order.quantity}"></td>
-						<td></td>
+					
+					
+				</thead>
+				<tbody th:if="${uniform_list.size() >= 1}">
+					<tr th th:each="uniform : ${uniform_list}"></th>
+						<td><a th:href="@{/detail(uniid=${uniform.uniid})}" th:text="${uniform.uniid}"></a></td>
+						<td th:text="${uniform.uniname}"></td>
+
 						<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
-						
-						<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
-						
+
+						<td><a th:href="@{/UserOrderCreate(delno=${uniform.uniid})}" th:text="削除"></a></td>
+
 					</tr>
 				</tbody>
 			</table>
 
-			<h3>合計金額 
-			<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円</h3>
+			<h3>合計金額
+				<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円
+			</h3>
 			<div style="text-align: right;">
 
 
