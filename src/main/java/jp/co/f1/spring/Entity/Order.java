@@ -99,12 +99,28 @@ public class Order {
 	// 自身のカラム、相手のカラム（デフォルト：参照されるテーブルの主キー列と同じ名前。なので今回は省略可）
 	private Uniform uniform;
 
+
 	public Uniform getUnifrom() {
 		return uniform;
 	}
 
 	public void setUniform(Uniform uniform) {
 		this.uniform = uniform;
+
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "userid", insertable = false, updatable = false)
+	// 自身のカラム、相手のカラム（デフォルト：参照されるテーブルの主キー列と同じ名前。なので今回は省略可）
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+
 	}
 
 }

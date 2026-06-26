@@ -20,9 +20,10 @@
 				<!-- ナビゲーション  -->
 				<div id="nav">
 					<ul>
-						<!--<li><a th:href="/myPage">[マイページ]</a></li>-->
-						<!--<li><a th:href="/userUniformList">[一覧]</a></li>-->
-						<!--<li><a th:href="/userOrderHistory">[注文履歴]</a></li>-->
+						<li><a th:href="@{/userMyPage}">[マイページ]</a></li>
+						<li><a th:href="@{/userUniformList}">[一覧]</a></li>
+						<li><a th:href="@{/userOrderHistory}">[注文履歴]</a></li>
+					
 					</ul>
 				</div>
 
@@ -51,7 +52,8 @@
 						<td><a th:href="@{/detail(uniid=${order.uniid})}" th:text="${order.uniid}"></a></td>
 						<td th:text="${order.quantity}"></td>
 						<td></td>
-						<!--<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>-->
+						<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
+						
 						<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
 						
 					</tr>

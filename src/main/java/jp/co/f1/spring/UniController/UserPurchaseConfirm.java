@@ -154,7 +154,7 @@ public class UserPurchaseConfirm {
 		session.removeAttribute("order_list");
 
 		//画面に出力するViewを指定
-		mav.setViewName("view/user/userPurchaseConfirm");
+		mav.setViewName("view/users/userPurchaseConfirm");
 		//ModelとView情報を返す
 		return mav;
 	}

@@ -1,85 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
-	<title>受注管理一覧システム</title>
+	<title>管理者ユニフォーム管理画面</title>
+	<!-- 外部の style.css を読み込む -->
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-	<!-- ブラウザ全体 -->
-	<div id="adminWrap">
 
+<body>
+
+	<!-- 元のHTMLの上部にあったヘッダー・リンクエリア -->
+	<header class="site-header">
 		<!--ヘッダー部分  -->
 		<div th:insert="~{/common/header :: frag}"></div>
+	</header>
 
-		<!-- メニュー部分 -->
-		<div id="adminMenu">
-			<div class="container">
-				<!-- ナビゲーション  -->
-				<div id="nav">
-					<ul>
-						<li><a th:href="/adminUniformList">[一覧]</a></li>
-					</ul>
-				</div>
-
-				<!-- ページタイトル -->
-				<div id="page_title">
-					<h2>受注管理一覧</h2>
-					<div class="adminTable">
-					<table>
-						<tr>
-							<td>先月の売り上げ</td>
-							<td>円</td>
-						<tr>
-							<td>今月の売り上げ</td>
-							<td th:text="*{monthTotal}">円</td>
-						</tr>
-					</table>
-					</div>
-				</div>
-			</div>
+	<!-- レイアウト用のコンテナ -->
+	<div class="header-container">
+		<!-- 左上：一覧画面へ遷移するためのリンク -->
+		<div class="nav-left">
+			<a th:href="@{/adminUniformList}" class="btn-link btn-secondary">一覧画面更新（トップへ）</a>
 		</div>
 
-		<!-- コンテンツ部分 -->
-		<div id="main" class="container">
-
-			<!-- リスト -->
-			<div class="adminTable">
-			<table class="list-table">
-				<thead>
-					<tr>
-						<th>No.</th>
-						<th>種類</th>
-						<th>個数</th>
-						<th>合計金額</th>
-						<th>発注日</th>
-						<th>入金状況</th>
-						<th>発送状況</th>
-						<th>詳細/更新</th>
-					</tr>
-				</thead>
-				<tbody th:if="${orderList.size() >= 1}">
-					<tr th:each="order : ${orderList}">
-						<td th:text="${order.orderNo}"></td>
-						<td th:text="${order.uniNo}"></td>
-						<td th:text="${order.quantity}"></td>
-						<td th:text="'&yen; ' +${#numbers.formatInteger(order.sum, 3, 'COMMA')}"></td>
-						<td th:text="${order.date}"></td>
-						<td th:text="${order.pay}"></td>
-						<td th:text="${order.ship}"></td>
-						<td>
-							<a th:href="/orderDetail">詳細</a>
-							<a th:href="/orderUpdate">更新</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			</div>
+		<!-- 右上：今月と先月の売り上げ表示 -->
+		<div class="sales-summary" style="text-align: right; margin-bottom: 20px;">
+			<p>今月の売り上げ: <span th:text="${#numbers.formatInteger(monthTotal ?: 0, 3, 'COMMA')}">0</span> 円</p>
+			<p>先月の売り上げ: <span th:text="${#numbers.formatInteger(lastMonthTotal ?: 0, 3, 'COMMA')}">0</span> 円</p>
 		</div>
 
+		<!-- 注文管理テーブル -->
+		<table border="1">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>注文日</th>
+					<th>氏名</th>
+					<th>種類（商品ID）</th>
+					<th>合計金額（単価）</th>
+					<th>入金状況</th>
+					<th>発送状況</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Javaから送った order_list でループを回します -->
+				<tr th:each="order : ${order_list}" th:object="${order}">
+					<td th:text="${order.orderno}">1</td>
+					<!-- 注文日（フォーマットは環境に合わせて調整してください） -->
+					<td th:text="${#dates.format(order.date, 'yyyy/MM/dd')}">2026/06/25</td>
+
+					<!-- 氏名（一旦IDを表示。紐付け用データがある場合は user.name 等に要変更） -->
+					<td th:text="*{user.username}">ユーザーID</td>
+
+					<!-- 種類（商品ID） -->
+					<td th:text="*{uniform.uniname}">ユニフォームID</td>
+
+					<!-- 金額（注文データ内の金額、または単価） -->
+					<td th:text="${order.uniform.price * order.quantity}">0</td>
+
+					<!-- 入金状況（Entityのプロパティ名に合わせてください。例: paymentStatus） -->
+					<td th:switch="${order.paymentstatus}">
+						<span th:case="0">未入金</span>
+						<span th:case="1">入金済み</span>
+						<span th:case="*">不明</span>
+					</td>
+					<!-- 発送状況 -->
+					<td th:switch="${order.shippingstatus}">
+						<span th:case="0">未発送</span>
+						<span th:case="1">発送済み</span>
+						<span th:case="*">不明</span>
+					</td>
+					<td>
+						<a th:href="@{//orderDetail(orderno=${order.orderno})}">詳細</a>
+						/
+						<a th:href="@{/orderUpaate(orderno=${order.orderno})}">更新</a>
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:unless="${order_list != null and !#lists.isEmpty(order_list)}" class="no-data">
+		<p>受注データが存在しません。</p>
+	</div>
+	</main>
+
+	<footer class="site-footer">
 		<!-- フッター部分 -->
 		<div th:insert="~{/common/footer :: frag}"></div>
+	</footer>
 
-	</div>
 </body>
+
 </html>
