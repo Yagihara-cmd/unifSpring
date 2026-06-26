@@ -12,77 +12,86 @@
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="adminWrap">
-	
-	<!--ここにヘッダーを挿入-->
-	<div th:insert="~{/common/header :: frag}"></div>
 
-	<!-- メニュー部分 -->
-	<div id="adminMenu">
-		<div class="container">
-			<div id="page_title">
-				<h2>詳細ページ</h2>
+		<!--ここにヘッダーを挿入-->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="adminMenu">
+			<div class="container">
+				<div id="page_title">
+					<h2>詳細ページ</h2>
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	
-	<!--ここから詳細情報-->
-	<div id="main" class="container">
-	
-		<p class="error-msg" th:if="${message} !=null" th:text="${message}" </p>
-		
-		<p><a th:href="@{/orderManagementList}">[戻る]</a></p>
 
-		<!--詳細情報を出力するテーブル-->
-		<div class="adminTable">
-			<table class="detail-table">
-				<tr>
-					<th width=150px>注文No</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th>注文者氏名</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th>注文者住所</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>注文者メールアドレス</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>商品種類</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>個数</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>合計金額</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>注文日</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>入金情報</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-				<tr>
-					<th width=150px>発送状況</th>
-					<!--ここに情報出力を記述-->
-				</tr>
-			</table>
+
+		<!--ここから詳細情報-->
+		<div id="main" class="container">
+
+			<p class="error-msg" th:if="${message} !=null" th:text="${message}" </p>
+
+			<p><a th:href="@{/orderManagementList}">[戻る]</a></p>
+
+			<!--詳細情報を出力するテーブル-->
+			<div class="adminTable">
+				<table class="detail-table">
+					<tr>
+						<th width=150px>注文No</th>
+						<td th:text="${order.orderno}"></td>
+					</tr>
+					<tr>
+						<th>注文者氏名</th>
+						<td th:text="*{order.user.username}">ユーザーID</td>
+					</tr>
+					<tr>
+						<th>注文者住所</th>
+						<td th:text="*{order.user.useraddress}">ユーザーID</td>
+					</tr>
+					<tr>
+						<th width=150px>注文者メールアドレス</th>
+						<td th:text="*{order.user.email}">ユーザーID</td>
+					</tr>
+					<tr>
+						<th width=150px>商品種類</th>
+						<td th:text="${order.uniform.uniname}"></td>
+					</tr>
+					<tr>
+						<th width=150px>個数</th>
+						<td th:text="${order.quantity}"></td>
+					</tr>
+					<tr>
+						<th width=150px>合計金額</th>
+						<td th:text="${order.uniform.price * order.quantity}">0</td>
+					</tr>
+					<tr>
+						<th width=150px>注文日</th>
+						<td th:text="${order.date}"></td>
+					</tr>
+					<tr>
+						<th width=150px>入金状況</th>
+						<td th:switch="${order.paymentstatus}">
+							<span th:case="0">未入金</span>
+							<span th:case="1">入金済み</span>
+							<span th:case="*">不明</span>
+						</td>
+					</tr>
+					<tr>
+						<th width=150px>発送状況</th>
+						<td th:switch="${order.shippingstatus}">
+							<span th:case="0">未発送</span>
+							<span th:case="1">発送済み</span>
+							<span th:case="">不明</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+
 		</div>
 
-	</div>
-
-	<!--ここにフッターを挿入-->
-	<div th:insert="~{/common/footer :: frag}"></div>
+		<!--ここにフッターを挿入-->
+		<div th:insert="~{/common/footer :: frag}"></div>
 	</div>
 </body>
+
 </html>

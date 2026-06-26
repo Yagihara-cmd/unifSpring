@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Repository.OrderRepository;
 import jp.co.f1.spring.Repository.UniRepository;
+import jp.co.f1.spring.Repository.UserRepository;
 
 @Controller
 public class OrderDetail {
@@ -39,7 +40,7 @@ public class OrderDetail {
 
        //注文Noをもとに注文情報を検索
        Optional<Order> optionalOrder = orderRepository.findByOrderno(orderstr);
-
+       
        //注文情報が存在しない場合
        if (!(optionalOrder.isPresent())) {
 
