@@ -40,7 +40,7 @@
 					
 					<tr>
 						<td>入金状況：</td>
-						<td th:text="${old_order.shippingstatus}"></td>
+						<td th:text="${nowpay}"></td>
 						<td>
 							<select name="pay">
 								<option value=0>入金待ち</option>
@@ -50,7 +50,7 @@
 					</tr>
 					<tr>
 						<td>発送状況：</td>
-						<td th:text="${old_order.shippingstatus}"></td>
+						<td th:text="${nowship}"></td>
 						<td>
 							<select name="ship">
 								<option value=0>未</option>

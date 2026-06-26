@@ -3,7 +3,7 @@
  *  管理者用入金・発送変更機能
  * 
  *  担当:芦澤
- *  最終更新:2026/06/25-17:34
+ *  最終更新:2026/06/26-13:00
  * 
  * 
  */
@@ -54,6 +54,7 @@ public class OrderUpdate {
 	// 改行コード
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+	
 	/*
 	 *   /orderUpdate  GET
 	 */
@@ -71,37 +72,44 @@ public class OrderUpdate {
 			// エラーメッセージ
 			mav.addObject("errorMessage", "更新対象が存在しない為、変更画面は表示出来ませんでした。");
 			//mav.addObject("cmd", "maglist");
-			//mav.addObject("next", "[一覧表示へ戻る]");
+			mav.addObject("next", "[一覧表示へ戻る]");
+			
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
 			// ModelとView情報を返す
 			return mav;
 		}
 		
-		// 値によって表示する文字列を変更
-		String paymentstatus = "";
-		if(order.getPaymentstatus().equals("0")) {
-			paymentstatus = "入金待ち";
-		}else {
-			paymentstatus = "入金確認済";
-		}
-		
-		String shippingstatus = "";
-		if(order.getShippingstatus().equals("0")) {
-			shippingstatus = "未";
-		}else if(order.getShippingstatus().equals("1")) {
-			shippingstatus = "発送準備中";
-		}else {
-			shippingstatus = "発送済";
-		}
-		
 		Order old_order = optional_order.get();
+		
+		// 値によって表示する文字列を変更
+
+		String nowpay;
+		String nowship;
+		if ("0".equals(order.getPaymentstatus())) {
+			nowpay = "入金待ち";
+		}else if ("1".equals(order.getPaymentstatus())){
+			nowpay = "入金確認済";
+		}else {
+			nowpay = "不明";
+		}
+		
+		if("0".equals(order.getShippingstatus())) {
+			nowship = "未";
+		}else if("1".equals(order.getShippingstatus())) {
+			nowship = "発送準備中";
+		}else if("2".equals(order.getShippingstatus())){
+			nowship = "発送済";
+		}else {
+			nowship = "不明";
+		}
+		
 
 		// 存在する場合、Modelに格納
 		mav.addObject("old_order", old_order);
 		mav.addObject("order", order);
-		mav.addObject("pay", paymentstatus);
-		mav.addObject("ship", shippingstatus);
+		mav.addObject("nowpay", nowpay);
+		mav.addObject("nowship", nowship);
 
 		// 画面に出力するViewを指定
 		mav.setViewName("view/admin/orderUpdate");
@@ -117,26 +125,33 @@ public class OrderUpdate {
 	public ModelAndView orderUpdatePost(@ModelAttribute @Validated(Order.class) Order order,
 			HttpServletRequest request, BindingResult result, ModelAndView mav) {
 
+		String strOrderNo = request.getParameter("orderno");
+		int orderno = Integer.parseInt(strOrderNo);
+		
 		// 現在の状況を取得
-		Optional<Order> optional_order = orderinfo.findByOrderno(Integer.parseInt(request.getParameter("orderno")));
+		Optional<Order> optional_order = orderinfo.findByOrderno(orderno);
 
 		// データが存在しない場合
-		/*if (!optional_order.isPresent()) {
+		if (!optional_order.isPresent()) {
 			// エラーメッセージ
 			mav.addObject("errorMessage", "更新対象が存在しない為、変更画面は表示出来ませんでした。");
-			mav.addObject("cmd", "list");
+			//mav.addObject("cmd", "list");
 			mav.addObject("next", "[一覧表示へ戻る]");
+			
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
 			// ModelとView情報を返す
 			return mav;
-		}*/
+		}
 
+		// 変更前の購入情報
+		Order old_order = optional_order.get();
+		
 		// 入力されたデータをDBに保存
 		orderinfo.saveAndFlush(order);
 
 		// リダイレクト先を指定
-		mav = new ModelAndView("redirect:/adminUniformList");
+		mav = new ModelAndView("redirect:/orderMaanagementList");
 
 		// ModelとView情報を返す
 		return mav;
