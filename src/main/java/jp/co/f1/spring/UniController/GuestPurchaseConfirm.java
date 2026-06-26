@@ -21,7 +21,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Entity.Order;
@@ -35,88 +35,85 @@ public class GuestPurchaseConfirm {
 
 	@Autowired
 	private UniRepository uniforminfo;
-	
+
 	@Autowired
 	private OrderRepository orderinfo;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@Autowired
 	private MailSender mailSender;
-	
+
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	
+
 	//「/guestPurchaseConfirm」へGET送信された場合
-	@GetMapping("/guestPurchaseConfirm")
+	@PostMapping("/guestPurchaseConfirm")
 	public ModelAndView guestPurchaseConfirm(HttpServletRequest request, ModelAndView mav) {
-	
+
 		//ゲストのメールアドレスを画面から取得
 		String guestEmail = request.getParameter("guestEmail");
 		String guestName = request.getParameter("guestName");
-		
+
 		//セッションからカート情報を取得
 		ArrayList<Order> order_list = (ArrayList<Order>) session.getAttribute("order_list");
-		
+
 		//ユニフォーム一覧
 		ArrayList<Uniform> uni_list = new ArrayList<>();
-		
+
 		//カートの中身がない場合
 		if (order_list == null) {
 			mav.addObject("errorMessage", "カートの中に何も無かったので購入は出来ません。");
 			mav.addObject("cmd", "menu");
 			mav.addObject("next", "[ゲスト情報入力画面へ戻る]");
 			mav.setViewName("view/users/guestDateInput");
-		return mav;
+			return mav;
 		}
-		
+
 		//合計金額用変数の初期化
 		int total = 0;
-		
+
 		//オーダーリストから1件ずつ取り出す
 		for (Order order : order_list) {
-		
-			//注文情報をDBに保存
-			orderinfo.saveAndFlush(order);
-		
+
 			//ユニフォーム情報を取得
 			Optional<Uniform> uniList = uniforminfo.findByUniid(order.getUniid());
 			Uniform Uniform = uniList.get();
-			
+
 			//合計を計算する
 			total += Uniform.getPrice();
-		
+
 			uni_list.add(Uniform);
-		
+
 		}
-		
+
 		//Viewに渡す変数をModelに格納
 		mav.addObject("total", total);
 		mav.addObject("uni_list", uni_list);
-		
+
 		//メール送信
 		try {
 			SimpleMailMessage msg = new SimpleMailMessage();
-			
-			msg.setFrom(guestEmail);
-			
+
+			msg.setTo(guestEmail);
+
 			String insertMessage = guestName + "様" + LINE_SEPARATOR + LINE_SEPARATOR;
 			insertMessage += "ユニフォームのご購入ありがとうございます。" + LINE_SEPARATOR;
 			insertMessage += "以下内容でご注文を受け付けましたので、ご連絡いたします。"
-			+ LINE_SEPARATOR + LINE_SEPARATOR;
-			
+					+ LINE_SEPARATOR + LINE_SEPARATOR;
+
 			for (int j = 0; j < uni_list.size(); j++) {
 				Uniform uni = uni_list.get(j);
-				insertMessage += uni.getUniid() + "\t" + uni.getUniname() + "\t" + uni.getPrice() + "円" + ""+ LINE_SEPARATOR;
+				insertMessage += uni.getUniid() + "\t" + uni.getUniname() + "\t" + uni.getPrice() + "円" + ""
+						+ LINE_SEPARATOR;
 			}
-			
+
 			insertMessage += "合計" + total + "円" + LINE_SEPARATOR + LINE_SEPARATOR;
 			insertMessage += "ご利用ありがとうございました。" + LINE_SEPARATOR;
-			
+
 			msg.setSubject("ユニフォーム購入情報");
 			msg.setText(insertMessage);
-			mailSender.send(msg);
-		
+
 		} catch (MailSendException e) {
 			mav.addObject("errorMessage", "メールの送信ができませんでした。");
 			mav.addObject("cmd", "menu");
@@ -124,13 +121,13 @@ public class GuestPurchaseConfirm {
 			mav.setViewName("view/users/guestDateInput");
 			return mav;
 		}
-		
+
 		//セッション情報削除
 		session.removeAttribute("order_list");
-		
+
 		//画面に出力するViewを指定
-		mav.setViewName("view/user/guestPurchaseConfirm");
-		
+		mav.setViewName("view/users/guestPurchaseConfirm");
+
 		return mav;
-		}
+	}
 }

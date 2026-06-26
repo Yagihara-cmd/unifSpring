@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>受注管理一覧システム</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="adminWrap">
+
+		<!--ヘッダー部分  -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="adminMenu">
+			<div class="container">
+				<!-- ナビゲーション  -->
+				<div id="nav">
+					<ul>
+						<li><a th:href="/adminUniformList">[一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>受注管理一覧</h2>
+					<div class="adminTable">
+					<table>
+						<tr>
+							<td>先月の売り上げ</td>
+							<td>円</td>
+						<tr>
+							<td>今月の売り上げ</td>
+							<td th:text="*{monthTotal}">円</td>
+						</tr>
+					</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- コンテンツ部分 -->
+		<div id="main" class="container">
+
+			<!-- リスト -->
+			<div class="adminTable">
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>種類</th>
+						<th>個数</th>
+						<th>合計金額</th>
+						<th>発注日</th>
+						<th>入金状況</th>
+						<th>発送状況</th>
+						<th>詳細/更新</th>
+					</tr>
+				</thead>
+				<tbody th:if="${orderList.size() >= 1}">
+					<tr th:each="order : ${orderList}">
+						<td th:text="${order.orderNo}"></td>
+						<td th:text="${order.uniNo}"></td>
+						<td th:text="${order.quantity}"></td>
+						<td th:text="'&yen; ' +${#numbers.formatInteger(order.sum, 3, 'COMMA')}"></td>
+						<td th:text="${order.date}"></td>
+						<td th:text="${order.pay}"></td>
+						<td th:text="${order.ship}"></td>
+						<td>
+							<a th:href="/orderDetail">詳細</a>
+							<a th:href="/orderUpdate">更新</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ユニフォーム受注管理システム</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+	<!--ここにヘッダーを挿入-->
+	<div th:insert="~{/common/header :: frag}"></div>
+
+	<div id="main" class="container">
+
+		<tr>
+			<td>
+				<h2>●●エラー●●</h2>
+			</td>
+		</tr>
+
+		<div class="error-msg" align="center">
+			<tr>
+				<h3>
+					<td th:text="${errorMessage}"></td>
+				</h3>
+			</tr>
+		</div>
+
+		<div class="back-link">
+			<tr>
+				<td><a th:href="${cmd}" th:text="${next}"></a></td>
+			</tr>
+		</div>
+	</div>
+
+	<!--フッターの挿入-->
+	<div th:insert="~{/common/footer :: frag}"></div>
+</body>
+
+</html>
