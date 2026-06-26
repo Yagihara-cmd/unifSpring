@@ -22,12 +22,7 @@ public class GuestDataInput {
 	public ModelAndView guestDateInput(HttpServletRequest request, ModelAndView mav) {
 
 		
-		//画面出力するviewを指定
-		mav.setViewName("view/users/guestDateInput");
-
-		//ModelとViewを返す
-		return mav;
-		
+	
 		
 		mav.setViewName("view/users/guestDateInput");
 		
