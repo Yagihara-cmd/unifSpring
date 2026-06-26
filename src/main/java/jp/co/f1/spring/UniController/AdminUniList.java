@@ -18,12 +18,16 @@ import org.springframework.web.servlet.ModelAndView;
 import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
+import jp.co.f1.spring.bms.entity.Book;
 import jp.co.f1.spring.Dao.UniDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.EntityManager;
+
+import java.util.Optional;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -70,6 +74,37 @@ public class AdminUniList {
 		//ModelとViewを返す
 		return mav;
 
+	}
+	
+	/*
+	 * 「delete」へアクセスがあった場合
+	 */
+	@GetMapping("/delete")
+	public ModelAndView deleteForm(HttpServletRequest request, ModelAndView mav) {
+
+		//書籍検索
+		Optional<Uniform> optional_uni = uniforminfo.findByUniid(request.getParameter("uniid"));
+
+		//---エラー処理---
+		//一覧画面を映し出した状態でDB内からデータが消えた場合のチェック
+		if (!(optional_uni.isPresent())) {
+			//エラーメッセージ
+			mav.addObject("errorMessage", "削除対象の商品が存在しない為、削除処理は行えませんでした。");
+			mav.addObject("cmd", "/adminUniformList");
+			mav.addObject("next", "[一覧表示へ戻る]");
+			// 画面に出力するViewを指定
+			mav.setViewName("view/error");
+			// ModelとView情報を返す
+			return mav;
+		}
+
+		//受け取ったBook情報を削除
+		uniforminfo.deleteById(request.getParameter("uniid"));
+
+		//リダイレクト先を指定
+		mav = new ModelAndView("redirect:/adminUniformList");
+		//ModelとView情報を返す
+		return mav;
 	}
 
 }
