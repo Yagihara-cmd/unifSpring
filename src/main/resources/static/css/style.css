@@ -12,7 +12,7 @@ h1,h2 {
 }
 
 h4 {
-	padding: 20px 260px;
+	padding: 20px 0;
 }
 
 ul {
@@ -95,6 +95,7 @@ footer {
 	height: 120px;
 	bottom: 0px;
 	border-top: 2px solid #0000ff;
+	text-align: center;
 }
 
 /* ナビゲーションバー */

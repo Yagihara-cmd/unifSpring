@@ -70,8 +70,8 @@ public class OrderUpdate {
 		if (!optional_order.isPresent()) {
 			// エラーメッセージ
 			mav.addObject("errorMessage", "更新対象が存在しない為、変更画面は表示出来ませんでした。");
-			//mav.addObject("cmd", "maglist");
-			//mav.addObject("next", "[一覧表示へ戻る]");
+			mav.addObject("cmd", "maglist");
+			mav.addObject("next", "[一覧表示へ戻る]");
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
 			// ModelとView情報を返す
@@ -117,21 +117,27 @@ public class OrderUpdate {
 	public ModelAndView orderUpdatePost(@ModelAttribute @Validated(Order.class) Order order,
 			HttpServletRequest request, BindingResult result, ModelAndView mav) {
 
+		String strOrderNo = request.getParameter("orderno");
+		int orderno = Integer.parseInt(strOrderNo);
+		
 		// 現在の状況を取得
-		Optional<Order> optional_order = orderinfo.findByOrderno(Integer.parseInt(request.getParameter("orderno")));
+		Optional<Order> optional_order = orderinfo.findByOrderno(orderno);
 
 		// データが存在しない場合
-		/*if (!optional_order.isPresent()) {
+		if (!optional_order.isPresent()) {
 			// エラーメッセージ
 			mav.addObject("errorMessage", "更新対象が存在しない為、変更画面は表示出来ませんでした。");
-			mav.addObject("cmd", "list");
+			mav.addObject("cmd", "maglist");
 			mav.addObject("next", "[一覧表示へ戻る]");
 			// 画面に出力するViewを指定
 			mav.setViewName("view/error");
 			// ModelとView情報を返す
 			return mav;
-		}*/
+		}
 
+		// 変更前の購入情報
+		Order old_order = optional_order.get();
+		
 		// 入力されたデータをDBに保存
 		orderinfo.saveAndFlush(order);
 
