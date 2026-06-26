@@ -3,7 +3,7 @@
  *  注文履歴機能
  * 
  *  担当:芦澤
- *  最終更新:2026/06/25-PM14:30
+ *  最終更新:2026/06/26-PM13:30
  * 
  * 
  */
@@ -57,9 +57,6 @@ public class UserOrderHistory {
 		User user = (User) session.getAttribute("user");
 		
 		Iterable<Order> ordered_list = orderinfo.findByUserid(user.getUserid());
-		
-		// orderinfoテーブルから全件取得
-		//Iterable<Order> ordered_list = orderinfo.findAll();
 
 		// Viewに渡す変数をModelに格納
 		mav.addObject("ordered_list", ordered_list);

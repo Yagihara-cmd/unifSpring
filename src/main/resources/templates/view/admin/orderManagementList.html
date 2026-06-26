@@ -49,11 +49,11 @@
 					<td th:text="${order.orderno}">1</td>
 					<td th:text="${#dates.format(order.date, 'yyyy/MM/dd')}">2026/06/25</td>
 
-					<td th:text="*{user.username}">ユーザーID</td>
+					<td th:text="*{userid}">ユーザーID</td>
 
-					<td th:text="*{uniform.uniname}">ユニフォームID</td>
+					<td th:text="*{uniid}">ユニフォームID</td>
 
-					<td th:text="${order.uniform.price * order.quantity}">0</td>
+					<td th:text="${order.price * order.quantity}">0</td>
 
 					<td th:switch="${order.paymentstatus}">
 						<span th:case="0">未入金</span>

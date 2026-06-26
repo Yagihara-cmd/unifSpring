@@ -46,7 +46,7 @@
 				<tbody th:if="${ordered_list.size() >= 1}">
 					<tr th:each="order : ${ordered_list}" th:object="${order}">
 						<td th:text="*{orderno}"></td>
-						<td th:text="*{uni.uniname}"></td>
+						<td th:text="*{uniid}"></td>
 						<td th:text="*{#dates.format(date, 'yyyy/MM/dd HH:mm:ss')}"></td>
 					</tr>
 				</tbody>

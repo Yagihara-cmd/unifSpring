@@ -152,13 +152,13 @@ public class UserOrderCreate {
 			int j = 0;
 			ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
 
-			for (Order order1 : order_list) {
+			/*for (Order order1 : order_list) {
 				Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
 				Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
 				uniform_list.add(uniform1);
 				total += uniform_list.get(j).getPrice() * order.getQuantity();
 				j++;
-			}
+			}*/
 			mav.addObject("uniform_list", uniform_list);
 			mav.addObject("order_list", order_list);
 			session.setAttribute("order_list", order_list);
