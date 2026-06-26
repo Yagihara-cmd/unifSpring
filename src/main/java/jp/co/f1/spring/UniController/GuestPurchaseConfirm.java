@@ -56,17 +56,17 @@ public class GuestPurchaseConfirm {
 		String guestName = request.getParameter("guestName");
 
 		//セッションからカート情報を取得
-		ArrayList<Order> order_list = (ArrayList<Order>) session.getAttribute("order_list");
+		ArrayList<String> uniIdList = (ArrayList<String>) session.getAttribute("session_uni_ids");
 
 		//ユニフォーム一覧
-		ArrayList<Uniform> uni_list = new ArrayList<>();
+		ArrayList<Uniform> uni_list = new ArrayList<Uniform>();
 
 		//カートの中身がない場合
-		if (order_list == null) {
+		if (uniIdList == null) {
 			mav.addObject("errorMessage", "カートの中に何も無かったので購入は出来ません。");
 			mav.addObject("cmd", "menu");
 			mav.addObject("next", "[ゲスト情報入力画面へ戻る]");
-			mav.setViewName("view/users/guestDateInput");
+			mav.setViewName("view/users/guestDataInput");
 			return mav;
 		}
 
@@ -74,18 +74,16 @@ public class GuestPurchaseConfirm {
 		int total = 0;
 
 		//オーダーリストから1件ずつ取り出す
-		for (Order order : order_list) {
-
-			//ユニフォーム情報を取得
-			Optional<Uniform> uniList = uniforminfo.findByUniid(order.getUniid());
-			Uniform Uniform = uniList.get();
-
-			//合計を計算する
-			total += Uniform.getPrice();
-
-			uni_list.add(Uniform);
-
-		}
+		for (String uniId : uniIdList) {
+			
+			   Optional<Uniform> optionalUniform = uniforminfo.findById(uniId);
+			   if (optionalUniform.isPresent()) {
+			       Uniform uniform = optionalUniform.get();
+			       total += uniform.getPrice();
+			       uni_list.add(uniform);
+			   }
+			   
+			}
 
 		//Viewに渡す変数をModelに格納
 		mav.addObject("total", total);
@@ -113,17 +111,18 @@ public class GuestPurchaseConfirm {
 
 			msg.setSubject("ユニフォーム購入情報");
 			msg.setText(insertMessage);
+			mailSender.send(msg);
 
 		} catch (MailSendException e) {
 			mav.addObject("errorMessage", "メールの送信ができませんでした。");
 			mav.addObject("cmd", "menu");
 			mav.addObject("next", "[ゲスト情報入力画面へ]");
-			mav.setViewName("view/users/guestDateInput");
+			mav.setViewName("view/users/guestDataInput");
 			return mav;
 		}
 
 		//セッション情報削除
-		session.removeAttribute("order_list");
+		session.removeAttribute("session_uni_ids");
 
 		//画面に出力するViewを指定
 		mav.setViewName("view/users/guestPurchaseConfirm");

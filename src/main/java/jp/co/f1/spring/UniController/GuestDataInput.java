@@ -18,13 +18,13 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class GuestDataInput {
 
-	@GetMapping("/guestDateInput")
-	public ModelAndView guestDateInput(HttpServletRequest request, ModelAndView mav) {
+	@GetMapping("/guestDataInput")
+	public ModelAndView guestDataInput(HttpServletRequest request, ModelAndView mav) {
 
 		
 	
 		
-		mav.setViewName("view/users/guestDateInput");
+		mav.setViewName("view/users/guestDataInput");
 		
 		return mav; 
 		

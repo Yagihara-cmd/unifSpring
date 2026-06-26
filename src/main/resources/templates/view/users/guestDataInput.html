@@ -36,11 +36,11 @@
 		<div id="main" class="container">
 			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
-			<form class="inline-block" action="/guestPurchaseConfirm" method="Post">
+			<form class="inline-block" th:action="@{/guestPurchaseConfirm}" method="Post">
 				<table class="detail-table" align="center">
 					<tr>
 						<th>氏名</th>
-						<td><input type="text" name="name" th:value="${name}"></td>
+						<td><input type="text" name="guestName" th:value="${guestName}"></td>
 					</tr>
 					<tr>
 						<th>住所</th>
@@ -48,11 +48,11 @@
 					</tr>
 					<tr>
 						<th>メールアドレス</th>
-						<td><input type="text" name="email" th:value="${email}"></td>
+						<td><input type="text" name="guestEmail" th:value="${guestEmail}"></td>
 					</tr>
 					<tr>
 						<th>備考欄</th>
-						<td><input type="text" name="email" th:value="${email}"></td>
+						<td><input type="text" name="notes" th:value="${notes}"></td>
 					</tr>
 				</table>
 

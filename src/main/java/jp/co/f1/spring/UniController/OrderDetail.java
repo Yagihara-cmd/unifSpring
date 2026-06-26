@@ -34,8 +34,8 @@ public class OrderDetail {
    public ModelAndView orderDetail(HttpServletRequest request, ModelAndView mav) {
 
        //HTML側からもらった注文Noを取得
-       String orderNo = request.getParameter("orderNo");
-       int orderstr = Integer.parseInt(orderNo);
+       String orderno = request.getParameter("orderno");
+       int orderstr = Integer.parseInt(orderno);
 
        //注文Noをもとに注文情報を検索
        Optional<Order> optionalOrder = orderRepository.findByOrderno(orderstr);
@@ -48,7 +48,7 @@ public class OrderDetail {
            mav.addObject("next", "[受注管理一覧へ戻る]");
 
            //画面に出力するViewを指定
-           mav.setViewName("view/users/OrderManagementList");
+           mav.setViewName("view/admin/OrderManagementList");
 
            return mav;
        }
@@ -57,7 +57,7 @@ public class OrderDetail {
        mav.addObject("order", optionalOrder.get());
 
        //画面に出力するViewを指定
-       mav.setViewName("view/orderDetail");
+       mav.setViewName("view/admin/orderDetail");
 
        return mav;
    }
