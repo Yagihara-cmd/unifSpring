@@ -100,7 +100,7 @@ public class Order {
 	private Uniform uniform;
 
 
-	public Uniform getUnifrom() {
+	public Uniform getUniform() {
 		return uniform;
 	}
 
