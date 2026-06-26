@@ -92,7 +92,6 @@ public class UserMyPage {
 	    //入力内容にエラーがある場合
 	    if (result.hasErrors()) {
 	        mav.addObject("message", "入力内容に誤りがあります");
-	        // 入力途中のデータをそのまま保持して画面再表示
 	        mav.setViewName("view/users/myPage");
 	        return mav;
 	    }
