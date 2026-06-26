@@ -48,13 +48,14 @@
 			</thread>
 
 			<!--以下リストでデータを取得し、繰り返して表示する-->
-			<tr>
-				<td>xxx</td>
-				<td>xxx</td>
-				<td>xxx</td>
+			<tr th:each="uniform : ${uni_list}">
+				<td th:text="${uniform.uniid}"></td>
+				<td th:text="${uniform.uniname}"></td>
+				<td th:text="${uniform.price}"></td>
 			</tr>
 		</table>
 		合計金額
+		    <td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円
 	</div>
 
 	<!--ここにフッターを挿入-->
