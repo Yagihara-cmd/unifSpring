@@ -18,54 +18,48 @@
 			<h2>新規会員登録</h2>
 		</div>
 
-	<!-- 書籍登録コンテンツ部分 -->
-	<div id="main" class="container">
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
 
-		<!--  入力フォーム -->
-		<form action="/userCreate" th:object="${user}" method="POST">
-			<table class="input-table" align="center">
-				<tr>
-					<th>ID</th>
-					<td>
-						<input type="text" name="userid" th:value="*{userid}" th:errorclass="error-msg">
-						<p th:if="${#fields.hasErrors('userid')}" th:errors="*{userid}" th:errorclass="error-msg"></p>
-					</td>
-				</tr>
-				<tr>
-					<th>氏名</th>
-					<td>
-						<input type="text" name="username" th:value="*{username}" th:errorclass="error-msg">
-						<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error-msg">
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<th>住所</th>
-					<td>
-						<input type="text" name="useraddress" th:value="*{useraddress}" th:errorclass="error-msg">
-						<p th:if="${#fields.hasErrors('useraddress')}" th:errors="*{useraddress}"
-							th:errorclass="error-msg"></p>
-					</td>
-				</tr>
-				<tr>
-					<th>メールアドレス</th>
-					<td>
-						<input type="text" name="email" th:value="*{email}" th:errorclass="error-msg">
-						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error-msg"></p>
-					</td>
-				</tr>
-				<tr>
-					<th>パスワード</th>
-					<td>
-						<input type="text" name="password" th:value="*{password}" th:errorclass="error-msg">
-						<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error-msg">
-						</p>
-					</td>
-				</tr>
-			</table>
-			<input type="submit" value="登録">
-		</form>
-	</div>
+			<!--  入力フォーム -->
+			<form action="/userCreate" th:object="${user}" method="POST">
+				<table class="input-table" align="center">
+					<!-- エラーメッセージ -->
+					<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+					<tr>
+						<th>ID</th>
+						<td>
+							<input type="text" name="userid" th:value="*{userid}" th:errorclass="error-msg">
+						</td>
+					</tr>
+					<tr>
+						<th>氏名</th>
+						<td>
+							<input type="text" name="username" th:value="*{username}" th:errorclass="error-msg">
+						</td>
+					</tr>
+					<tr>
+						<th>住所</th>
+						<td>
+							<input type="text" name="useraddress" th:value="*{useraddress}" th:errorclass="error-msg">
+						</td>
+					</tr>
+					<tr>
+						<th>メールアドレス</th>
+						<td>
+							<input type="text" name="email" th:value="*{email}" th:errorclass="error-msg">
+						</td>
+					</tr>
+					<tr>
+						<th>パスワード</th>
+						<td>
+							<input type="text" name="password" th:value="*{password}" th:errorclass="error-msg">
+						</td>
+					</tr>
+				</table>
+				<input type="submit" value="登録">
+			</form>
+		</div>
 
 	</div>
 

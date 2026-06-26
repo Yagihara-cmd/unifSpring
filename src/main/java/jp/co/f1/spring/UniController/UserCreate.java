@@ -2,8 +2,8 @@
  * 
  *  ユーザー会員登録
  * 
- *  担当:塚田
- *  最終更新:2026/06/24-10:30
+ *  担当:友久
+ *  最終更新:2026/06/26-14:00
  * 
  * 
  */
@@ -79,7 +79,7 @@ public class UserCreate {
 			mav.addObject("message", "入力内容に誤りがあります");
 
 			// 画面に出力するViewを指定
-			mav.setViewName("view/users/error");
+			mav.setViewName("view/users/userCreate");
 
 			// ModelとView情報を渡す
 			return mav;
@@ -91,7 +91,7 @@ public class UserCreate {
 			mav.addObject("message", "入力IDまたはパスワードは既に登録済みの為、会員登録処理は行えませんでした。");
 			
 			// 画面に出力するViewを指定
-			mav.setViewName("view/users/error");
+			mav.setViewName("view/users/userCreate");
 			
 			return mav;			 
 		}

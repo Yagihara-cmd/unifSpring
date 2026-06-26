@@ -10,6 +10,7 @@
 package jp.co.f1.spring.UniController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Dao.UniDao;
+import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.Uniform;
+import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
 
 @Controller
@@ -38,61 +41,125 @@ public class GuestOrderCreate {
 	@Autowired
 	private UniDao uniDao;
 
-	// セッションを導入して、画面をまたいでもデータを記憶できるようにします
-	@Autowired
-	private HttpSession session;
-
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/guestOrderCreate")
 	public ModelAndView showCartForm(HttpServletRequest request, ModelAndView mav) {
 
-		// セッションから現在のカート内IDリストを取得する
-		ArrayList<String> uniIdList = (ArrayList<String>) session.getAttribute("session_uni_ids");
-		
-		// セッションにまだリストがなければ、新しく作成してセッションに登録する
-		if (uniIdList == null) {
-			uniIdList = new ArrayList<String>();
-			session.setAttribute("session_uni_ids", uniIdList);
+		/*
+		 * 
+		 * 押下された商品を「orderlist」に格納して
+		 * リスト表示に続くための記述
+		 * 
+		 */
+
+		//セッションオブジェクトの生成
+		HttpSession session = request.getSession();
+
+		//セッションからUserの値を取得・セッション切れならばエラーに遷移
+		User user = (User) session.getAttribute("user");
+
+		//セッションからOrderListを取得する
+		ArrayList<Order> order_list = new ArrayList<Order>();
+
+		if ((ArrayList<Order>) session.getAttribute("order_list") != null) {
+			order_list = (ArrayList<Order>) session.getAttribute("order_list");
 		}
 
-		// 一覧画面から新しく「uniid」が送られてきた場合、セッションのリストに追加する
-		String singleUniId = request.getParameter("uniid");
-		if (singleUniId != null && !singleUniId.isEmpty()) {
-			uniIdList.add(singleUniId.trim());
-		}
-
-		String delNo = request.getParameter("delno");
-		if (delNo != null) {
-			uniIdList.remove(delNo);
-			// データを削除した状態で、再度カート画面を表示
-			mav = new ModelAndView("redirect:/guestOrderCreate");
+		//userのセッションがある場合
+		if (user == null) {
+			//セッション切れ
+			mav.addObject("errorMessage", "セッション切れの為、カート状況は確認できません。");
+			mav.addObject("cmd", "login");
+			mav.addObject("next", "[ログイン画面へ]");
+			mav.setViewName("view/error");
 			return mav;
 		}
 
-		//HTML側に名前を合わせてリストを準備
-		ArrayList<Uniform> uni_list = new ArrayList<Uniform>();
-		int total = 0;
+		String delNo = request.getParameter("delno");
 
-		//セッションに保存されているID群をループさせ、DBから最新情報を取得して合計金額を計算
-		for (String uniId : uniIdList) {
-			Optional<Uniform> optionalUniform = uniforminfo.findById(uniId);
+		//カウント変数の宣言
+		int i = 0;
 
-			if (optionalUniform.isPresent()) {
-				Uniform uniform = optionalUniform.get();
-				uni_list.add(uniform);
-				total += uniform.getPrice();
+		Order order2 = new Order();
+
+		if (request.getParameter("delno") != null) { //delnoの値がある場合
+			// orderList全件から"delno"と同じISBNの値が見つかるまで繰り返す
+
+			Loop: while (i < order_list.size()) {
+				order2 = order_list.get(i);
+
+				if (order2.getUniid().equals(request.getParameter("delno"))) { //isbnとdelnoが一致したとき
+
+					break Loop;
+
+				}
+				i++;
 			}
+			order_list.remove(order_list.indexOf(order2));
+			mav = new ModelAndView("redirect:/UserOrderCreate");
+			return mav;
 		}
 
-		// HTMLに表示用データを渡す
-		mav.addObject("total", total);
-		mav.addObject("uni_list", uni_list);
+		if (request.getParameter("uniid") != null) {
+			//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
+			Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
 
+			//order情報をOrderに格納するためのオブジェクト宣言
+			Order order = new Order();
+
+			//uniid
+			order.setUniid(request.getParameter("uniid"));
+
+			//userid	
+			order.setUserid(user.getUserid());
+
+			//数量を格納
+			//order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+
+			//数量を1に固定
+			order.setQuantity(1);
+
+			//時刻を取得
+			Date date = new Date();
+			order.setDate(date);
+
+			//発送状況、入金状況の設定
+			order.setShippingstatus("0");
+
+			order.setPaymentstatus("0");
+
+			//OrderListにorderのオブジェクトを追加する
+			order_list.add(order);
+
+			int total = 0;
+			int j = 0;
+			ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+
+			for (Order order1 : order_list) {
+				Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
+				Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
+				uniform_list.add(uniform1);
+				total += uniform_list.get(j).getPrice() * order.getQuantity();
+				j++;
+			}
+			mav.addObject("uniform_list", uniform_list);
+			mav.addObject("order_list", order_list);
+			session.setAttribute("order_list", order_list);
+			mav.addObject("total", total);
+		}
+
+		/**
+		 * 
+		 * 画面のリダイレクト先の設定をする
+		 * 
+		 * 
+		 */
+		
 		//表示するHTMLを指定
 		mav.setViewName("view/users/guestOrderCreate");
-		
+
 		return mav;
 	}
 }
