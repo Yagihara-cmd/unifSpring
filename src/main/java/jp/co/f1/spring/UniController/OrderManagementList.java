@@ -118,7 +118,7 @@ public class OrderManagementList {
         mav.addObject("monthTotal", thisMonthTotal); 
         mav.addObject("lastMonthTotal", lastMonthTotal); 
 
-        // 2. ★ユニフォーム情報を全件取得して画面に渡す（これで HTML のリストや .size() も正常に動きます）
+        // 2. ★ユニフォーム情報を全件取得して画面に渡す
         Iterable<Uniform> uniform_list = uniforminfo.findAll();
         mav.addObject("uniform_list", uniform_list);
 
