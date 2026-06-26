@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
-import jp.co.f1.spring.bms.entity.Book;
 import jp.co.f1.spring.Dao.UniDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
