@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>管理者ユニフォーム管理画面</title>
-	<!-- 外部の style.css を読み込む -->
+
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
@@ -47,19 +47,14 @@
 				<!-- Javaから送った order_list でループを回します -->
 				<tr th:each="order : ${order_list}" th:object="${order}">
 					<td th:text="${order.orderno}">1</td>
-					<!-- 注文日（フォーマットは環境に合わせて調整してください） -->
 					<td th:text="${#dates.format(order.date, 'yyyy/MM/dd')}">2026/06/25</td>
 
-					<!-- 氏名（一旦IDを表示。紐付け用データがある場合は user.name 等に要変更） -->
 					<td th:text="*{user.username}">ユーザーID</td>
 
-					<!-- 種類（商品ID） -->
 					<td th:text="*{uniform.uniname}">ユニフォームID</td>
 
-					<!-- 金額（注文データ内の金額、または単価） -->
 					<td th:text="${order.uniform.price * order.quantity}">0</td>
 
-					<!-- 入金状況（Entityのプロパティ名に合わせてください。例: paymentStatus） -->
 					<td th:switch="${order.paymentstatus}">
 						<span th:case="0">未入金</span>
 						<span th:case="1">入金済み</span>

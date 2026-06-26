@@ -48,7 +48,7 @@ public class GuestOrderCreate {
 	@GetMapping("/guestOrderCreate")
 	public ModelAndView showCartForm(HttpServletRequest request, ModelAndView mav) {
 
-		// セッションから現在のカート内IDリスト（uniIdList）を取得する
+		// セッションから現在のカート内IDリストを取得する
 		ArrayList<String> uniIdList = (ArrayList<String>) session.getAttribute("session_uni_ids");
 		
 		// セッションにまだリストがなければ、新しく作成してセッションに登録する
@@ -57,13 +57,12 @@ public class GuestOrderCreate {
 			session.setAttribute("session_uni_ids", uniIdList);
 		}
 
-		// 一覧画面から新しく「uniid」が送られてきた場合、セッションのリストに「追加」する
+		// 一覧画面から新しく「uniid」が送られてきた場合、セッションのリストに追加する
 		String singleUniId = request.getParameter("uniid");
 		if (singleUniId != null && !singleUniId.isEmpty()) {
 			uniIdList.add(singleUniId.trim());
 		}
 
-		//特定の「delno」が指定されていれば、セッションのリストから除外してリダイレクト
 		String delNo = request.getParameter("delno");
 		if (delNo != null) {
 			uniIdList.remove(delNo);
@@ -72,7 +71,7 @@ public class GuestOrderCreate {
 			return mav;
 		}
 
-		//HTML側の th:each="book : ${uni_list}" に名前を合わせてリストを準備
+		//HTML側に名前を合わせてリストを準備
 		ArrayList<Uniform> uni_list = new ArrayList<Uniform>();
 		int total = 0;
 

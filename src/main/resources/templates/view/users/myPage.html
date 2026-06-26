@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>マイページ</title>
@@ -18,8 +18,9 @@
                 <!-- ナビゲーション  -->
                 <div id="nav">
                     <ul>
-                        <li><a th:href="/userUniformList">[一覧]</a></li>
-                        <li><a th:href="/userOrderHistory">[注文履歴]</a></li>
+                        <!-- ThymeleafのURL形式に修正 -->
+                        <li><a th:href="@{/userUniformList}">[一覧]</a></li>
+                        <li><a th:href="@{/userOrderHistory}">[注文履歴]</a></li>
                     </ul>
                 </div>
 
@@ -30,31 +31,39 @@
             </div>
         </div>
 
-        <!-- 書籍登録コンテンツ部分 -->
+        <!-- コンテンツ部分 -->
         <div id="main" class="container">
         	
-            <!--  入力フォーム -->
-            <form action="/myPage" method="POST" th:object="${book}">
+            <p th:if="${message}" th:text="${message}" style="color:red; text-align:center;"></p>
+
+            <form th:action="@{/userMyPage}" method="POST" th:object="${user}">
+                
+                <input type="hidden" name="userid" th:value="*{userid}" />
+                
+                
+                <input type="hidden" th:field="*{password}" />
+                <input type="hidden" th:field="*{authority}" />
+
                 <table class="input-table" align="center">
                     <tr>
                         <th>氏名</th>
                         <td>
-							<input type="text" name="name" th:value="*{name}" th:errorclass="error-msg">
-							<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="error-msg"></p>
+							<input type="text" th:field="*{username}" th:errorclass="error-msg">
+							<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-msg"></p>
                         </td>
                     </tr>
                     <tr>
                         <th>住所</th>
                         <td>
-							<input type="text" name="address" th:value="*{address}" th:errorclass="error-msg">
-							<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="error-msg"></p>
+							<input type="text" th:field="*{useraddress}" th:errorclass="error-msg">
+							<p th:if="${#fields.hasErrors('useraddress')}" th:errors="*{useraddress}" class="error-msg"></p>
 						</td>
                     </tr>
                     <tr>
                         <th>メールアドレス</th>
                         <td>
-							<input type="text" name="email" th:value="*{email}" th:errorclass="error-msg">
-							<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error-msg"></p>
+							<input type="text" th:field="*{email}" th:errorclass="error-msg">
+							<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg"></p>
 						</td>
                     </tr>
                 </table>
@@ -63,7 +72,7 @@
                 
             </form>
             
-            <form action="/login" method="POST">
+            <form th:action="@{/login}" method="POST">
             	<input type="submit" value="ログアウト">
 			</form>
 			
