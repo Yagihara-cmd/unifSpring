@@ -66,6 +66,9 @@ public class UniCreate {
 			mav.setViewName("view/admin/uniformCreate");
 			return mav;
 		}
+		
+		
+		
 
 		Optional<Uniform> optionalUniform = uniforminfo.findByUniid(uniform.getUniid());
 		
