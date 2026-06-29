@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>変更ページ</title>
+	<title>ユニフォーム一覧</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
@@ -14,9 +14,14 @@
 		<!-- ヘッダー部分 -->
 		<div th:insert="~{/common/header :: frag}"></div>
 
-		<!-- ページタイトル -->
-		<div id="page_title">
-			<h2>商品情報変更</h2>
+		<!-- メニュー部分 -->
+		<div id="adminMenu">
+			<div class="container">
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>変更</h2>
+				</div>
+			</div>
 		</div>
 
 		<!-- コンテンツ部分 -->
@@ -24,56 +29,67 @@
 			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
 
-			<!-- 変更フォーム -->
+			<!-- 入力フォーム -->
 			<form action="/uniformUpdate" method="POST" th:object="${uni}">
-				<table class="update-table" align="center">
+				<div class="adminTable">
 
-					<tr>
-						<td></td>
-						<td>≪変更前情報≫</td>
-						<td>≪変更後情報≫</td>
-					</tr>
-					<tr>
+					<table class="update-table" align="center">
 
-						<th>No.</th>
-						<td style="background-color:#E0FFFF" th:text="${old_uni.uniid}"></td>
-						<td style="background-color:#E0FFFF" th:text="${old_uni.uniid}"></td>
-					</tr>
-					<tr>
-						<th>種類</th>
-						<td style="background-color:#E0FFFF" th:text="${old_uni.uniname}"></td>
-						<td>
-							<input type="text" name="uniname" th:value="*{uniname}">
-							<!-- エラーメッセージの表示 -->
-							<p th:if="${#fields.hasErrors('uniname')}" th:errors="*{uniname}" class="error-msg"></p>
-						</td>
-					</tr>
-					<tr>
-						<th>価格</th>
-						<td style="background-color:#E0FFFF" th:text="${old_uni.price}"></td>
-						<td>
-							<input type="text" name="price" th:value="*{price}">
-							<!-- エラーメッセージの表示 -->
-							<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-msg"></p>
-						</td>
-					</tr>
+						<tr>
+							<td></td>
+							<td>[変更前]</td>
+							<td>[変更後]</td>
+						</tr>
+						<tr>
+							<th>No.</th>
+							<td th:text="${old_uni.uniid}"></td>
+						</tr>
+						<tr>
+							<th>種類</th>
+							<td　th:text="${old_uni.uniname}"></td>
+							<td>
+								<input type="text" name="uniname" th:value="*{uniname}">
 
+								<!-- エラーメッセージの表示 -->
+								<p th:if="${#fields.hasErrors('uniname')}" th:errors="*{uniname}" class="error-msg">
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<th>価格</th>
+							<td th:text="${old_uni.price}"></td>
+							<td>
+								<input type="text" name="price" th:value="*{price}">
+								<!-- エラーメッセージの表示 -->
+								<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-msg">
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<th>在庫数</th>
+							<td th:text="${old_uni.stock}"></td>
+							<td>
+								<input type="text" name="stock" th:value="*{stock}">
+								<!-- エラーメッセージの表示 -->
+								<p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="error-msg">
+								</p>
+							</td>
+						</tr>
+					</table>
 					<tr>
-						<th>在庫数</th>
-						<td style="background-color:#E0FFFF" th:text="${old_uni.stock}"></td>
-						<td>
-							<input type="text" name="stock" th:value="*{stock}">
-							<!-- エラーメッセージの表示 -->
-							<p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="error-msg"></p>
-						</td>
+						<td colspan="2"><a th:href="@{/adminUniformList}">戻る</a></td>
 					</tr>
-				</table>
-
-				<input type="hidden" name="uniid" th:value="${old_uni.uniid}">
-				<input type="submit" value="変更完了">
+					<table align="center">
+						<tr>
+							<td>
+								<input type="hidden" name="uniid" th:value="${old_uni.uniid}">
+								<input type="submit" value="変更完了">
+							</td>
+						</tr>
+					</table>
+				</div>
 			</form>
 		</div>
-
 
 		<!-- フッター部分 -->
 		<div th:insert="~{/common/footer :: frag}"></div>

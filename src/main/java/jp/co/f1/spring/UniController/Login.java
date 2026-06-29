@@ -78,17 +78,23 @@ public class Login {
 
 		//Useridまたはpassが無効であった場合
 		if (!(optional_user.isPresent())) {
-			mav.addObject("errorMessage", "入力されたUSERIDは存在しませんでした。");
-			mav.setViewName("view/login");
+			mav.addObject("errorMessage", "IDまたはPASSWORDが無効です。");
+			mav.setViewName("view/error");
+			return mav;
+
+		}
+		//Useridまたはpassが空文字であった場合
+		if ("".equals(user.getUserid()) || "".equals(user.getPassword())) {
+			mav.addObject("errorMessage", "IDまたはPASSWORDが未入力です。");
+			mav.setViewName("view/error");
 			return mav;
 
 		}
 		//セッションに登録
 		user = optional_user.get();
 
-		
 		session.setAttribute("user", user);
-		
+
 		if (optional_user.isPresent()) {
 			//クッキーの登録
 			Cookie userCookie = new Cookie("user", user.getUserid());

@@ -1,13 +1,3 @@
-/*
- * 
- *  ユーザー会員登録
- * 
- *  担当:塚田
- *  最終更新:2026/06/24-10:30
- * 
- * 
- */
-
 package jp.co.f1.spring.UniController;
 
 import org.springframework.stereotype.Controller;
@@ -21,10 +11,8 @@ import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.EntityManager;
-import jakarta.annotation.PostConstruct;
 
 import jp.co.f1.spring.Repository.UserRepository;
-import jp.co.f1.spring.Dao.UserDao;
 import jp.co.f1.spring.Entity.User;
 
 import java.util.Optional;
@@ -35,15 +23,6 @@ public class UserCreate {
 	// EntityManager自動インスタンス化
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	// DAO自動インスタンス化
-	@Autowired
-	private UserDao userDao;
-
-	@PostConstruct
-	public void init() {
-		userDao = new UserDao(entityManager);
-	}
 
 	// Repositoryインターフェースを自動インスタンス化
 	@Autowired
@@ -73,13 +52,13 @@ public class UserCreate {
 		Optional<User> optionalUser = userinfo.findByUseridAndPassword(user.getUserid(),user.getPassword());
 		
 		// 入力エラーがある場合
-		if (result.hasErrors()) {
+		if ("".equals(user.getUserid()) || "".equals(user.getUsername()) || "".equals(user.getUseraddress()) ||  "".equals(user.getUseraddress()) || "".equals(user.getPassword())) {
 			
 			// エラーメッセージ
-			mav.addObject("message", "入力内容に誤りがあります");
+			mav.addObject("errorMessage", "未入力の項目があります。");
 
 			// 画面に出力するViewを指定
-			mav.setViewName("view/users/error");
+			mav.setViewName("view/error");
 
 			// ModelとView情報を渡す
 			return mav;
@@ -88,11 +67,13 @@ public class UserCreate {
 		//同じIDまたはパスワードの情報がないか確認
 		if (optionalUser.isPresent()) {
 			
-			mav.addObject("message", "入力IDまたはパスワードは既に登録済みの為、会員登録処理は行えませんでした。");
+			// エラーメッセージ
+			mav.addObject("errorMessage", "入力IDまたはパスワードは既に登録済みの為、会員登録処理は行えませんでした。");
 			
 			// 画面に出力するViewを指定
-			mav.setViewName("view/users/error");
+			mav.setViewName("view/error");
 			
+			// ModelとView情報を渡す
 			return mav;			 
 		}
 

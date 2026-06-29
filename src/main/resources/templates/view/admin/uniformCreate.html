@@ -1,74 +1,84 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
-	<title>登録ページ</title>
+	<title>ユニフォーム一覧</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="adminWrap">
-	
+
 		<!-- ヘッダー部分 -->
 		<div th:insert="~{/common/header :: frag}"></div>
-		
+
 		<!-- メニュー部分 -->
 		<div id="adminMenu">
 			<div class="container">
 				<!-- ページタイトル -->
 				<div id="page_title">
-					<h1>新規商品登録</h1>
+					<h2>新規商品登録</h2>
 				</div>
 			</div>
 		</div>
-		
-		
-		<div class="adminTable">
-		   
-			<p class="error-msg" th:if="${message} !=null" th:text="${message}" ></p>
-			
-		    <form action="/uniformCreate" method="POST" th:object="${uniform}">
-		        
-		        <table class="detail-table" align="center">
-		            <tr>
-		                <td colspan="2"><a th:href="@{/adminUniformList}">戻る</a></td>
-		            </tr>
-		            <tr>
-		                <th>No.</th>
-		                <td><input type="text" th:field="*{uniid}"></td>
-						<p th:if="${#fields.hasErrors('uniid')}" th:errors="*{uniid}" th:errorclass=" error-msg"></p>
-		            </tr>
-		            <tr>
-		                <th>種類</th>
-		                <td><input type="text" th:field="*{uniname}"></td>
-						<p th:if="${#fields.hasErrors('uniname')}" th:errors="*{uniname}" th:errorclass=" error-msg"></p>
-		            </tr>
-		            <tr>
-		                <th>金額</th>
-		                <td><input type="text" th:field="*{price}"></td>
-						<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" th:errorclass=" error-msg"></p>
-		            </tr>
-		            <tr>
-		                <th>在庫数</th>
-		                <td><input type="text" th:field="*{stock}"></td>
-						<p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" th:errorclass=" error-msg"></p>
-		            </tr>
-		        </table>
-		        
-		        <table align="center">
-		            <tr>
-		                <td>
-		                    <input type="submit" value="登録">
-		                </td>
-		            </tr>
-		        </table>
-		        
-		    </form>
+
+		<!-- コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} !=null" th:text="${message}"></p>
+
+			<!-- 登録フォーム -->
+			<form action="/uniformCreate" method="POST" th:object="${uniform}">
+				<div class="adminTable">
+
+					<table class="detail-table" align="center">
+
+						<tr>
+							<th>No.</th>
+							<td><input type="text" th:field="*{uniid}"></td>
+							<p th:if="${#fields.hasErrors('uniid')}" th:errors="*{uniid}" th:errorclass=" error-msg">
+							</p>
+						</tr>
+						<tr>
+							<th>種類</th>
+							<td><input type="text" th:field="*{uniname}"></td>
+							<p th:if="${#fields.hasErrors('uniname')}" th:errors="*{uniname}"
+								th:errorclass=" error-msg"></p>
+						</tr>
+						<tr>
+							<th>金額</th>
+							<td><input type="text" th:field="*{price}"></td>
+							<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" th:errorclass=" error-msg">
+							</p>
+						</tr>
+						<tr>
+							<th>在庫数</th>
+							<td><input type="text" th:field="*{stock}"></td>
+							<p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" th:errorclass=" error-msg">
+							</p>
+						</tr>
+					</table>
+					<tr>
+						<td colspan="2"><a th:href="@{/adminUniformList}">戻る</a></td>
+					</tr>
+					<table align="center">
+						<tr>
+							<td>
+								<input type="submit" value="登録">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
 		</div>
-		
-		<!-- フッター部分 -->
-		<div th:insert="~{/common/footer :: frag}"></div>
-		
+	</div>
+
+	<!-- フッター部分 -->
+	<div th:insert="~{/common/footer :: frag}"></div>
+
 	</div>
 </body>
+
 </html>
