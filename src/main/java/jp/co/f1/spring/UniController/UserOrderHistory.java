@@ -56,6 +56,17 @@ public class UserOrderHistory {
 
 		User user = (User) session.getAttribute("user");
 		
+		
+		//　セッション切れの場合のエラー回収
+		if (user == null) {
+			//セッション切れ
+			mav.addObject("errorMessage", "セッション切れの為、注文履歴は確認できません。");
+			mav.addObject("cmd", "login");
+			mav.addObject("next", "[ログイン画面へ]");
+			mav.setViewName("view/error");
+			return mav;
+		}
+		
 		Iterable<Order> ordered_list = orderinfo.findByUserid(user.getUserid());
 
 		// Viewに渡す変数をModelに格納
