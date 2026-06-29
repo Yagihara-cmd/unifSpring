@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>ユニフォーム一覧</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="wrap">
@@ -40,6 +42,7 @@
 						<th>No.</th>
 						<th>種類</th>
 						<th>金額</th>
+						<th>数量</th>
 						<th>カートに入れる</th>
 					</tr>
 				</thead>
@@ -48,7 +51,13 @@
 						<td th:text="${uni.uniid}"></td>
 						<td th:text="${uni.uniname}"></td>
 						<td th:text="'&yen; ' +${#numbers.formatInteger(uni.price, 3, 'COMMA')}"></td>
-						<td><a th:href="@{/guestOrderCreate(uniid=${uni.uniid})}">カートに入れる</a></td>
+						<form class="inline-block" th:action="@{/UserOrderCreate}">
+
+							<td><input type="text" name="quantity" th:value="${quantity}"></td>
+							<input type="hidden" name="uniid" th:value="${uni.uniid}">
+							<td><input type="submit" value="カートに入れる"></td>
+		
+						</form>
 					</tr>
 				</tbody>
 			</table>
@@ -59,4 +68,5 @@
 
 	</div>
 </body>
+
 </html>

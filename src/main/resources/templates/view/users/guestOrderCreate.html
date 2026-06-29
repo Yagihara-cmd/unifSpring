@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
 	<title>ゲスト注文画面</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="wrap">
@@ -44,32 +46,36 @@
 					</tr>
 				</thead>
 				<!-- リストが空でない場合のみ表示 -->
-				<tbody th:if="${uni_list != null and uni_list.size() >= 1}">
-					<tr th:each="uniform : ${uni_list}">
-						<td><a th:href="@{/detail(isbn=${uniform.uniid})}" th:text="${uniform.uniid}"></a></td>
-						<td th:text="${uniform.uniname}"></td>
-						<td th:text="'&yen; ' + ${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>
-						<!-- 削除ボタン用のリンク-->
-						<td>
-							<a th:href="@{/guestOrderCreate(delno=${uniform.uniid}, uniIds=${currentUniIds})}">[削除]</a>
-						</td>
+				<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
+
+					<tr th th:each="order : ${order_list}">
+						</th>
+						<td><a th:text="${order.uniid}"></a></td>
+						<td th:text="${order.uniform.uniname}"></td>
+
+						<td th:text="'&#165 ' +${#numbers.formatInteger(order.uniform.price, 3, 'COMMA')}"></td>
+
+						<td th:text="${order.quantity}"></td>
+
+						<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
+
 					</tr>
 				</tbody>
 			</table>
-			
+
 			<!--合計金額をJava側から受け取ったtotalに連動させる -->
 			<h3 th:text="'合計金額 ' + ${#numbers.formatInteger(total, 1, 'COMMA')} + ' 円'">合計金額 0 円</h3>
-			
+
 			<div style="text-align: right;">
-		
+
 				<form th:action="@{/guestDataInput}" method="get">
 					<!-- 次の画面へ現在のカート情報を引き継ぐための隠しパラメータ -->
 					<input type="hidden" name="uniIds" th:value="${currentUniIds}">
 					<input type="submit" value="購入">
 				</form>
-			
+
 			</div>
-		
+
 		</div>
 
 		<!-- フッター部分（先頭のスラッシュを削除） -->
@@ -77,4 +83,5 @@
 
 	</div>
 </body>
+
 </html>
