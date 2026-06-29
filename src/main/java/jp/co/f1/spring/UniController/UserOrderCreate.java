@@ -127,7 +127,11 @@ public class UserOrderCreate {
 		order.setShippingstatus("0");
 
 		order.setPaymentstatus("0");
-
+		
+		Optional<Uniform> optionalUniformA = uniforminfo.findByUniid(request.getParameter("uniid"));
+		order.setUniform(optionalUniformA.get());
+		
+		
 		//OrderListにorderのオブジェクトを追加する
 		order_list.add(order);
 

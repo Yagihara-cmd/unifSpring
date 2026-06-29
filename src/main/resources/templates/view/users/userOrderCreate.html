@@ -54,9 +54,9 @@
 				
 					<tr th th:each="order : ${order_list}"></th>
 						<td><a th:text="${order.uniid}"></a></td>
-						<td th:text="${order?.uniform?.uniName}"></td>
+						<td th:text="${order.uniform.uniname}"></td>
 
-						<td th:text="'&#165 ' +${#numbers.formatInteger(order?.uniform?.Price, 3, 'COMMA')}"></td>
+						<td th:text="'&#165 ' +${#numbers.formatInteger(order.uniform.price, 3, 'COMMA')}"></td>
 						
 						<td th:text="${order.quantity}"></td>
 
