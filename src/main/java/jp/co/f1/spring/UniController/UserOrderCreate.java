@@ -102,22 +102,44 @@ public class UserOrderCreate {
 		if (request.getParameter("delno") != null) { //delnoの値がある場合
 			// orderList全件から"delno"と同じISBNの値が見つかるまで繰り返す
 
-			Loop: while (i < order_list.size()) {
-				order2 = order_list.get(i);
+			String delno = request.getParameter("delno");
 
-				if (order2.getUniid().equals(request.getParameter("delno"))) { //isbnとdelnoが一致したとき
-
-					break Loop;
-
+			for (Order order : order_list) {
+				if (order.getUniid().equals(delno)) {
+					order_list.remove(order);
+					break;
 				}
-				i++;
 			}
-			order_list.remove(order_list.indexOf(order2));
-			mav = new ModelAndView("redirect:/UserOrderCreate");
+
+		
+						
+			//order情報をOrderに格納するためのオブジェクト宣言
+			Order order = new Order();
+
+			
+			int total = 0;
+			int j = 0;
+			ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+
+			for (Order order1 : order_list) {
+				Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
+				Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
+				uniform_list.add(uniform1);
+				total += uniform_list.get(j).getPrice() * order.getQuantity();
+				j++;
+			}
+			
+			mav.addObject("uniform_list", uniform_list);
+			mav.addObject("order_list", order_list);
+			session.setAttribute("order_list", order_list);
+			mav.addObject("total", total);
+			
+			
+			mav.setViewName("view/users/userOrderCreate");
 			return mav;
+
 		}
 
-		if (request.getParameter("uniid") != null) {
 			//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
 			Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
 
@@ -163,8 +185,6 @@ public class UserOrderCreate {
 			mav.addObject("order_list", order_list);
 			session.setAttribute("order_list", order_list);
 			mav.addObject("total", total);
-		}
-
 	
 		
 

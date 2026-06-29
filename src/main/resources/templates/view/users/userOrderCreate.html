@@ -49,7 +49,8 @@
 					
 					
 				</thead>
-				<tbody th:if="${uniform_list.size() >= 1}">
+				<tbody th:if="${uniform_list != null and !#lists.isEmpty(uniform_list)}">
+				<!--<tbody th:if="${uniform_list.size() >= 1}">-->
 					<tr th th:each="uniform : ${uniform_list}"></th>
 						<td><a th:href="@{/detail(uniid=${uniform.uniid})}" th:text="${uniform.uniid}"></a></td>
 						<td th:text="${uniform.uniname}"></td>
