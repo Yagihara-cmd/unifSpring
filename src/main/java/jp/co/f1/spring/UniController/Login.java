@@ -1,19 +1,7 @@
-/**
- * ログイン画面
- * 
- * 担当:　友久
- * 
- * 最終編集：八木原　20260624-AM10
- * 
- * 
- */
-
 package jp.co.f1.spring.UniController;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.Cookie;
@@ -31,12 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.User;
-import jp.co.f1.spring.Dao.UserDao;
-import jp.co.f1.spring.Repository.UniRepository;
 import jp.co.f1.spring.Repository.UserRepository;
-import jp.co.f1.spring.Entity.Uniform;
 
 @Controller
 public class Login {
@@ -44,21 +28,9 @@ public class Login {
 	@Autowired
 	private UserRepository userinfo;
 
-	@Autowired
-	private UniRepository uniforminfo;
-
 	//EntityManager自動インスタンス化
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	//DAO自動インスタンス化
-	@Autowired
-	private UserDao userDao;
-
-	@PostConstruct
-	public void init() {
-		userDao = new UserDao(entityManager);
-	}
 
 	//セッション使用
 	@Autowired
@@ -111,7 +83,16 @@ public class Login {
 			return mav;
 
 		}
+		//セッションに登録
+		user = optional_user.get();
 
+		if (user == null) {
+			Optional<User> optional_guest = userinfo.findByUseridAndPassword("00000", "0000");
+			user = optional_guest.get();
+
+		}
+		session.setAttribute("user", user);
+		
 		if (optional_user.isPresent()) {
 			//クッキーの登録
 			Cookie userCookie = new Cookie("user", user.getUserid());
@@ -122,17 +103,14 @@ public class Login {
 			passCookie.setMaxAge(60 * 60 * 24 * 5);
 			response.addCookie(passCookie);
 
-			//セッションに登録
-			user = optional_user.get();
-			session.setAttribute("user", user);
-
 			if (user.getAuthority().equals("0")) {
-				//mav.setViewName("view/users/userUniformList");
 				mav = new ModelAndView("redirect:/userUniformList");
-
 			}
 			if (user.getAuthority().equals("1")) {
 				mav = new ModelAndView("redirect:/adminUniformList");
+			}
+			if (user.getAuthority().equals("2")) {
+				mav = new ModelAndView("redirect:/guestUniformList");
 			}
 
 		}

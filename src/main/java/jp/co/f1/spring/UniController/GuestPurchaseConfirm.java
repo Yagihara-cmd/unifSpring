@@ -55,11 +55,11 @@ public class GuestPurchaseConfirm {
 		String guestEmail = request.getParameter("guestEmail");
 		String guestName = request.getParameter("guestName");
 
-		//セッションからカート情報を取得
-		ArrayList<String> uniIdList = (ArrayList<String>) session.getAttribute("session_uni_ids");
-
 		//ユニフォーム一覧
 		ArrayList<Uniform> uni_list = new ArrayList<Uniform>();
+
+		//セッションからカート情報を取得
+		ArrayList<Order> uniIdList = (ArrayList<Order>) session.getAttribute("session_uni_ids");
 
 		//カートの中身がない場合
 		if (uniIdList == null) {
@@ -75,17 +75,17 @@ public class GuestPurchaseConfirm {
 
 		//オーダーリストから1件ずつ取り出す
 		for (Order uniId : uniIdList) {
-			
+
 			orderinfo.saveAndFlush(uniId);
-			
-			   Optional<Uniform> optionalUniform = uniforminfo.findById(uniId);
-			   if (optionalUniform.isPresent()) {
-			       Uniform uniform = optionalUniform.get();
-			       total += uniform.getPrice();
-			       uni_list.add(uniform);
-			   }
-			   
+
+			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(uniId.getUniid());
+			if (optionalUniform.isPresent()) {
+				Uniform uniform = optionalUniform.get();
+				total += uniform.getPrice();
+				uni_list.add(uniform);
 			}
+
+		}
 
 		//Viewに渡す変数をModelに格納
 		mav.addObject("total", total);

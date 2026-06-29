@@ -1,14 +1,3 @@
-/*
- *  会員が注文をするときの
- *  注文内容表示機能
- *  
- *  担当:八木原
- *  
- *  最終編集: 20260629
- *  
- *  
- */
-
 package jp.co.f1.spring.UniController;
 
 import org.springframework.stereotype.Controller;
@@ -20,9 +9,6 @@ import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
-import jp.co.f1.spring.Entity.Uniform;
-import jp.co.f1.spring.Dao.UniDao;
-import jp.co.f1.spring.Dao.OrderDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -46,22 +31,9 @@ public class UserOrderCreate {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	//Daoの自動インスタンス化
-	@Autowired
-	private UniDao UniDao;
-
-	// Repositoryインターフェースを自動インスタンス化
-	@Autowired
-	private UniRepository Orderforminfo;
-
-	@PostConstruct
-	public void init() {
-		UniDao = new UniDao(entityManager);
-	}
-
+	
 	@GetMapping(value = "/UserOrderCreate")
-	public ModelAndView UserOrderCreate(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView showCartForm(HttpServletRequest request, ModelAndView mav) {
 
 		/**
 		 * 
@@ -91,11 +63,6 @@ public class UserOrderCreate {
 			mav.setViewName("view/error");
 			return mav;
 		}
-
-		//カウント変数の宣言
-		int i = 0;
-
-		Order order2 = new Order();
 
 		if (request.getParameter("delno") != null) { //delnoの値がある場合
 			// orderList全件から"delno"と同じISBNの値が見つかるまで繰り返す
@@ -135,7 +102,7 @@ public class UserOrderCreate {
 		}
 
 		//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
-		Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
+		//Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
 
 		//order情報をOrderに格納するためのオブジェクト宣言
 		Order order = new Order();

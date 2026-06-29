@@ -13,7 +13,6 @@ package jp.co.f1.spring.UniController;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,8 +40,6 @@ public class GuestUniList {
 		uniDao = new UniDao(entityManager);
 	}
 	
-	@Autowired
-	private HttpSession session;
 
 	// 改行コード
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
