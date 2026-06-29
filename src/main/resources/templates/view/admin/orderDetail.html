@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>ユニフォーム受注管理システム</title>
+	<title>神田ユニフォーム</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
@@ -20,20 +20,18 @@
 		<div id="adminMenu">
 			<div class="container">
 				<div id="page_title">
-					<h2>詳細ページ</h2>
+					<h2>オーダー詳細</h2>
 				</div>
 			</div>
 		</div>
 
-
-		<!--ここから詳細情報-->
+		<!-- コンテンツ部分 -->
 		<div id="main" class="container">
 
+			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} !=null" th:text="${message}" </p>
 
-			<p><a th:href="@{/orderManagementList}">[戻る]</a></p>
-
-			<!--詳細情報を出力するテーブル-->
+				<!--詳細情報を出力するテーブル-->
 			<div class="adminTable">
 				<table class="detail-table">
 					<tr>
@@ -86,7 +84,7 @@
 					</tr>
 				</table>
 			</div>
-
+			<p><a th:href="@{/orderManagementList}">戻る</a></p>
 		</div>
 
 		<!--ここにフッターを挿入-->

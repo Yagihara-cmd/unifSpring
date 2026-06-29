@@ -1,75 +1,86 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
-	<title>更新ページ</title>
+	<title>神田ユニフォーム</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 	<!-- ブラウザ全体 -->
 	<div id="adminWrap">
-	
+
 		<!-- ヘッダー部分 -->
 		<div th:insert="~{/common/header :: frag}"></div>
-		
+
 		<!-- メニュー部分 -->
 		<div id="adminMenu">
 			<div class="container">
+				<!-- ページタイトル -->
 				<div id="page_title">
-					<h2>更新ページ</h2>
+					<h2>オーダー更新</h2>
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- コンテンツ部分 -->
 		<div id="main" class="container">
-			<!--<a th:href="/orderManagementList">[戻る]</a>-->
-			
 			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
-			
+
 			<!-- 入力フォーム -->
 			<form action="/orderUpdate" method="POST" th:object="${order}">
 				<div class="adminTable">
-				<table class="update-table">
+
+					<table class="update-table" align="center">
+
+						<tr>
+							<td></td>
+							<td>[現在の状況]</td>
+							<td>[変更]</td>
+						</tr>
+						<tr>
+							<th>入金状況</th>
+							<td th:text="${nowpay}"></td>
+							<td>
+								<select name="paymentstatus">
+									<option value=0>未入金</option>
+									<option value=1>入金済み</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>発送状況</th>
+							<td th:text="${nowship}"></td>
+							<td>
+								<select name="shippingstatus">
+									<option value=0>未発送</option>
+									<option value=1>発送済</option>
+									<option value=2>発送準備中</option>
+								</select>
+							</td>
+						</tr>
+					</table>
 					<tr>
-						<td></td>
-						<td>現在の状況</td>
-						<td>変更</td>
+						<td colspan="2"><a th:href="@{/adminUniformList}">戻る</a></td>
 					</tr>
-					
-					<tr>
-						<td>入金状況：</td>
-						<td th:text="${nowpay}"></td>
-						<td>
-							<select name="paymentstatus">
-								<option value=0>未入金</option>
-								<option value=1>入金済み</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>発送状況：</td>
-						<td th:text="${nowship}"></td>
-						<td>
-							<select name="shippingstatus">
-								<option value=0>未発送</option>
-								<option value=1>発送済</option>
-								<option value=2>発送準備中</option>
-							</select>
-						</td>
-					</tr>
-				</table>
+					<table align="center">
+						<tr>
+							<td>
+								<input type="hidden" name="orderno" th:value="${old_order.orderno}">
+								<input type="submit" value="更新">
+							</td>
+						</tr>
+					</table>
 				</div>
-				
-				<input type="hidden" name="orderno" th:value="${old_order.orderno}">
-				<input type="submit" value="更新">
 			</form>
-		
 		</div>
+
 		<!-- フッター部分 -->
 		<div th:insert="~{/common/footer :: frag}"></div>
-		
+
 	</div>
 </body>
+
 </html>

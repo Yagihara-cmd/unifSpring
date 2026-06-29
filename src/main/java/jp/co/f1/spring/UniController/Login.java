@@ -79,7 +79,7 @@ public class Login {
 		//Useridまたはpassが無効であった場合
 		if (!(optional_user.isPresent())) {
 			mav.addObject("errorMessage", "入力されたUSERIDは存在しませんでした。");
-			mav.setViewName("view/login");
+			mav.setViewName("view/error");
 			return mav;
 
 		}
