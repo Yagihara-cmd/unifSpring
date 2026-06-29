@@ -86,11 +86,7 @@ public class Login {
 		//セッションに登録
 		user = optional_user.get();
 
-		if (user == null) {
-			Optional<User> optional_guest = userinfo.findByUseridAndPassword("00000", "0000");
-			user = optional_guest.get();
-
-		}
+		
 		session.setAttribute("user", user);
 		
 		if (optional_user.isPresent()) {

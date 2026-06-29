@@ -144,7 +144,7 @@ public class GuestOrderCreate {
 				 * 
 				 * 
 				 */
-				mav.setViewName("view/users/userOrderCreate");
+				mav.setViewName("view/users/guestOrderCreate");
 
 				return mav;
 
