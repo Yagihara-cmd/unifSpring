@@ -79,6 +79,7 @@ public class Login {
 		//Useridまたはpassが無効であった場合
 		if (!(optional_user.isPresent())) {
 			mav.addObject("errorMessage", "IDまたはPASSWORDが無効です。");
+			mav.addObject("cmd", "/login");
 			mav.setViewName("view/error");
 			return mav;
 
@@ -86,6 +87,7 @@ public class Login {
 		//Useridまたはpassが空文字であった場合
 		if ("".equals(user.getUserid()) || "".equals(user.getPassword())) {
 			mav.addObject("errorMessage", "IDまたはPASSWORDが未入力です。");
+			mav.addObject("cmd", "/login");
 			mav.setViewName("view/error");
 			return mav;
 
