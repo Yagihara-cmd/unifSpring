@@ -52,7 +52,7 @@
 				<tbody th:if="${uniform_list != null and !#lists.isEmpty(uniform_list)}">
 				<!--<tbody th:if="${uniform_list.size() >= 1}">-->
 					<tr th th:each="uniform : ${uniform_list}"></th>
-						<td><a th:href="@{/detail(uniid=${uniform.uniid})}" th:text="${uniform.uniid}"></a></td>
+						<td><a th:text="${uniform.uniid}"></a></td>
 						<td th:text="${uniform.uniname}"></td>
 
 						<td th:text="'&#165 ' +${#numbers.formatInteger(uniform.price, 3, 'COMMA')}"></td>

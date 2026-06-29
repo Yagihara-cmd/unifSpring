@@ -4,9 +4,7 @@
  *  
  *  担当:八木原
  *  
- *  最終編集: 20260625
- *  
- *  セッションを使用して複数カートに入れられない。
+ *  最終編集: 20260629
  *  
  *  
  */
@@ -111,12 +109,9 @@ public class UserOrderCreate {
 				}
 			}
 
-		
-						
 			//order情報をOrderに格納するためのオブジェクト宣言
 			Order order = new Order();
 
-			
 			int total = 0;
 			int j = 0;
 			ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
@@ -128,65 +123,62 @@ public class UserOrderCreate {
 				total += uniform_list.get(j).getPrice() * order.getQuantity();
 				j++;
 			}
-			
+
 			mav.addObject("uniform_list", uniform_list);
 			mav.addObject("order_list", order_list);
 			session.setAttribute("order_list", order_list);
 			mav.addObject("total", total);
-			
-			
+
 			mav.setViewName("view/users/userOrderCreate");
 			return mav;
 
 		}
 
-			//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
-			Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
+		//uniidのパラメータを取得し詳細を取得,オブジェクトに格納
+		Optional<Uniform> uniform = uniforminfo.findByUniid(request.getParameter("uniid"));
 
-			//order情報をOrderに格納するためのオブジェクト宣言
-			Order order = new Order();
+		//order情報をOrderに格納するためのオブジェクト宣言
+		Order order = new Order();
 
-			//uniid
-			order.setUniid(request.getParameter("uniid"));
+		//uniid
+		order.setUniid(request.getParameter("uniid"));
 
-			//userid	
-			order.setUserid(user.getUserid());
+		//userid	
+		order.setUserid(user.getUserid());
 
-			//数量を格納
-			//order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+		//数量を格納
+		//order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 
-			//数量を1に固定
-			order.setQuantity(1);
+		//数量を1に固定
+		order.setQuantity(1);
 
-			//時刻を取得
-			Date date = new Date();
-			order.setDate(date);
+		//時刻を取得
+		Date date = new Date();
+		order.setDate(date);
 
-			//発送状況、入金状況の設定
-			order.setShippingstatus("0");
+		//発送状況、入金状況の設定
+		order.setShippingstatus("0");
 
-			order.setPaymentstatus("0");
+		order.setPaymentstatus("0");
 
-			//OrderListにorderのオブジェクトを追加する
-			order_list.add(order);
+		//OrderListにorderのオブジェクトを追加する
+		order_list.add(order);
 
-			int total = 0;
-			int j = 0;
-			ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+		int total = 0;
+		int j = 0;
+		ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
 
-			for (Order order1 : order_list) {
-				Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
-				Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
-				uniform_list.add(uniform1);
-				total += uniform_list.get(j).getPrice() * order.getQuantity();
-				j++;
-			}
-			mav.addObject("uniform_list", uniform_list);
-			mav.addObject("order_list", order_list);
-			session.setAttribute("order_list", order_list);
-			mav.addObject("total", total);
-	
-		
+		for (Order order1 : order_list) {
+			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
+			Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
+			uniform_list.add(uniform1);
+			total += uniform_list.get(j).getPrice() * order.getQuantity();
+			j++;
+		}
+		mav.addObject("uniform_list", uniform_list);
+		mav.addObject("order_list", order_list);
+		session.setAttribute("order_list", order_list);
+		mav.addObject("total", total);
 
 		/**
 		 * 
