@@ -1,13 +1,3 @@
-/*
- * 
- *  受注商品の詳細
- * 
- *  担当:塚田
- *  最終更新:2026/06/24-PM15
- * 
- * 
- */
-
 package jp.co.f1.spring.UniController;
 
 import java.util.Optional;
@@ -21,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Repository.OrderRepository;
-import jp.co.f1.spring.Repository.UniRepository;
-import jp.co.f1.spring.Repository.UserRepository;
 
 @Controller
 public class OrderDetail {
@@ -49,7 +37,7 @@ public class OrderDetail {
            mav.addObject("next", "[受注管理一覧へ戻る]");
 
            //画面に出力するViewを指定
-           mav.setViewName("view/admin/OrderManagementList");
+           mav.setViewName("view/error");
 
            return mav;
        }

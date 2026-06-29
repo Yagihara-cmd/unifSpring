@@ -1,13 +1,3 @@
-/*
- * 
- *  ゲストの購入品確認画面
- * 
- *  担当:塚田
- *  最終更新:2026/06/24-PM15
- * 
- * 
- */
-
 package jp.co.f1.spring.UniController;
 
 import java.util.ArrayList;
@@ -26,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.Uniform;
-import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.OrderRepository;
 import jp.co.f1.spring.Repository.UniRepository;
 
