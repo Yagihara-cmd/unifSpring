@@ -82,7 +82,7 @@ public class UserPurchaseConfirm {
 			return mav;
 		}
 		//カートの中身がない場合
-		if (order_list == null) {
+		if (order_list.isEmpty()) {
 			//エラーメッセージ
 			mav.addObject("errorMessage", "カートの中に何も無かったので購入は出来ません。");
 			mav.addObject("cmd", "/userUniformList");
@@ -142,7 +142,7 @@ public class UserPurchaseConfirm {
 		} catch (MailSendException e) {
 			//エラーメッセージ
 			mav.addObject("errorMessage", "メールの送信ができませんでした。");
-			mav.addObject("cmd", "menu");
+			mav.addObject("cmd", "login");
 			mav.addObject("next", "[メニュー画面へ]");
 			//画面に出力するViewを指定
 			mav.setViewName("view/error");
