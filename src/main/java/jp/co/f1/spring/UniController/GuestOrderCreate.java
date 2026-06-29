@@ -102,12 +102,31 @@ public class GuestOrderCreate {
 
 		//userid	
 		order.setUserid(user.getUserid());
+		
+		if (request.getParameter("quantity").isEmpty()) {
+
+			mav.addObject("errorMessage", "数量空欄で購入できません。");
+			mav.addObject("cmd", "/guestUniformList");
+			mav.addObject("next", "[一覧画面へ]");
+			mav.setViewName("view/error");
+			return mav;
+
+		}
+
+		Integer Quantity = Integer.parseInt(request.getParameter("quantity"));
+		if (Quantity == 0) {
+			mav.addObject("errorMessage", "数量0で購入できません。");
+			mav.addObject("cmd", "/guestUniformList");
+			mav.addObject("next", "[一覧画面へ]");
+			mav.setViewName("view/error");
+			return mav;
+
+		}
 
 		//数量を格納
 		order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 
-		//数量を1に固定
-		//order.setQuantity(1);
+	
 
 		//時刻を取得
 		Date date = new Date();

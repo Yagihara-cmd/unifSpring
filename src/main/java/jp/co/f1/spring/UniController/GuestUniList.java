@@ -49,7 +49,7 @@ public class GuestUniList {
 		Iterable<Uniform> uni_list = uniforminfo.findAll();
 
 		// Viewに渡す変数をModelに格納
-		mav.addObject("uni_list", uni_list);
+		mav.addObject("uniform_list", uni_list);
 
 		// 画面に出力するViewを指定
 		mav.setViewName("view/users/guestUniformList");

@@ -41,17 +41,26 @@
 			<thread>
 				<tr>
 					<td>種類</td>
+					<td>名前</td>
 					<td>個数</td>
 					<td>金額</td>
 				</tr>
 			</thread>
 
 			<!--以下リストでデータを取得し、繰り返して表示する-->
-			<tbody th:if="${uni_list.size() >= 1}">
-				<tr th:each="uni:${uni_list}" th:object="${uni}">
-					<td th:text="${uni.uniid}"></td>
-					<td th:text="${uni.uniname}"></td>
-					<td th:text="'&yen; ' +${#numbers.formatInteger(uni.price, 3, 'COMMA')}"></td>
+			<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
+
+				<tr th th:each="order : ${order_list}">
+					</th>
+					<td><a th:text="${order.uniid}"></a></td>
+					<td th:text="${order.uniform.uniname}"></td>
+
+					<td th:text="'&#165 ' +${#numbers.formatInteger(order.uniform.price, 3, 'COMMA')}"></td>
+
+					<td th:text="${order.quantity}"></td>
+
+					<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
+
 				</tr>
 			</tbody>
 

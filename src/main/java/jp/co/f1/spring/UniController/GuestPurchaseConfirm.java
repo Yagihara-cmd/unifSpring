@@ -68,8 +68,18 @@ public class GuestPurchaseConfirm {
 			orderinfo.saveAndFlush(uniId);
 
 			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(uniId.getUniid());
+			
 			if (optionalUniform.isPresent()) {
+				
 				Uniform uniform = optionalUniform.get();
+				
+				
+				int newStock = uniform.getStock() - uniId.getQuantity();
+				
+				uniform.setStock(newStock);
+				
+				uniforminfo.saveAndFlush(uniform);
+				
 				total += uniform.getPrice();
 				uni_list.add(uniform);
 			}
