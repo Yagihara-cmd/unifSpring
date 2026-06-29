@@ -1,13 +1,3 @@
-/*
- * 
- * 会員購入確認画面
- * 
- *  担当:友久
- *  最終更新:2026/06/24-AM11
- * 
- * 
- */
-
 package jp.co.f1.spring.UniController;
 
 import java.util.ArrayList;

@@ -40,7 +40,7 @@ public class GuestDataInput {
 	       session.setAttribute("guestAddress",guestAddress);
 	       session.setAttribute("guestEmail",guestEmail);
 	       
-	       mav.setViewName("redirect:/guestPurchaseConfirm");
+			mav.setViewName("view/users/guestPurchaseConfirm");
 	       
 	       return mav;
 	   }

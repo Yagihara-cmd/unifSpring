@@ -36,7 +36,7 @@
 		<div id="main" class="container">
 			<!-- エラーメッセージ -->
 			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
-			<form class="inline-block" th:action="@{/guestPurchaseConfirm}" method="Post">
+			<form class="inline-block" th:action="@{/guestDataInput}" method="Post">
 				<table class="detail-table" align="center">
 					<tr>
 						<th>氏名</th>
