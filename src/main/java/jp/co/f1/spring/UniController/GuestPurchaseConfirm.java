@@ -69,8 +69,7 @@ public class GuestPurchaseConfirm {
 
 			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(uniId.getUniid());
 			
-			if (optionalUniform.isPresent()) {
-				
+			
 				Uniform uniform = optionalUniform.get();
 				
 				
@@ -84,7 +83,7 @@ public class GuestPurchaseConfirm {
 				uni_list.add(uniform);
 			}
 
-		}
+		
 
 		//Viewに渡す変数をModelに格納
 		mav.addObject("total", total);

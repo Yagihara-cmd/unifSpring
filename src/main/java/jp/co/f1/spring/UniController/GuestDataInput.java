@@ -49,8 +49,12 @@ public class GuestDataInput {
 		String guestName = request.getParameter("guestName");
 		String guestAddress = request.getParameter("guestAddress");
 		String guestEmail = request.getParameter("guestEmail");
+		
+		
+		//セッションからorder情報全件取得
+		ArrayList<Order> order_list = (ArrayList<Order>) session.getAttribute("order_list");
 
-		ArrayList<Order> order_list = new ArrayList<Order>();
+		//ArrayList<Order> order_list = new ArrayList<Order>();
 
 		//合計の金額を管理するtotalの宣言と初期化
 
@@ -61,24 +65,12 @@ public class GuestDataInput {
 		//Order配列の中身をそれぞれ取り出してDBに登録
 		for (Order order : order_list) {
 			order.setUserid(user.getUserid());
+
 			
-			/**
-			 * 
-			 * 
-			 * ここどうにかして
-			 * 
-			 * info.saveAndFlush(order);
-			 */
 
 			Optional<Uniform> uniformL = uniforminfo.findByUniid(order.getUniid());
 
 			Uniform uniform = uniformL.get();
-
-			int newStock = uniform.getStock() - order.getQuantity();
-
-			uniform.setStock(newStock);
-
-			uniforminfo.saveAndFlush(uniform);
 
 			total += uniform.getPrice() * order.getQuantity();
 
