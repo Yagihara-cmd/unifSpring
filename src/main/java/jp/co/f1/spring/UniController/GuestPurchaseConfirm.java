@@ -72,18 +72,16 @@ public class GuestPurchaseConfirm {
 			
 				Uniform uniform = optionalUniform.get();
 				
-				
 				int newStock = uniform.getStock() - uniId.getQuantity();
 				
 				uniform.setStock(newStock);
 				
 				uniforminfo.saveAndFlush(uniform);
 				
-				total += uniform.getPrice();
+				total += uniform.getPrice() * uniId.getQuantity();;
+				
 				uni_list.add(uniform);
 			}
-
-		
 
 		//Viewに渡す変数をModelに格納
 		mav.addObject("total", total);

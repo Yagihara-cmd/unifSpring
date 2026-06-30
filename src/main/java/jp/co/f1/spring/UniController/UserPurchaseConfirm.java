@@ -97,12 +97,13 @@ public class UserPurchaseConfirm {
 
 		//Order配列の中身をそれぞれ取り出してDBに登録
 		for (Order order : order_list) {
+			
 			order.setUserid(user.getUserid());
+			
 			orderinfo.saveAndFlush(order);
 
 			Optional<Uniform> uniformL = uniforminfo.findByUniid(order.getUniid());
-			
-			
+						
 			Uniform uniform = uniformL.get();
 			
 			int newStock = uniform.getStock() - order.getQuantity();
@@ -110,9 +111,6 @@ public class UserPurchaseConfirm {
 			uniform.setStock(newStock);
 			
 			uniforminfo.saveAndFlush(uniform);
-			
-			
-			
 			
 			total += uniform.getPrice() * order.getQuantity();
 			
