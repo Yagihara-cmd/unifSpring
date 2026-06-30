@@ -47,31 +47,25 @@
 						<th>数量</th>
 						<th>削除</th>
 					</tr>
-					
-					
 				</thead>
-				<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
 				
-					<tr th th:each="order : ${order_list}"></th>
+				<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
+					<tr th th:each="order : ${order_list}">
+						</th>
 						<td><a th:text="${order.uniid}"></a></td>
 						<td th:text="${order.uniform.uniname}"></td>
-
 						<td th:text="'&#165 ' +${#numbers.formatInteger(order.uniform.price, 3, 'COMMA')}"></td>
-						
 						<td th:text="${order.quantity}"></td>
-
 						<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
-
 					</tr>
 				</tbody>
 			</table>
 
 			<h3>合計金額
-				<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円
+				<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td>
 			</h3>
+			
 			<div style="text-align: right;">
-
-
 
 				<form action="/userPurchaseConfirm" method="GET">
 

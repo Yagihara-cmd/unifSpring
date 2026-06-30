@@ -40,31 +40,28 @@
 				<thead>
 					<tr>
 						<th>種類</th>
-						<th>個数</th>
+						<th>商品名</th>
 						<th>金額</th>
+						<th>数量</th>
 						<th>削除</th>
 					</tr>
 				</thead>
-				<!-- リストが空でない場合のみ表示 -->
-				<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
 
+				<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
 					<tr th th:each="order : ${order_list}">
 						</th>
 						<td><a th:text="${order.uniid}"></a></td>
 						<td th:text="${order.uniform.uniname}"></td>
-
 						<td th:text="'&#165 ' +${#numbers.formatInteger(order.uniform.price, 3, 'COMMA')}"></td>
-
 						<td th:text="${order.quantity}"></td>
-
-						
-
+						<td><a th:href="@{/UserOrderCreate(delno=${order.uniid})}" th:text="削除"></a></td>
 					</tr>
 				</tbody>
 			</table>
 
-			<!--合計金額をJava側から受け取ったtotalに連動させる -->
-			<h3 th:text="'合計金額 ' + ${#numbers.formatInteger(total, 1, 'COMMA')} + ' 円'">合計金額 0 円</h3>
+			<h3>合計金額
+				<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td>
+			</h3>
 
 			<div style="text-align: right;">
 
