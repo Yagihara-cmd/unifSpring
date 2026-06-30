@@ -12,12 +12,10 @@
 	<!--ヘッダーの挿入-->
 	<div th:insert="~{/common/header :: frag}"></div>
 
-	<!--メニュー表示-->
 	<div id="menu">
 		<div class="container">
 			<div id="nav">
 				<ul>
-					<li><a th:href="@{/userCreate}">[会員登録]</a></li>
 					<li><a th:href="@{/guestUniformList}">[一覧]</a></li>
 				</ul>
 			</div>
@@ -28,34 +26,48 @@
 		</div>
 	</div>
 
-	<!--コンテンツ-->
+
 	<div id="main" class="container">
 
 		<p style="text-align: left;">
-			<h3>下記商品を購入しました。</h3>
+		<h3>下記商品を購入しました。</h3>
 		</p>
 		<p style="text-align: left;"></p>
-			<h3>ご利用ありがとうございました。</h3>
+		<h3>ご利用ありがとうございました。</h3>
 		</p>
 
 		<table class="list-table">
 			<thread>
 				<tr>
-					<th>種類</th>
-					<th>個数</th>
-					<th>金額</th>
+					<td>種類</td>
+					<td>名前</td>
+					<td>個数</td>
+					<td>金額</td>
 				</tr>
 			</thread>
 
 			<!--以下リストでデータを取得し、繰り返して表示する-->
-			<tr th:each="uniform : ${uni_list}">
-				<td th:text="${uniform.uniid}"></td>
-				<td th:text="${uniform.uniname}"></td>
-				<td th:text="${uniform.price}"></td>
-			</tr>
+			<tbody th:if="${order_list != null and !#lists.isEmpty(order_list)}">
+
+				<tr th th:each="order : ${order_list}">
+					</th>
+					<td><a th:text="${order.uniid}"></a></td>
+					<td th:text="${order.uniform.uniname}"></td>
+
+					<td th:text="'&#165 ' +${#numbers.formatInteger(order.uniform.price, 3, 'COMMA')}"></td>
+
+					<td th:text="${order.quantity}"></td>
+
+
+
+				</tr>
+			</tbody>
+
+
 		</table>
 		合計金額
-		    <td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円
+		<td th:text="'&#165 ' +${#numbers.formatInteger(total, 3, 'COMMA')}"></td> 円
+
 	</div>
 
 	<!--ここにフッターを挿入-->

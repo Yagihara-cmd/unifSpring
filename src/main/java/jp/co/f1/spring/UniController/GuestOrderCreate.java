@@ -66,7 +66,6 @@ public class GuestOrderCreate {
 		if (request.getParameter("delno") != null) { //delnoの値がある場合
 			// orderList全件から"delno"と同じISBNの値が見つかるまで繰り返す
 
-
 			String delno = request.getParameter("delno");
 
 			for (Order order : order_list) {
@@ -75,9 +74,9 @@ public class GuestOrderCreate {
 					break;
 				}
 			}
-			
+
 			Order order = new Order();
-			
+
 			int total = 0;
 			int j = 0;
 			ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
@@ -96,59 +95,80 @@ public class GuestOrderCreate {
 		}
 
 		//order情報をOrderに格納するためのオブジェクト宣言
-				Order order = new Order();
+		Order order = new Order();
 
-				//uniid
-				order.setUniid(request.getParameter("uniid"));
+		//uniid
+		order.setUniid(request.getParameter("uniid"));
 
-				//userid	
-				order.setUserid(user.getUserid());
+		//userid	
+		order.setUserid(user.getUserid());
+		
+		if (request.getParameter("quantity").isEmpty()) {
 
-				//数量を格納
-				//order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+			mav.addObject("errorMessage", "数量空欄で購入できません。");
+			mav.addObject("cmd", "/guestUniformList");
+			mav.addObject("next", "[一覧画面へ]");
+			mav.setViewName("view/error");
+			return mav;
 
-				//数量を1に固定
-				order.setQuantity(1);
+		}
 
-				//時刻を取得
-				Date date = new Date();
-				order.setDate(date);
+		Integer Quantity = Integer.parseInt(request.getParameter("quantity"));
+		if (Quantity == 0) {
+			mav.addObject("errorMessage", "数量0で購入できません。");
+			mav.addObject("cmd", "/guestUniformList");
+			mav.addObject("next", "[一覧画面へ]");
+			mav.setViewName("view/error");
+			return mav;
 
-				//発送状況、入金状況の設定
-				order.setShippingstatus("0");
+		}
 
-				order.setPaymentstatus("0");
+		//数量を格納
+		order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 
-				//OrderListにorderのオブジェクトを追加する
-				order_list.add(order);
+	
 
-				int total = 0;
-				int j = 0;
-				ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+		//時刻を取得
+		Date date = new Date();
+		order.setDate(date);
 
-				for (Order order1 : order_list) {
-					Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
-					Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
-					uniform_list.add(uniform1);
-					total += uniform_list.get(j).getPrice() * order.getQuantity();
-					j++;
-				}
-				mav.addObject("uniform_list", uniform_list);
-				mav.addObject("order_list", order_list);
-				session.setAttribute("order_list", order_list);
-				mav.addObject("total", total);
+		//発送状況、入金状況の設定
+		order.setShippingstatus("0");
 
-				/**
-				 * 
-				 * 画面のリダイレクト先の設定をする
-				 * 
-				 * 
-				 */
-				mav.setViewName("view/users/guestOrderCreate");
+		order.setPaymentstatus("0");
 
-				return mav;
+		Optional<Uniform> optionalUniformA = uniforminfo.findByUniid(request.getParameter("uniid"));
+		order.setUniform(optionalUniformA.get());
+
+		//OrderListにorderのオブジェクトを追加する
+		order_list.add(order);
+
+		int total = 0;
+		int j = 0;
+		ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+
+		for (Order order1 : order_list) {
+			Optional<Uniform> optionalUniform = uniforminfo.findByUniid(order1.getUniid());
+			Uniform uniform1 = optionalUniform.get(); //uniformオブジェクトで受け取っておくと金額計算の際に可読性が上がる
+			uniform_list.add(uniform1);
+			total += uniform_list.get(j).getPrice() * order.getQuantity();
+			j++;
+		}
+		mav.addObject("uniform_list", uniform_list);
+		mav.addObject("order_list", order_list);
+		session.setAttribute("order_list", order_list);
+		mav.addObject("total", total);
+
+		/**
+		 * 
+		 * 画面のリダイレクト先の設定をする
+		 * 
+		 * 
+		 */
+		mav.setViewName("view/users/guestOrderCreate");
+
+		return mav;
 
 	}
-	
-	
+
 }

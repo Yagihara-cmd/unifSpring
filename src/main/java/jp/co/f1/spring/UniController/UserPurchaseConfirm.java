@@ -1,5 +1,6 @@
 package jp.co.f1.spring.UniController;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -20,29 +21,31 @@ import jp.co.f1.spring.Entity.Uniform;
 import jp.co.f1.spring.Entity.Order;
 import jp.co.f1.spring.Entity.User;
 import jp.co.f1.spring.Repository.UniRepository;
+
 import jp.co.f1.spring.Repository.OrderRepository;
 
 @Controller
 public class UserPurchaseConfirm {
-	
+
 	// Repositoryインターフェースを自動インスタンス化
-		@Autowired
-		private UniRepository uniforminfo;
+	
+	@Autowired
+	private UniRepository uniforminfo;
 
-		@Autowired
-		private OrderRepository orderinfo;
+	@Autowired
+	private OrderRepository orderinfo;
 
-		@PersistenceContext
-		private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-		@Autowired
-		private HttpSession session;
+	@Autowired
+	private HttpSession session;
 
-		@Autowired
-		private MailSender mailSender;
+	@Autowired
+	private MailSender mailSender;
 
-		public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-		
+	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
 	/*
 	 * 「buyConfirm」へGET送信された場合
 	 */
@@ -84,28 +87,45 @@ public class UserPurchaseConfirm {
 		}
 		//合計計算
 		//合計金額用変数の初期化
+
+		
+		//合計の金額を管理するtotalの宣言と初期化
+
 		int total = 0;
 
-		//オーダーリストから1件ずつ取り出す
+		ArrayList<Uniform> uniform_list = new ArrayList<Uniform>();
+
+		//Order配列の中身をそれぞれ取り出してDBに登録
 		for (Order order : order_list) {
-			//入力されたデータをDB（orderinfo)に保存
+			order.setUserid(user.getUserid());
 			orderinfo.saveAndFlush(order);
 
-			//該当書籍取り出す
-			Optional<Uniform> uniList = uniforminfo.findByUniid(order.getUniid());
-			Uniform Uniform = uniList.get();
+			Optional<Uniform> uniformL = uniforminfo.findByUniid(order.getUniid());
+			
+			
+			Uniform uniform = uniformL.get();
+			
+			int newStock = uniform.getStock() - order.getQuantity();
+			
+			uniform.setStock(newStock);
+			
+			uniforminfo.saveAndFlush(uniform);
+			
+			
+			
+			
+			total += uniform.getPrice() * order.getQuantity();
+			
+			uniform_list.add(uniform);
 
-			//合計を計算する
-			total += Uniform.getPrice();
-
-			//book_list作成
-			uni_list.add(Uniform);
 		}
-
-		//Viewに渡す変数をModelに格納
 		mav.addObject("total", total);
-		mav.addObject("uni_list", uni_list);
+		mav.addObject("order_list", order_list);
+		mav.addObject("uniform_list", uniform_list);
+		
+		
 
+		
 		//メール送信
 		//pom.xmlにspring-boot-starter-mailを挿入
 		try {

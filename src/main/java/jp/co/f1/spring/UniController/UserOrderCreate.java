@@ -31,7 +31,7 @@ public class UserOrderCreate {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@GetMapping(value = "/UserOrderCreate")
 	public ModelAndView showCartForm(HttpServletRequest request, ModelAndView mav) {
 
@@ -113,8 +113,28 @@ public class UserOrderCreate {
 		//userid	
 		order.setUserid(user.getUserid());
 
+		if (request.getParameter("quantity").isEmpty()) {
+
+			mav.addObject("errorMessage", "数量空欄で購入できません。");
+			mav.addObject("cmd", "/userUniformList");
+			mav.addObject("next", "[一覧画面へ]");
+			mav.setViewName("view/error");
+			return mav;
+
+		}
+
+		Integer Quantity = Integer.parseInt(request.getParameter("quantity"));
+		if (Quantity == 0) {
+			mav.addObject("errorMessage", "数量0で購入できません。");
+			mav.addObject("cmd", "/userUniformList");
+			mav.addObject("next", "[一覧画面へ]");
+			mav.setViewName("view/error");
+			return mav;
+
+		}
+
 		//数量を格納
-		order.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+		order.setQuantity(Quantity);
 
 		//数量を1に固定
 		//order.setQuantity(1);
@@ -127,11 +147,10 @@ public class UserOrderCreate {
 		order.setShippingstatus("0");
 
 		order.setPaymentstatus("0");
-		
+
 		Optional<Uniform> optionalUniformA = uniforminfo.findByUniid(request.getParameter("uniid"));
 		order.setUniform(optionalUniformA.get());
-		
-		
+
 		//OrderListにorderのオブジェクトを追加する
 		order_list.add(order);
 
