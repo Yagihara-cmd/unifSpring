@@ -159,7 +159,7 @@ table th {
 
 /* 詳細情報用テーブルの設定 */
 .detail-table {
-	width: 40%;
+	width: auto;
 }
 
 .detail-table tr td {
